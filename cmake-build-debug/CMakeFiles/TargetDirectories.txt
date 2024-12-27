@@ -1,0 +1,3 @@
+/home/diego/CLionProjects/unstablestudents-DionKill/cmake-build-debug/CMakeFiles/Progetto_PR1.dir
+/home/diego/CLionProjects/unstablestudents-DionKill/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/diego/CLionProjects/unstablestudents-DionKill/cmake-build-debug/CMakeFiles/rebuild_cache.dir
