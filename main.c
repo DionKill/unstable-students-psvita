@@ -2,10 +2,12 @@
 //Matricola: 60/61/66754
 //Tipologia progetto: BASE
 
-#include <stdio.h>
+#include "strutture.h"
+#include "gioco.h"
+#include "file.h"
 
 int main(void) {
-    printf("Prima commit su GitHub! Yohoo!");
-    
+    menu();
+
     return 0;
 }

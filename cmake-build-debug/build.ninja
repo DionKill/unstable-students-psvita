@@ -61,6 +61,18 @@ build CMakeFiles/Progetto_PR1.dir/strutture.c.o: C_COMPILER__Progetto_PR1_unscan
   OBJECT_DIR = CMakeFiles/Progetto_PR1.dir
   OBJECT_FILE_DIR = CMakeFiles/Progetto_PR1.dir
 
+build CMakeFiles/Progetto_PR1.dir/file.c.o: C_COMPILER__Progetto_PR1_unscanned_Debug /home/diego/CLionProjects/unstablestudents-DionKill/file.c || cmake_object_order_depends_target_Progetto_PR1
+  DEP_FILE = CMakeFiles/Progetto_PR1.dir/file.c.o.d
+  FLAGS = -g -std=gnu99 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/Progetto_PR1.dir
+  OBJECT_FILE_DIR = CMakeFiles/Progetto_PR1.dir
+
+build CMakeFiles/Progetto_PR1.dir/gioco.c.o: C_COMPILER__Progetto_PR1_unscanned_Debug /home/diego/CLionProjects/unstablestudents-DionKill/gioco.c || cmake_object_order_depends_target_Progetto_PR1
+  DEP_FILE = CMakeFiles/Progetto_PR1.dir/gioco.c.o.d
+  FLAGS = -g -std=gnu99 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/Progetto_PR1.dir
+  OBJECT_FILE_DIR = CMakeFiles/Progetto_PR1.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Progetto_PR1
@@ -69,7 +81,7 @@ build CMakeFiles/Progetto_PR1.dir/strutture.c.o: C_COMPILER__Progetto_PR1_unscan
 #############################################
 # Link the executable Progetto_PR1
 
-build Progetto_PR1: C_EXECUTABLE_LINKER__Progetto_PR1_Debug CMakeFiles/Progetto_PR1.dir/main.c.o CMakeFiles/Progetto_PR1.dir/strutture.c.o
+build Progetto_PR1: C_EXECUTABLE_LINKER__Progetto_PR1_Debug CMakeFiles/Progetto_PR1.dir/main.c.o CMakeFiles/Progetto_PR1.dir/strutture.c.o CMakeFiles/Progetto_PR1.dir/file.c.o CMakeFiles/Progetto_PR1.dir/gioco.c.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/Progetto_PR1.dir
   POST_BUILD = :
