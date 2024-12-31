@@ -44,9 +44,7 @@ typedef struct effetto {
     TargetGiocatori targetGiocatori;
 } Effetto;
 
-void menu();
-void nuovaPartita();
-Giocatore  *allocaListaGiocatori (int nGiocatori);
-Giocatore *inserisciGiocatoreInCoda (Giocatore *testa);
+Giocatore  *inizializzaListaGiocatori (int nGiocatori);
+Giocatore *aggiungiGiocatori (Giocatore *nodo, int nGiocatori);
 
 #endif //STRUTTURE_H

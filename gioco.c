@@ -5,18 +5,59 @@
 #include "gioco.h"
 #include "strutture.h"
 
-void nuovaPartita () {
+// Genera un menù fantastico: https://patorjk.com/software/taag/#p=display&f=Big%20Money-ne&t=Unstable%0AStudents
+void menu () {
+    printf ("\n"
+    MAG
+    "-------------------------------------------------------------------------------"       "\n"
+    RESET
+    "\n"
+    " /$$   /$$                       /$$               /$$       /$$"                      "\n"
+    "| $$  | $$                      | $$              | $$      | $$"                      "\n"
+    "| $$  | $$ /$$$$$$$   /$$$$$$$ /$$$$$$    /$$$$$$ | $$$$$$$ | $$  /$$$$$$"             "\n"
+    "| $$  | $$| $$__  $$ /$$_____/|_  $$_/   |____  $$| $$__  $$| $$ /$$__  $$"            "\n"
+    "| $$  | $$| $$  \\ $$|  $$$$$$   | $$      /$$$$$$$| $$  \\ $$| $$| $$$$$$$$"          "\n"
+    "| $$  | $$| $$  | $$ \\____  $$  | $$ /$$ /$$__  $$| $$  | $$| $$| $$_____/"           "\n"
+    "|  $$$$$$/| $$  | $$ /$$$$$$$/  |  $$$$/|  $$$$$$$| $$$$$$$/| $$|  $$$$$$$"            "\n"
+    " \\______/ |__/  |__/|_______/    \\___/   \\_______/|_______/ |__/ \\_______/"        "\n"
+    "\n"
+    "  /$$$$$$   /$$                     /$$                       /$$"                     "\n"
+    " /$$__  $$ | $$                    | $$                      | $$"                     "\n"
+    "| $$  \\__//$$$$$$   /$$   /$$  /$$$$$$$  /$$$$$$  /$$$$$$$  /$$$$$$   /$$$$$$$"       "\n"
+    "|  $$$$$$|_  $$_/  | $$  | $$ /$$__  $$ /$$__  $$| $$__  $$|_  $$_/  /$$_____/"        "\n"
+    " \\____  $$ | $$    | $$  | $$| $$  | $$| $$$$$$$$| $$  \\ $$  | $$   |  $$$$$$"       "\n"
+    " /$$  \\ $$ | $$ /$$| $$  | $$| $$  | $$| $$_____/| $$  | $$  | $$ /$$\\____  $$"      "\n"
+    "|  $$$$$$/ |  $$$$/|  $$$$$$/|  $$$$$$$|  $$$$$$$| $$  | $$  |  $$$$//$$$$$$$/"        "\n"
+    " \\______/   \\___/   \\______/  \\_______/ \\_______/|__/  |__/   \\___/ |_______/"   "\n"
+    "\n"
+    MAG
+    "-------------------------------------------------------------------------------"       "\n"
+    RESET
+    );
+}
+
+int nuovaPartita () {
     Giocatore *listaGiocatori = NULL;
-    int nGiocatori = 2;
-    printf("Quanti giocatori giocheranno?)"
-        "\n"
-        "[2-4] (vuoto per 2): ");
-    scanf("%d", &nGiocatori);
 
-    for (int i = 0; i < nGiocatori; i++) {
+    int nGiocatori = 4;
+    /*
+    printf("Quanti giocatori giocheranno?");
+    do {
+        if (nGiocatori <= 2 || nGiocatori >= 4 )
+            printf("\n"
+                   "Il valore inserito non è valido!");
+        printf("\n"
+        "[2-4]: ");
+        scanf(" %[^\n]d", &nGiocatori);
+    } while (nGiocatori <= 2 || nGiocatori >= 4);
+    */
+    listaGiocatori = inizializzaListaGiocatori(nGiocatori); // Alloca lo spazio in memoria e li aggiunge in una lista
 
+    Giocatore *tmp = listaGiocatori;
+    while (tmp->next != NULL) {
+        printf("\n"
+               "Nome del giocatore: %s", tmp->nome);
+        tmp = tmp->next;
     }
-
-    listaGiocatori = allocaListaGiocatori(nGiocatori);
-    listaGiocatori->next = inserisciGiocatoreInCoda(listaGiocatori);
+    return 0;
 }

@@ -4,59 +4,41 @@
 
 #include "strutture.h"
 
-// Genera un menù fantastico: https://patorjk.com/software/taag/#p=display&f=Big%20Money-ne&t=Unstable%0AStudents
-void menu () {
-    printf ("\n"
-    "-------------------------------------------------------------------------------"       "\n"
-    "\n"
-    " /$$   /$$                       /$$               /$$       /$$"                      "\n"
-    "| $$  | $$                      | $$              | $$      | $$"                      "\n"
-    "| $$  | $$ /$$$$$$$   /$$$$$$$ /$$$$$$    /$$$$$$ | $$$$$$$ | $$  /$$$$$$"             "\n"
-    "| $$  | $$| $$__  $$ /$$_____/|_  $$_/   |____  $$| $$__  $$| $$ /$$__  $$"            "\n"
-    "| $$  | $$| $$  \\ $$|  $$$$$$   | $$      /$$$$$$$| $$  \\ $$| $$| $$$$$$$$"          "\n"
-    "| $$  | $$| $$  | $$ \\____  $$  | $$ /$$ /$$__  $$| $$  | $$| $$| $$_____/"           "\n"
-    "|  $$$$$$/| $$  | $$ /$$$$$$$/  |  $$$$/|  $$$$$$$| $$$$$$$/| $$|  $$$$$$$"            "\n"
-    " \\______/ |__/  |__/|_______/    \\___/   \\_______/|_______/ |__/ \\_______/"        "\n"
-    "\n"
-    "  /$$$$$$   /$$                     /$$                       /$$"                     "\n"
-    " /$$__  $$ | $$                    | $$                      | $$"                     "\n"
-    "| $$  \\__//$$$$$$   /$$   /$$  /$$$$$$$  /$$$$$$  /$$$$$$$  /$$$$$$   /$$$$$$$"       "\n"
-    "|  $$$$$$|_  $$_/  | $$  | $$ /$$__  $$ /$$__  $$| $$__  $$|_  $$_/  /$$_____/"        "\n"
-    " \\____  $$ | $$    | $$  | $$| $$  | $$| $$$$$$$$| $$  \\ $$  | $$   |  $$$$$$"       "\n"
-    " /$$  \\ $$ | $$ /$$| $$  | $$| $$  | $$| $$_____/| $$  | $$  | $$ /$$\\____  $$"      "\n"
-    "|  $$$$$$/ |  $$$$/|  $$$$$$/|  $$$$$$$|  $$$$$$$| $$  | $$  |  $$$$//$$$$$$$/"        "\n"
-    " \\______/   \\___/   \\______/  \\_______/ \\_______/|__/  |__/   \\___/ |_______/"   "\n"
-    "\n"
-    "-------------------------------------------------------------------------------"       "\n"
-    );
-}
-
-Giocatore  *allocaListaGiocatori (int nGiocatori) {
+/**
+ *
+ * @param nGiocatori Giocatori inseriti dall'utente
+ * @return Passa come valore di ritorno la lista dei giocatori con nome
+ */
+Giocatore *inizializzaListaGiocatori (int nGiocatori) {
     Giocatore *lista = NULL;
-    Giocatore *nodo = NULL;
-
-    for (int i = 0; i < nGiocatori; i++) {
-        nodo = (Giocatore *) malloc(sizeof (Giocatore));
-        nodo->next = NULL;
-
-        if (lista == NULL)
-            lista = nodo;
-        else lista->next = nodo;
-    }
-    return nodo;
+    lista = aggiungiGiocatori(lista, nGiocatori);
+    return lista;
 }
 
-Giocatore *inserisciGiocatoreInCoda (Giocatore *testa) {
-    Giocatore *nuovoNodo = (Giocatore *) malloc(sizeof(Giocatore));
-    Giocatore *temp = testa;
+/** Funzione ricorsiva per allocare la lista di Giocatori in memoria (non mi veniva nessun altro modo per risolverla)
+ *
+ * @param nodo Il giocatore attuale
+ * @param nGiocatori Il quantitativo di giocatori
+ * @return Ritorna la lista
+ */
+Giocatore *aggiungiGiocatori (Giocatore *nodo, int nGiocatori) {
+    if (nGiocatori < 0)
+        return nodo;
 
-    if (nuovoNodo == NULL)
-        exit(EXIT_FAILURE);
+    nodo = (Giocatore *) malloc(sizeof(Giocatore));
+    if (nodo == NULL) exit(EXIT_FAILURE); // Esce se non può allocare memoria
 
-    while (testa->next != NULL)
-        testa = testa->next;
+    // Continua il codice, mettendo subito il prossimo nodo a NULL
+    nodo->next = NULL;
 
-    testa->next = nuovoNodo;
+    // Chiede all'utente il nome finché non è valido
+    do {
+        printf ("\n"
+                "Inserisci il nome del nuovo giocatore: ");
+        scanf(" %" NOME_LENGTH_STR "[^\n]s", nodo->nome);
+    } while (strlen(nodo->nome) < 0);
 
-    return temp;
+    // Si richiama da solo finché non ha finito
+    nodo->next = aggiungiGiocatori(nodo->next, nGiocatori - 1);
+    return nodo;
 }

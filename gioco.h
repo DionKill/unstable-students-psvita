@@ -7,5 +7,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "colori-ansi.h"
+
+void menu();
+int nuovaPartita();
 
 #endif //GIOCO_H
