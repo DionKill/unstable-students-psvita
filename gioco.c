@@ -39,22 +39,22 @@ void menu () {
 int nuovaPartita () {
     Giocatore *listaGiocatori = NULL;
 
-    int nGiocatori = 4;
-    /*
+    int nGiocatori;
+
     printf("Quanti giocatori giocheranno?");
     do {
-        if (nGiocatori <= 2 || nGiocatori >= 4 )
-            printf("\n"
-                   "Il valore inserito non è valido!");
         printf("\n"
         "[2-4]: ");
-        scanf(" %[^\n]d", &nGiocatori);
-    } while (nGiocatori <= 2 || nGiocatori >= 4);
-    */
+        scanf("%d", &nGiocatori);
+        if (nGiocatori < 2 || nGiocatori > 4 )
+            printf("\n"
+                "Il valore inserito non è valido!");
+    } while (nGiocatori < 2 || nGiocatori > 4);
+
     listaGiocatori = inizializzaListaGiocatori(nGiocatori); // Alloca lo spazio in memoria e li aggiunge in una lista
 
     Giocatore *tmp = listaGiocatori;
-    while (tmp->next != NULL) {
+    while (tmp != NULL) {
         printf("\n"
                "Nome del giocatore: %s", tmp->nome);
         tmp = tmp->next;

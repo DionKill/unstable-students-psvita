@@ -22,7 +22,7 @@ Giocatore *inizializzaListaGiocatori (int nGiocatori) {
  * @return Ritorna la lista
  */
 Giocatore *aggiungiGiocatori (Giocatore *nodo, int nGiocatori) {
-    if (nGiocatori < 0)
+    if (nGiocatori == 0)
         return nodo;
 
     nodo = (Giocatore *) malloc(sizeof(Giocatore));
