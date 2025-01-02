@@ -21,9 +21,9 @@ typedef enum {IO, TU, VOI, TUTTI} TargetGiocatori;
 
 typedef struct giocatore {
     char nome[NOME_LENGTH + 1];
-    struct carta *carte;
-    //lista carte aula giocatore
-    //lista carte bonus/malus giocatore
+    struct carta *carteGiocatore;
+    struct carta *carteAulaGiocatore;
+    struct carta *carteBonusMalusGiocatore;
     struct giocatore *next;
 } Giocatore;
 
@@ -34,7 +34,7 @@ typedef struct carta {
     int nEffetti;
     struct effetto *effetto;
     Quando quandoEffetto;
-    bool puoEssereGiocato;
+    bool puoEssereGiocato; // Disessere giocati (per pochi)
     struct carta *next;
 } Carta;
 
@@ -46,5 +46,6 @@ typedef struct effetto {
 
 Giocatore  *inizializzaListaGiocatori (int nGiocatori);
 Giocatore *aggiungiGiocatori (Giocatore *nodo, int nGiocatori);
+Giocatore *inserisciTestaInCoda (Giocatore *listaGiocatori);
 
 #endif //STRUTTURE_H

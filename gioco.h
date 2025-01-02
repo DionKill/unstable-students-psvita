@@ -12,6 +12,5 @@
 
 void menu();
 Giocatore *nuovaPartita();
-Giocatore *inserisciTestaInCoda (Giocatore *listaGiocatori);
 
 #endif //GIOCO_H
