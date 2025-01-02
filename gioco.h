@@ -8,8 +8,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "colori-ansi.h"
+#include "strutture.h"
 
 void menu();
-int nuovaPartita();
+Giocatore *nuovaPartita();
+Giocatore *inserisciTestaInCoda (Giocatore *listaGiocatori);
 
 #endif //GIOCO_H

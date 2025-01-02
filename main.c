@@ -8,5 +8,6 @@
 
 int main(void) {
     menu();
-    return nuovaPartita();
+
+    return 0;
 }

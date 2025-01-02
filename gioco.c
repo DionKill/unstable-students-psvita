@@ -36,7 +36,7 @@ void menu () {
     );
 }
 
-int nuovaPartita () {
+Giocatore *nuovaPartita () {
     Giocatore *listaGiocatori = NULL;
 
     int nGiocatori;
@@ -52,12 +52,19 @@ int nuovaPartita () {
     } while (nGiocatori < 2 || nGiocatori > 4);
 
     listaGiocatori = inizializzaListaGiocatori(nGiocatori); // Alloca lo spazio in memoria e li aggiunge in una lista
+    return inserisciTestaInCoda(listaGiocatori);
+}
 
-    Giocatore *tmp = listaGiocatori;
-    while (tmp != NULL) {
-        printf("\n"
-               "Nome del giocatore: %s", tmp->nome);
-        tmp = tmp->next;
-    }
-    return 0;
+/** Inserisce la testa come prossimo nodo in coda, per poter ciclare all'infinito
+ *
+ * @param listaGiocatori La lista dei giocatori
+ * @return La lista dei giocatori ma che ha, come ultimo nodo, il primo della lista
+ */
+Giocatore *inserisciTestaInCoda (Giocatore *listaGiocatori) {
+    Giocatore *tmp = listaGiocatori; // Variabile temporanea
+    while (listaGiocatori->next != NULL)
+        listaGiocatori = listaGiocatori->next;
+    listaGiocatori->next = tmp;
+    listaGiocatori = listaGiocatori->next;
+    return listaGiocatori;
 }
