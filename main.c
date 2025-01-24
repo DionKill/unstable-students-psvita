@@ -5,9 +5,15 @@
 #include "strutture.h"
 #include "gioco.h"
 #include "file.h"
+#include "debug.h"
 
 int main(void) {
-    menu();
+    //menu();
+
+    Carta *c = NULL;
+
+    //c = leggiCarteDaFile();
+    //stampaCarte(c);
 
     return 0;
 }

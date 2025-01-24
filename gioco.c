@@ -37,8 +37,6 @@ void menu () {
 }
 
 Giocatore *nuovaPartita () {
-    Giocatore *listaGiocatori = NULL;
-
     int nGiocatori;
 
     printf("Quanti giocatori giocheranno?");
@@ -51,7 +49,8 @@ Giocatore *nuovaPartita () {
                 "Il valore inserito non e' valido!");
     } while (nGiocatori < 2 || nGiocatori > 4);
 
-    listaGiocatori = inizializzaListaGiocatori(nGiocatori); // Alloca lo spazio in memoria e li aggiunge in una lista
+    // Alloca lo spazio in memoria e li aggiunge in una lista di tipo Giocatore
+    Giocatore *listaGiocatori = inizializzaListaGiocatori(nGiocatori);
+
     return inserisciTestaInCoda(listaGiocatori);
 }
-

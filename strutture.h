@@ -14,10 +14,10 @@
 #define NOME_LENGTH_STR "31"
 #define DESC_CARTA_LENGTH 255 //256 char totali per la descrizione della carta
 
-typedef enum {ALL, STUDENTE, MATRICOLA, STUDENTE_SEMPLICE, LAUREANDO, BONUS, MALUS, MAGIA, ISTANTANEA} TipologiaCarta;
 typedef enum {GIOCA, SCARTA, ELIMINA, RUBA, PESCA, PRENDI, BLOCCA, SCAMBIA, MOSTRA, IMPEDIRE, INGEGNERE} Azione;
-typedef enum {SUBITO, INIZIO, FINE, MAI, SEMPRE} Quando;
+typedef enum {ALL, STUDENTE, MATRICOLA, STUDENTE_SEMPLICE, LAUREANDO, BONUS, MALUS, MAGIA, ISTANTANEA} TipologiaCarta;
 typedef enum {IO, TU, VOI, TUTTI} TargetGiocatori;
+typedef enum {SUBITO, INIZIO, FINE, MAI, SEMPRE} Quando;
 
 typedef struct giocatore {
     char nome[NOME_LENGTH + 1];
@@ -29,7 +29,7 @@ typedef struct giocatore {
 
 typedef struct carta {
     char nome[NOME_LENGTH + 1];
-    char desc[DESC_CARTA_LENGTH + 1];
+    char descrizione[DESC_CARTA_LENGTH + 1];
     TipologiaCarta tipo;
     int nEffetti;
     struct effetto *effetto;
@@ -44,8 +44,10 @@ typedef struct effetto {
     TargetGiocatori targetGiocatori;
 } Effetto;
 
-Giocatore  *inizializzaListaGiocatori (int nGiocatori);
+Giocatore *inizializzaListaGiocatori (int nGiocatori);
 Giocatore *aggiungiGiocatori (Giocatore *nodo, int nGiocatori);
 Giocatore *inserisciTestaInCoda (Giocatore *listaGiocatori);
+Carta *allocaCarta ();
+Carta copiaCarta (Carta *c, int nCopie);
 
 #endif //STRUTTURE_H

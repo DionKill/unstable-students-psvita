@@ -5,4 +5,12 @@
 #ifndef FILE_H
 #define FILE_H
 
+#include "strutture.h"
+#include "colori-ansi.h"
+#include "gioco.h"
+
+#define MAZZO "../mazzo.txt" // Il mazzo è nella cartella precedente
+
+Carta *leggiCarteDaFile ();
+
 #endif //FILE_H

@@ -11,4 +11,6 @@ add_executable(Progetto_PR1 main.c
         gioco.c
         gioco.h
         colori-ansi.h
+        debug.c
+        debug.h
 )

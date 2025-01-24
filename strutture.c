@@ -21,10 +21,12 @@ Giocatore *inizializzaListaGiocatori (int nGiocatori) {
  * @param nGiocatori Il quantitativo di giocatori
  * @return Ritorna la lista
  */
+
 Giocatore *aggiungiGiocatori (Giocatore *nodo, int nGiocatori) {
     if (nGiocatori == 0)
         return nodo;
 
+    // Da rivedere, è brutto passare un valore non inizializzato e inizializzarlo dentro la funzione
     nodo = (Giocatore *) malloc(sizeof(Giocatore));
     if (nodo == NULL) exit(EXIT_FAILURE); // Esce se non puo' allocare memoria
 
@@ -57,4 +59,47 @@ Giocatore *inserisciTestaInCoda (Giocatore *listaGiocatori) {
     listaGiocatori->next = tmp;
     listaGiocatori = listaGiocatori->next;
     return listaGiocatori;
+}
+
+/** Alloca spazio in memoria per una singola carta.
+ *
+ * @return Ritorna la carta creata
+ */
+Carta *allocaCarta () {
+    Carta *carta = NULL;
+    carta = (Carta *) malloc(sizeof(Carta));
+
+    if (carta == NULL) exit(EXIT_FAILURE);
+
+    carta->next = NULL;
+
+    return carta;
+}
+
+/** Funzione che prende in ingresso un nodo Carta, alloca la successiva, e copia i contenuti nella successiva.
+ *
+ * @param c Il nodo carta da copiare
+ * @param nCopie Quante volte deve essere ancora copiato
+ * @return Ritorna la carta
+ */
+Carta copiaCarta (Carta *c, int nCopie) {
+    // Alloca memoria al prossimo nodo
+    c->next = allocaCarta();
+    // Crea un nodo temporaneo alias del prossimo nodo (il primo di nCopie dove bisogna copiare)
+    Carta *tmp = c->next;
+
+    for (int i = 0; i < nCopie; i++) {
+        strcpy(tmp->nome, c->nome);
+        strcpy(tmp->descrizione, c->descrizione);
+
+        tmp->tipo = c->tipo;
+        tmp->nEffetti = c->nEffetti;
+        tmp->effetto = c->effetto;
+        tmp->quandoEffetto = c->quandoEffetto;
+        tmp->puoEssereGiocato = c->puoEssereGiocato; // Disessere giocati
+
+        tmp->next = allocaCarta(tmp, nCopie - 1);
+    }
+
+    return *c->next;
 }
