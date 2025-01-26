@@ -48,6 +48,6 @@ Giocatore *inizializzaListaGiocatori (int nGiocatori);
 Giocatore *aggiungiGiocatori (Giocatore *nodo, int nGiocatori);
 Giocatore *inserisciTestaInCoda (Giocatore *listaGiocatori);
 Carta *allocaCarta ();
-Carta copiaCarta (Carta *c, int nCopie);
+Carta *copiaCarta (Carta *c, int nCopie);
 
 #endif //STRUTTURE_H

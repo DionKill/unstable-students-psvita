@@ -15,7 +15,7 @@ Giocatore *inizializzaListaGiocatori (int nGiocatori) {
     return lista;
 }
 
-/** Funzione ricorsiva per allocare la lista di Giocatori in memoria (non mi veniva nessun altro modo per risolverla)
+/** Funzione ricorsiva per allocare la lista di Giocatori in memoria.
  *
  * @param nodo Il giocatore attuale
  * @param nGiocatori Il quantitativo di giocatori
@@ -76,30 +76,29 @@ Carta *allocaCarta () {
     return carta;
 }
 
-/** Funzione che prende in ingresso un nodo Carta, alloca la successiva, e copia i contenuti nella successiva.
+/** Funzione ricorsiva che prende in ingresso un nodo Carta, alloca la successiva, e copia i contenuti nella successiva.
  *
  * @param c Il nodo carta da copiare
  * @param nCopie Quante volte deve essere ancora copiato
  * @return Ritorna la carta
  */
-Carta copiaCarta (Carta *c, int nCopie) {
-    // Alloca memoria al prossimo nodo
-    c->next = allocaCarta();
+Carta *copiaCarta (Carta *c, int nCopie) {
+    if (nCopie == 0)
+        return NULL;
+
     // Crea un nodo temporaneo alias del prossimo nodo (il primo di nCopie dove bisogna copiare)
-    Carta *tmp = c->next;
+    Carta *tmp = allocaCarta();
 
-    for (int i = 0; i < nCopie; i++) {
-        strcpy(tmp->nome, c->nome);
-        strcpy(tmp->descrizione, c->descrizione);
+    // Copia i dati un parametro alla volta
+    strcpy(tmp->nome, c->nome);
+    strcpy(tmp->descrizione, c->descrizione);
+    tmp->tipo = c->tipo;
+    tmp->nEffetti = c->nEffetti;
+    tmp->effetto = c->effetto;
+    tmp->quandoEffetto = c->quandoEffetto;
+    tmp->puoEssereGiocato = c->puoEssereGiocato; // Disessere giocati
 
-        tmp->tipo = c->tipo;
-        tmp->nEffetti = c->nEffetti;
-        tmp->effetto = c->effetto;
-        tmp->quandoEffetto = c->quandoEffetto;
-        tmp->puoEssereGiocato = c->puoEssereGiocato; // Disessere giocati
+    tmp->next = copiaCarta(tmp, nCopie - 1);
 
-        tmp->next = allocaCarta(tmp, nCopie - 1);
-    }
-
-    return *c->next;
+    return tmp;
 }

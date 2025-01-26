@@ -5,8 +5,7 @@
 #include "file.h"
 
 /** Legge tutte le carte comprese nel file di testo del mazzo.
- * Quando compilato, bisogna avere il file "mazzo.txt" insieme all'eseguibile,
- * che sarà dentro la cartella cmake-build-debug.
+ * @return Restituisce il mazzo completo dal file.
  */
 Carta *leggiCarteDaFile () {
     // Apre il file mazzo
@@ -22,39 +21,45 @@ Carta *leggiCarteDaFile () {
      * QUANTITA', NOME, DESCRIZIONE, TIPO CARTA, NUM EFFETTI, EFFETTO, QUANDO, OPZIONALE
      */
     // Crea una lista di carte e alloca lo spazio per una singola carta
-    Carta *carta = allocaCarta();
-    Carta *tmp = carta; // Puntatore temporaneo per creare la lista
-    int quantita;
+    Carta *testaCarte = allocaCarta();
+    Carta *tmp = testaCarte; // Puntatore temporaneo per creare la lista
 
-    /*
-     *Problema attuale: quando ne deve aggiungere un altro, continua a leggere e non si copia. bisogna anche far scendere la quantità che in questo momento non succede
+    int quantita; // Il numero di copie della carta
+
+    /* Legge la quantita' dal file.
+     * Controlla il risultato della fscanf, che in caso sia un numero valido (c'e') continua il loop.
+     * Basta che la quantita' sia diversa da 0 o inferiore per uscire dal while.
      */
-    while (tmp != NULL) {
-        quantita = fscanf(fp, "%d", &quantita); // Il numero di copie della carta
-        fscanf(fp, " %[^\n]s", &carta->nome);
-        fscanf(fp, " %[^\n]s", &carta->descrizione);
-        fscanf(fp, "%d", &carta->tipo);
-        fscanf(fp, "%d", &carta->nEffetti);
-
-        carta->effetto = NULL;
-
-        if (carta->nEffetti > 0) {
-            carta->effetto = (Effetto *) malloc(carta->nEffetti * sizeof(Effetto));
-            if (carta->effetto == NULL) exit(EXIT_FAILURE);
-
-            for (int i = 0; i < carta->nEffetti; i++)
-                fscanf(fp, "%d", carta->effetto[carta->nEffetti].azione);
-            for (int i = 0; i < carta->nEffetti; i++)
-                fscanf(fp, "%d", carta->effetto[carta->nEffetti].targetGiocatori);
-            for (int i = 0; i < carta->nEffetti; i++)
-                fscanf(fp, "%d", carta->effetto[carta->nEffetti].tipo);
+    while ( fscanf(fp, "%d", &quantita) != EOF ) {
+        // Legge gli effetti uno alla volta
+        fscanf(fp, " %[^\n]s", &tmp->nome);
+        fscanf(fp, " %[^\n]s", &tmp->descrizione);
+        fscanf(fp, "%d", &tmp->tipo);
+        fscanf(fp, "%d", &tmp->nEffetti);
+        tmp->effetto = NULL;
+        // Se il numero di effetti e' maggiore di 0, alloca memoria e legge i dati
+        if (tmp->nEffetti > 0) {
+            // Alloca memoria per un array dinamico, altrimenti esce
+            tmp->effetto = (Effetto *) malloc(tmp->nEffetti * sizeof(Effetto));
+            if (tmp->effetto == NULL) exit(EXIT_FAILURE);
+            // Diversi for che leggono dal file i dati (uno alla volta e non una riga intera)
+            for (int i = 0; i < tmp->nEffetti; i++)
+                fscanf(fp, "%d", tmp->effetto[tmp->nEffetti].azione);
+            for (int i = 0; i < tmp->nEffetti; i++)
+                fscanf(fp, "%d", tmp->effetto[tmp->nEffetti].targetGiocatori);
+            for (int i = 0; i < tmp->nEffetti; i++)
+                fscanf(fp, "%d", tmp->effetto[tmp->nEffetti].tipo);
         }
+        fscanf(fp, "%d", &tmp->quandoEffetto);
+        fscanf(fp, "%d", &tmp->puoEssereGiocato); // Disessere giocati
 
-        fscanf(fp, "%d", &carta->quandoEffetto);
-        fscanf(fp, "%d", &carta->puoEssereGiocato); // Disessere giocati
-
-        // Va avanti nella lista
-        tmp->next = allocaCarta();
+        if (quantita > 1) {
+            // Copia la carta in base al numero di quantita, e temp va avanti fino alla prossima carta.
+            tmp->next = copiaCarta(tmp, quantita); // -1 perche' una c'e' gia' (quando e' stata letta dal file)
+        while (tmp != NULL) tmp = tmp->next;
+        }
     }
-    return carta;
+    // Chiude il file e restituisce
+    fclose(fp);
+    return testaCarte;
 }
