@@ -4,7 +4,7 @@
 
 #include "strutture.h"
 
-/**
+/** Inizializza una lista di giocatori
  *
  * @param nGiocatori Giocatori inseriti dall'utente
  * @return Passa come valore di ritorno la lista dei giocatori con nome
@@ -21,7 +21,6 @@ Giocatore *inizializzaListaGiocatori (int nGiocatori) {
  * @param nGiocatori Il quantitativo di giocatori
  * @return Ritorna la lista
  */
-
 Giocatore *aggiungiGiocatori (Giocatore *nodo, int nGiocatori) {
     if (nGiocatori == 0)
         return nodo;
@@ -61,9 +60,8 @@ Giocatore *inserisciTestaInCoda (Giocatore *listaGiocatori) {
     return listaGiocatori;
 }
 
-/** Alloca spazio in memoria per una singola carta.
- *
- * @return Ritorna la carta creata
+/** Alloca spazio in memoria per una singola carta, altrimenti esce
+ * @return Ritorna la carta allocata
  */
 Carta *allocaCarta () {
     Carta *carta = NULL;
@@ -94,7 +92,7 @@ Carta *copiaCarta (Carta *c, int nCopie) {
     strcpy(tmp->descrizione, c->descrizione);
     tmp->tipo = c->tipo;
     tmp->nEffetti = c->nEffetti;
-    tmp->effetto = c->effetto;
+    tmp->effetto = c->effetto; // Non copia l'array dinamico, perché i dati sono sempre gli stessi
     tmp->quandoEffetto = c->quandoEffetto;
     tmp->puoEssereGiocato = c->puoEssereGiocato; // Disessere giocati
 
