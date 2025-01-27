@@ -5,15 +5,15 @@
 #include "strutture.h"
 #include "gioco.h"
 #include "file.h"
-#include "debug.h"
+//#include "debug.h" // Solo per testing personale, da rimuovere
 
 int main(void) {
-    //menu();
-
+    menu();
+/*
     Carta *c = NULL;
 
-    //c = leggiCarteDaFile();
-    //stampaCarte(c);
-
+    c = leggiCarteDaFile();
+    stampaCarte(c); // Adesso funziona yippeeeee
+*/
     return 0;
 }
