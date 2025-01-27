@@ -5,15 +5,17 @@
 #include "strutture.h"
 #include "gioco.h"
 #include "file.h"
-//#include "debug.h" // Solo per testing personale, da rimuovere
+#include "debug.h" // Solo per testing personale, da rimuovere
 
 int main(void) {
     menu();
-/*
+
     Carta *c = NULL;
 
     c = leggiCarteDaFile();
     stampaCarte(c); // Adesso funziona yippeeeee
-*/
+
+    liberaMemoria(c);
+
     return 0;
 }

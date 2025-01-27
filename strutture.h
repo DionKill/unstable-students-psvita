@@ -49,5 +49,6 @@ Giocatore *aggiungiGiocatori (Giocatore *nodo, int nGiocatori);
 Giocatore *inserisciTestaInCoda (Giocatore *listaGiocatori);
 Carta *allocaCarta ();
 Carta *copiaCarta (Carta *c, int nCopie);
+void liberaMemoria(Carta *testaMazzo);
 
 #endif //STRUTTURE_H

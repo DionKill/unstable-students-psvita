@@ -28,7 +28,7 @@ Carta *leggiCarteDaFile () {
 
     // Crea una lista di carte e alloca lo spazio per una singola carta, e puntatore temporaneo per scorrere la lista
     Carta *tmp = allocaCarta();
-    Carta *testaCarte = tmp; // La testa punta a tmp, così quando tmp scorre avanti si mantiene la lista
+    Carta *testaMazzo = tmp; // La testa punta a tmp, così quando tmp scorre avanti si mantiene la lista
 
     int quantita; // Il numero di copie della carta
 
@@ -63,6 +63,5 @@ Carta *leggiCarteDaFile () {
     }
     // Chiude il file e restituisce la lista appena creata
     fclose(fp);
-    return testaCarte;
+    return testaMazzo;
 }
-

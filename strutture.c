@@ -92,11 +92,47 @@ Carta *copiaCarta (Carta *c, int nCopie) {
     strcpy(tmp->descrizione, c->descrizione);
     tmp->tipo = c->tipo;
     tmp->nEffetti = c->nEffetti;
-    tmp->effetto = c->effetto; // Non copia l'array dinamico, perché i dati sono sempre gli stessi
+
+    // Copia i parametri degli effetti
+    if (tmp->nEffetti > 0) {
+        tmp->effetto = (Effetto *) malloc(tmp->nEffetti * sizeof(Effetto)); // Alloca un array dinamico
+
+        if (tmp->effetto == NULL) exit(EXIT_FAILURE);
+
+        // For che legge gli effetti e li mette nell'array dinamico
+        for (int i = 0; i < tmp->nEffetti; i++) {
+            tmp->effetto[i].azione = c->effetto[i].azione;
+            tmp->effetto[i].tipo = c->effetto[i].tipo;
+            tmp->effetto[i].targetGiocatori = c->effetto[i].targetGiocatori;
+        }
+    }
+
     tmp->quandoEffetto = c->quandoEffetto;
     tmp->puoEssereGiocato = c->puoEssereGiocato; // Disessere giocati
 
     tmp->next = copiaCarta(tmp, nCopie - 1);
 
     return tmp;
+}
+
+/** Mischia le carte usando algoritmi estremamente avanzati, in grado di portare gli umani sulla luna.
+ *
+ * @param testaMazzo Il mazzo da mischiare
+ */
+void shuffleCarte(Carta *testaMazzo) {
+
+}
+
+/** Libera la memoria usata dal programma prima dell'uscita
+ *
+ * @param testaMazzo Il mazzo da liberare
+ */
+void liberaMemoria(Carta *testaMazzo) {
+    while (testaMazzo != NULL) {
+        Carta *tmp = testaMazzo;
+        testaMazzo = testaMazzo->next;
+
+        free(tmp->effetto);
+        free(tmp);
+    }
 }
