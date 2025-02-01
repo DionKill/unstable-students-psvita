@@ -32,7 +32,7 @@ Giocatore *aggiungiGiocatori (Giocatore *nodo, int nGiocatori) {
     // Continua il codice, mettendo subito il prossimo nodo a NULL
     nodo->next = NULL;
 
-    // Chiede all'utente il nome finché non e' valido
+    // Chiede all'utente il nome finché non è valido
     do {
         printf ("\n"
                 "Inserisci il nome del nuovo giocatore: ");
@@ -115,12 +115,63 @@ Carta *copiaCarta (Carta *c, int nCopie) {
     return tmp;
 }
 
-/** Mischia le carte usando algoritmi estremamente avanzati, in grado di portare gli umani sulla luna.
+/** Funzione che sposta tutti gli elementi della lista originale a una nuova lista, in modo casuale.
  *
- * @param testaMazzo Il mazzo da mischiare
+ * L'algoritmo è fin troppo complesso, articolato, intricato, macchinoso, contorto, tortuoso,
+ * c'erano altri metodi, è lento, ma lo volevo fare così senza passare per un array, quindi...
+ *
+ * @param mazzoOriginale
  */
-void shuffleCarte(Carta *testaMazzo) {
+Carta *shuffleCarte(Carta* mazzoOriginale) {
+    Carta *mazzoRandomizzato = NULL;
 
+    //Se il mazzo originale è nullo, esce
+    if (mazzoOriginale == NULL) return NULL;
+
+    Carta *tmp = mazzoOriginale; // Carta temporanea che scorrerà fino a quella da spostare al nuovo mazzo
+    Carta *pre = NULL; // La carta precedente a quella che dobbiamo cambiare, così è possibile rimuoverla dalla lista
+    int lunghezza = contaCarte(mazzoOriginale); // La lunghezza della lista
+
+    // Finché nel *mazzoOriginale ci sono ancora carte, continua
+    while (mazzoOriginale != NULL) {
+        int rnd = rand() % lunghezza;
+        tmp = mazzoOriginale;
+        pre = NULL;
+
+        // Scorre fino all'elemento da spostare
+        for (int i = 0; i < rnd; i++) {
+            pre = tmp;
+            tmp = tmp->next;
+        }
+
+        // Rimuove l'elemento dal *mazzoOriginale, collegando il nodo precedente a quello successivo di tmp
+        if (pre != NULL) {
+            pre->next = tmp->next;
+        } else {
+            mazzoOriginale = tmp->next;
+        }
+
+        // Aggiunge la carta alla testa del mazzo (così non bisogna scorrere fino alla fine ogni volta)
+        tmp->next = mazzoRandomizzato;
+        mazzoRandomizzato = tmp;
+
+        lunghezza--;
+    }
+    return mazzoRandomizzato;
+}
+
+/** Cicla il mazzo e conta quante carte ci sono
+ *
+ * @param c Il mazzo di cui bisogna contare le carte
+ * @return Ritorna il numero di carte nel mazzo
+ */
+int contaCarte (Carta *c) {
+    Carta *tmp = c;
+
+    int i;
+    for (i = 0; tmp != NULL; i++)
+        tmp = tmp->next;
+    return i;
 }
 
 /** Libera la memoria usata dal programma prima dell'uscita

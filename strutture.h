@@ -48,7 +48,9 @@ Giocatore *inizializzaListaGiocatori (int nGiocatori);
 Giocatore *aggiungiGiocatori (Giocatore *nodo, int nGiocatori);
 Giocatore *inserisciTestaInCoda (Giocatore *listaGiocatori);
 Carta *allocaCarta ();
+Carta *shuffleCarte(Carta *mazzoOriginale);
 Carta *copiaCarta (Carta *c, int nCopie);
+int contaCarte (Carta *c);
 void liberaMemoria(Carta *testaMazzo);
 
 #endif //STRUTTURE_H
