@@ -115,27 +115,50 @@ Carta *copiaCarta (Carta *c, int nCopie) {
     return tmp;
 }
 
+/** Divide il mazzo in un mazzo normale e uno matricola.
+ * Si basa sul fatto che le carte matricola sono sempre all'inizio della lista, dopo averle lette dal file.
+ *
+ * @param mazzo Il mazzo da cui vengono estratte le carte matricola. Viene anch'esso modificato (il motivo del **)
+ * @return Ritorna un nuovo mazzo contenente solo matricole.
+ */
+Carta *dividiMazzoMatricola (Carta **mazzo) {
+    if (*mazzo == NULL) return NULL;
+
+    Carta *mazzoMatricole = NULL;
+
+    // Finché ci sono matricole scorre avanti e le sposta in un nuovo mazzo
+    while ((*mazzo)->tipo == MATRICOLA) {
+        Carta *tmp = *mazzo;
+        *mazzo = (*mazzo)->next; // Sposta il mazzo in avanti
+        // Scorre il mazzo matricole in avanti
+        tmp->next = mazzoMatricole;
+        mazzoMatricole = tmp;
+    }
+
+    return mazzoMatricole;
+}
+
 /** Funzione che sposta tutti gli elementi della lista originale a una nuova lista, in modo casuale.
  *
  * L'algoritmo è fin troppo complesso, articolato, intricato, macchinoso, contorto, tortuoso,
  * c'erano altri metodi, è lento, ma lo volevo fare così senza passare per un array, quindi...
  *
- * @param mazzoOriginale
+ * @param mazzoOriginale Il mazzo che andrà modificato
  */
-Carta *shuffleCarte(Carta* mazzoOriginale) {
+void shuffleCarte (Carta **mazzoOriginale) {
     Carta *mazzoRandomizzato = NULL;
 
     //Se il mazzo originale è nullo, esce
-    if (mazzoOriginale == NULL) return NULL;
+    if (mazzoOriginale == NULL) return;
 
-    Carta *tmp = mazzoOriginale; // Carta temporanea che scorrerà fino a quella da spostare al nuovo mazzo
+    Carta *tmp = *mazzoOriginale; // Carta temporanea che scorrerà fino a quella da spostare al nuovo mazzo
     Carta *pre = NULL; // La carta precedente a quella che dobbiamo cambiare, così è possibile rimuoverla dalla lista
-    int lunghezza = contaCarte(mazzoOriginale); // La lunghezza della lista
+    int lunghezza = contaCarte(*mazzoOriginale); // La lunghezza della lista
 
     // Finché nel *mazzoOriginale ci sono ancora carte, continua
-    while (mazzoOriginale != NULL) {
+    while (*mazzoOriginale != NULL) {
         int rnd = rand() % lunghezza;
-        tmp = mazzoOriginale;
+        tmp = *mazzoOriginale;
         pre = NULL;
 
         // Scorre fino all'elemento da spostare
@@ -148,7 +171,7 @@ Carta *shuffleCarte(Carta* mazzoOriginale) {
         if (pre != NULL) {
             pre->next = tmp->next;
         } else {
-            mazzoOriginale = tmp->next;
+            *mazzoOriginale = tmp->next;
         }
 
         // Aggiunge la carta alla testa del mazzo (così non bisogna scorrere fino alla fine ogni volta)
@@ -157,7 +180,7 @@ Carta *shuffleCarte(Carta* mazzoOriginale) {
 
         lunghezza--;
     }
-    return mazzoRandomizzato;
+    *mazzoOriginale = mazzoRandomizzato;
 }
 
 /** Cicla il mazzo e conta quante carte ci sono
@@ -178,7 +201,7 @@ int contaCarte (Carta *c) {
  *
  * @param testaMazzo Il mazzo da liberare
  */
-void liberaMemoria(Carta *testaMazzo) {
+void liberaMemoria (Carta *testaMazzo) {
     while (testaMazzo != NULL) {
         Carta *tmp = testaMazzo;
         testaMazzo = testaMazzo->next;

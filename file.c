@@ -9,7 +9,7 @@
  * @param path Il percorso dove si trova il file
  * @return Ritorna il puntatore a file
  */
-FILE *apriFile(char path[]) {
+FILE *apriFile (char path[]) {
     // Apre il file
     FILE *fp = NULL;
     fp = fopen(path, "r");

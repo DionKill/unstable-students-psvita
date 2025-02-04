@@ -10,7 +10,7 @@
 #include "colori-ansi.h"
 #include "strutture.h"
 
-void menu();
-Giocatore *nuovaPartita();
+void menu ();
+Giocatore *nuovaPartita ();
 
 #endif //GIOCO_H
