@@ -3,10 +3,12 @@
 //
 
 #include "gioco.h"
+
+#include "file.h"
 #include "strutture.h"
 
 // Genera un menu fantastico: https://patorjk.com/software/taag/#p=display&f=Big%20Money-ne&t=Unstable%0AStudents
-// Ovviamente ho dovuto copiare una riga alla volta, aggiungere le virgole, i \, e i \n, tutto a mano
+// Ovviamente ho dovuto copiare una riga alla volta, aggiungere le virgole, i \, e i \n, tutto a mano...
 void menu () {
     printf ("\n"
     MAG
@@ -37,15 +39,6 @@ void menu () {
     );
 }
 
-/** La funzione principale del gioco. Da qui viene gestito tutto.
- *
- */
-void gioco () {
-    Giocatore *listaGiocatori = NULL;
-    creaGiocatori(&listaGiocatori);
-
-}
-
 /** Funzione che crea la lista di giocatori
  *
  * @return Ritorna la nuova lista di giocatori
@@ -67,4 +60,29 @@ void creaGiocatori (Giocatore **listaGiocatori) {
     *listaGiocatori = aggiungiGiocatori(*listaGiocatori, nGiocatori);
 
     *listaGiocatori = rendiListaGiocatoriCircolare(*listaGiocatori); // Rende la lista dei giocatori circolare
+}
+
+
+
+/** La funzione principale del gioco. Da qui viene gestito tutto.
+ *
+ */
+void gioco () {
+    // Crea i giocatori e li popola
+    Giocatore *listaGiocatori = NULL;
+    creaGiocatori(&listaGiocatori);
+
+    // Crea il mazzo di carte, e lo popola usando il file mazzo.txt
+    Carta *mazzoPesca = NULL;
+    mazzoPesca = leggiCarteDaFile();
+
+    // Divide il mazzo da pesca originale, creando il mazzo
+    Carta *mazzoMatricole = NULL;
+    mazzoMatricole = dividiMazzoMatricola(&mazzoPesca);
+
+    // Mischia i due mazzi appena creati
+    shuffleCarte(&mazzoPesca);
+    shuffleCarte(&mazzoMatricole);
+
+
 }

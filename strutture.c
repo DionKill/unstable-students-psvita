@@ -4,6 +4,8 @@
 
 #include "strutture.h"
 
+/*--- Gestione dei giocatori ---*/
+
 /** Funzione ricorsiva per allocare la lista di Giocatori in memoria.
  *
  * @param nodo Il giocatore attuale
@@ -48,6 +50,8 @@ Giocatore *rendiListaGiocatoriCircolare (Giocatore *listaGiocatori) {
     listaGiocatori = listaGiocatori->next;
     return listaGiocatori;
 }
+
+/*--- Gestione delle carte ---*/
 
 /** Alloca spazio in memoria per una singola carta, altrimenti esce
  * @return Ritorna la carta allocata

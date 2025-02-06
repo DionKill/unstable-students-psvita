@@ -16,5 +16,6 @@ int main(int argc, char **argv) {
     menu();
 
     gioco();
+
     return 0;
 }
