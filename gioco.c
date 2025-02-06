@@ -6,6 +6,7 @@
 #include "strutture.h"
 
 // Genera un menu fantastico: https://patorjk.com/software/taag/#p=display&f=Big%20Money-ne&t=Unstable%0AStudents
+// Ovviamente ho dovuto copiare una riga alla volta, aggiungere le virgole, i \, e i \n, tutto a mano
 void menu () {
     printf ("\n"
     MAG
@@ -36,7 +37,20 @@ void menu () {
     );
 }
 
-Giocatore *nuovaPartita () {
+/** La funzione principale del gioco. Da qui viene gestito tutto.
+ *
+ */
+void gioco () {
+    Giocatore *listaGiocatori = NULL;
+    creaGiocatori(&listaGiocatori);
+
+}
+
+/** Funzione che crea la lista di giocatori
+ *
+ * @return Ritorna la nuova lista di giocatori
+ */
+void creaGiocatori (Giocatore **listaGiocatori) {
     int nGiocatori;
 
     printf("Quanti giocatori giocheranno?");
@@ -50,7 +64,7 @@ Giocatore *nuovaPartita () {
     } while (nGiocatori < 2 || nGiocatori > 4);
 
     // Alloca lo spazio in memoria e li aggiunge in una lista di tipo Giocatore
-    Giocatore *listaGiocatori = inizializzaListaGiocatori(nGiocatori);
+    *listaGiocatori = aggiungiGiocatori(*listaGiocatori, nGiocatori);
 
-    return inserisciTestaInCoda(listaGiocatori);
+    *listaGiocatori = rendiListaGiocatoriCircolare(*listaGiocatori); // Rende la lista dei giocatori circolare
 }

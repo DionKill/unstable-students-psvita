@@ -4,17 +4,6 @@
 
 #include "strutture.h"
 
-/** Inizializza una lista di giocatori
- *
- * @param nGiocatori Giocatori inseriti dall'utente
- * @return Passa come valore di ritorno la lista dei giocatori con nome
- */
-Giocatore *inizializzaListaGiocatori (int nGiocatori) {
-    Giocatore *lista = NULL;
-    lista = aggiungiGiocatori(lista, nGiocatori);
-    return lista;
-}
-
 /** Funzione ricorsiva per allocare la lista di Giocatori in memoria.
  *
  * @param nodo Il giocatore attuale
@@ -25,7 +14,7 @@ Giocatore *aggiungiGiocatori (Giocatore *nodo, int nGiocatori) {
     if (nGiocatori == 0)
         return nodo;
 
-    // Da rivedere, è brutto passare un valore non inizializzato e inizializzarlo dentro la funzione
+    // Crea un nuovo giocatore e lo alloca
     nodo = (Giocatore *) malloc(sizeof(Giocatore));
     if (nodo == NULL) exit(EXIT_FAILURE); // Esce se non puo' allocare memoria
 
@@ -51,7 +40,7 @@ Giocatore *aggiungiGiocatori (Giocatore *nodo, int nGiocatori) {
  * @param listaGiocatori La lista dei giocatori
  * @return La lista dei giocatori ma che ha, come ultimo nodo, il primo della lista
  */
-Giocatore *inserisciTestaInCoda (Giocatore *listaGiocatori) {
+Giocatore *rendiListaGiocatoriCircolare (Giocatore *listaGiocatori) {
     Giocatore *tmp = listaGiocatori; // Variabile temporanea
     while (listaGiocatori->next != NULL)
         listaGiocatori = listaGiocatori->next;
@@ -72,6 +61,20 @@ Carta *allocaCarta () {
     carta->next = NULL;
 
     return carta;
+}
+
+/** Cicla il mazzo e conta quante carte ci sono
+ *
+ * @param c Il mazzo di cui bisogna contare le carte
+ * @return Ritorna il numero di carte nel mazzo
+ */
+int contaCarte (Carta *c) {
+    Carta *tmp = c;
+
+    int i;
+    for (i = 0; tmp != NULL; i++)
+        tmp = tmp->next;
+    return i;
 }
 
 /** Funzione ricorsiva che prende in ingresso un nodo Carta, alloca la successiva, e copia i contenuti nella successiva.
@@ -149,7 +152,7 @@ void shuffleCarte (Carta **mazzoOriginale) {
     Carta *mazzoRandomizzato = NULL;
 
     //Se il mazzo originale è nullo, esce
-    if (mazzoOriginale == NULL) return;
+    if (*mazzoOriginale == NULL) return;
 
     Carta *tmp = *mazzoOriginale; // Carta temporanea che scorrerà fino a quella da spostare al nuovo mazzo
     Carta *pre = NULL; // La carta precedente a quella che dobbiamo cambiare, così è possibile rimuoverla dalla lista
@@ -181,20 +184,6 @@ void shuffleCarte (Carta **mazzoOriginale) {
         lunghezza--;
     }
     *mazzoOriginale = mazzoRandomizzato;
-}
-
-/** Cicla il mazzo e conta quante carte ci sono
- *
- * @param c Il mazzo di cui bisogna contare le carte
- * @return Ritorna il numero di carte nel mazzo
- */
-int contaCarte (Carta *c) {
-    Carta *tmp = c;
-
-    int i;
-    for (i = 0; tmp != NULL; i++)
-        tmp = tmp->next;
-    return i;
 }
 
 /** Libera la memoria usata dal programma prima dell'uscita

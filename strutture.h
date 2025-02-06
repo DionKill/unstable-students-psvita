@@ -45,15 +45,14 @@ typedef struct effetto {
 } Effetto;
 
 // Gestione giocatori
-Giocatore *inizializzaListaGiocatori (int nGiocatori);
 Giocatore *aggiungiGiocatori (Giocatore *nodo, int nGiocatori);
-Giocatore *inserisciTestaInCoda (Giocatore *listaGiocatori);
+Giocatore *rendiListaGiocatoriCircolare (Giocatore *listaGiocatori);
 // Gestione carte
 Carta *allocaCarta ();
+int contaCarte (Carta *c);
+Carta *copiaCarta (Carta *c, int nCopie);
 Carta *dividiMazzoMatricola (Carta **mazzo);
 void shuffleCarte (Carta **mazzoOriginale);
-Carta *copiaCarta (Carta *c, int nCopie);
-int contaCarte (Carta *c);
 // Miscellanei
 void liberaMemoria (Carta *testaMazzo);
 

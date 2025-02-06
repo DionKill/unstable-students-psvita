@@ -11,6 +11,7 @@
 #include "strutture.h"
 
 void menu ();
-Giocatore *nuovaPartita ();
+void gioco ();
+void creaGiocatori (Giocatore **listaGiocatori);
 
 #endif //GIOCO_H
