@@ -4,6 +4,8 @@
 
 #include "strutture.h"
 
+#include "gioco.h"
+
 /*--- Gestione dei giocatori ---*/
 
 /** Funzione ricorsiva per allocare la lista di Giocatori in memoria.
@@ -28,6 +30,7 @@ Giocatore *aggiungiGiocatori (Giocatore *nodo, int nGiocatori) {
         printf ("\n"
                 "Inserisci il nome del nuovo giocatore: ");
         scanf(" %" NOME_LENGTH_STR "[^\n]s", nodo->nome);
+        flushInputBuffer();
     } while (strlen(nodo->nome) < 0);
 
     // Si richiama da solo finché non ha finito di aggiungere i giocatori
@@ -73,11 +76,11 @@ Carta *allocaCarta () {
  * @return Ritorna il numero di carte nel mazzo
  */
 int contaCarte (Carta *c) {
-    Carta *tmp = c;
-
-    int i;
-    for (i = 0; tmp != NULL; i++)
-        tmp = tmp->next;
+    int i = 0;
+    while (c != NULL) {
+        c = c->next;
+        i++;
+    }
     return i;
 }
 
@@ -158,14 +161,13 @@ void shuffleCarte (Carta **mazzoOriginale) {
     //Se il mazzo originale è nullo, esce
     if (*mazzoOriginale == NULL) return;
 
-    Carta *tmp = *mazzoOriginale; // Carta temporanea che scorrerà fino a quella da spostare al nuovo mazzo
     Carta *pre = NULL; // La carta precedente a quella che dobbiamo cambiare, così è possibile rimuoverla dalla lista
     int lunghezza = contaCarte(*mazzoOriginale); // La lunghezza della lista
 
     // Finché nel *mazzoOriginale ci sono ancora carte, continua
     while (*mazzoOriginale != NULL) {
         int rnd = rand() % lunghezza;
-        tmp = *mazzoOriginale;
+        Carta *tmp = *mazzoOriginale; // Carta temporanea che scorrerà fino a quella da spostare al nuovo mazzo
         pre = NULL;
 
         // Scorre fino all'elemento da spostare

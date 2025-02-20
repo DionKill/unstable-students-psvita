@@ -21,20 +21,22 @@ FILE *apriFile (char path[]) {
 }
 
 /** Legge tutte le carte comprese nel file di testo del mazzo.
- * @return Restituisce il mazzo completo dal file.
+ * @param c Il mazzo che verrà popolato da carte lette dal file.
  */
-Carta *leggiCarteDaFile () {
+void leggiCarteDaFile (Carta **c) {
     FILE *fp = apriFile(MAZZO);
 
     // Crea una lista di carte e alloca lo spazio per una singola carta, e puntatore temporaneo per scorrere la lista
-    Carta *tmp = allocaCarta();
-    Carta *testaMazzo = tmp; // La testa punta a tmp, così quando tmp scorre avanti si mantiene la lista
+    Carta *scorriLista = NULL;
 
     int quantita; // Il numero di copie della carta
 
     /* Il loop legge la quantità dal file.
      * Controlla il risultato della fscanf, basta che non sia arrivato alla fine del file (EOF) per continuare. */
     while ( fscanf(fp, "%d", &quantita) != EOF ) {
+        // Alloca una carta temporanea che viene popolata dal file
+        Carta *tmp = allocaCarta();
+
         fscanf(fp, " %[^\n]s", tmp->nome);
         fscanf(fp, " %[^\n]s", tmp->descrizione);
         fscanf(fp, "%d", &tmp->tipo);
@@ -54,14 +56,20 @@ Carta *leggiCarteDaFile () {
         fscanf(fp, "%d", &tmp->quandoEffetto);
         fscanf(fp, "%d", &tmp->puoEssereGiocato); // Disessere giocati
 
-        if (quantita > 1) {
+        if (quantita > 1)
             tmp->next = copiaCarta(tmp, quantita - 1); // -1 perché una c'è già (quando è stata letta dal file)
-            while (tmp->next != NULL) tmp = tmp->next;
+
+        // Se la lista è vuota, allora la lista del parametro viene impostata al primo elemento della nuova lista
+        if (scorriLista == NULL) {
+            scorriLista = tmp;
+            *c = scorriLista;
         }
-        tmp->next = allocaCarta();
-        tmp = tmp->next;
+        // Altrimenti, se la lista è già esistente, appende alla lista i nuovi elementi appena letti dal file
+        else {
+            scorriLista->next = tmp;
+            while (scorriLista->next != NULL) scorriLista = scorriLista->next;
+        }
     }
     // Chiude il file e restituisce la lista appena creata
     fclose(fp);
-    return testaMazzo;
 }

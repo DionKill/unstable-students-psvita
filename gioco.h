@@ -12,6 +12,8 @@
 
 void menu ();
 void gioco ();
-void creaGiocatori (Giocatore **listaGiocatori);
+
+int creaGiocatori(Giocatore **listaGiocatori);
+void flushInputBuffer ();
 
 #endif //GIOCO_H

@@ -12,6 +12,6 @@
 #define MAZZO "../mazzo.txt" // Il mazzo è nella cartella precedente
 
 FILE *apriFile (char path[]);
-Carta *leggiCarteDaFile ();
+void leggiCarteDaFile (Carta **c);
 
 #endif //FILE_H
