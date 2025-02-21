@@ -86,13 +86,15 @@ void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPe
                 // La nuova carta (con tutte le carte già presenti al next) viene messa come nuova testa del mazzo
                 listaGiocatori->carteAulaGiocatore = *mazzoPesca;
                 break;
+
             case BONUS:
             case MALUS:
                 // Mette come next della carta in testa al mazzo da pesca, la testa del mazzo delle carte del giocatore
-                (*mazzoPesca)->next = listaGiocatori->carteGiocatore;
+                (*mazzoPesca)->next = listaGiocatori->carteBonusMalusGiocatore;
                 // La nuova carta (con tutte le carte già presenti al next) viene messa come nuova testa del mazzo
-                listaGiocatori->carteGiocatore = *mazzoPesca;
+                listaGiocatori->carteBonusMalusGiocatore = *mazzoPesca;
                 break;
+
             default:
                 // Mette come next della carta in testa al mazzo da pesca, la testa del mazzo delle carte del giocatore
                 (*mazzoPesca)->next = listaGiocatori->carteGiocatore;
@@ -100,10 +102,6 @@ void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPe
                 listaGiocatori->carteGiocatore = *mazzoPesca;
                 break;
         }
-        // Mette come next della carta in testa al mazzo da pesca, la testa del mazzo delle carte del giocatore
-        (*mazzoPesca)->next = listaGiocatori->carteGiocatore;
-        // La nuova carta (con tutte le carte già presenti al next) viene messa come nuova testa del mazzo
-        listaGiocatori->carteGiocatore = *mazzoPesca;
 
         // Scorre avanti le due liste
         *mazzoPesca = tmpMazzoPesca;
@@ -123,6 +121,10 @@ void gioco () {
     Carta *mazzoPesca = NULL;
     leggiCarteDaFile(&mazzoPesca);
 
+    // Crea il mazzo delle carte scartate e dell'aula studio
+    Carta *mazzoScarti = NULL; // Sacrate (per pochi)
+    Carta *mazzoAulaStudio = NULL;
+
     // Divide il mazzo da pesca originale, creando il mazzo delle matricole
     Carta *mazzoMatricole = NULL;
     mazzoMatricole = dividiMazzoMatricola(&mazzoPesca); // Crea il mazzo matricola partendo dal mazzo da pesca
@@ -134,11 +136,7 @@ void gioco () {
     // Distribuisce le carte a ogni giocatore, dal mazzo di pesca
     stampaCarte(mazzoPesca);
     distribuisciCarte(N_CARTE_PER_GIOCATORE * nGiocatori, listaGiocatori, &mazzoPesca);
-    stampaCarte(listaGiocatori->carteGiocatore);
-    stampaCarte(listaGiocatori->next->carteGiocatore);
-    stampaCarte(listaGiocatori->next->next->carteGiocatore);
-    stampaCarte(listaGiocatori->next->next->next->carteGiocatore);
-    stampaCarte(mazzoPesca);
+
 }
 
 /** Funzione che libera l'input buffer.
