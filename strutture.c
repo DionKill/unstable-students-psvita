@@ -128,7 +128,7 @@ Carta *copiaCarta (Carta *c, int nCopie) {
 /** Divide il mazzo in un mazzo normale e uno matricola.
  * Si basa sul fatto che le carte matricola sono sempre all'inizio della lista, dopo averle lette dal file.
  *
- * @param mazzo Il mazzo da cui vengono estratte le carte matricola. Viene anch'esso modificato (il motivo del **)
+ * @param mazzo Il mazzo da cui vengono estratte le carte matricola. Viene anch'esso modificato.
  * @return Ritorna un nuovo mazzo contenente solo matricole.
  */
 Carta *dividiMazzoMatricola (Carta **mazzo) {

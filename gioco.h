@@ -10,6 +10,8 @@
 #include "colori-ansi.h"
 #include "strutture.h"
 
+#define N_CARTE_PER_GIOCATORE 5
+
 void menu ();
 void gioco ();
 

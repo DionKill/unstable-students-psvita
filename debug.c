@@ -43,5 +43,5 @@ void stampaCarte(Carta *carta) {
         tmp = tmp->next;
         i++;
     }
-    printf(REDB "TOTALE CARTE: %d" RESET, i);
+    printf("\n" REDB "TOTALE CARTE: %d" RESET, i);
 }

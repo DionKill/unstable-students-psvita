@@ -66,7 +66,7 @@ int creaGiocatori(Giocatore **listaGiocatori) {
     return nGiocatori;
 }
 
-/** Distribuisce le carte ai giocatori, prendendole dal mazzo già mescolato da pesca
+/** Distribuisce le carte ai giocatori, prendendole dal mazzo già mescolato da pesca.
  *
  * @param cntCarte Il numero di giocatori (perché la lista è circolare -_-)
  * @param listaGiocatori La lista di giocatori a cui dare le carte
@@ -75,18 +75,39 @@ int creaGiocatori(Giocatore **listaGiocatori) {
 void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPesca) {
     // Un ciclo che continua finché ci sono carte da pescare (scorre nella lista circolare dei giocatori)
     for (int i = 0; i < cntCarte; i++) {
-        // Crea una carta che servirà per non perdere il next del mazzo da pesca quando scorrerà (vedrete tra poco)
-        Carta *tmpMazzoPesca = (*mazzoPesca)->next; // Copia del puntatore alla carta attuale del mazzo pesca
-
-        /* Qui è un po' complicato da spiegare:
-         * Si crea una carta temporanea che è il valore della prossima carta nel mazzo da pesca
-         * Il giocatore attualmente selezionato avrà come carta in testa la carta all'inizio del mazzo da pesca,
-         * che avrà il prossimo impostato alla testa della lista delle carte attualmente presenti nel mazzo
-         * del giocatore. Infine il mazzo scorre in avanti grazie al puntatore temporaneo.
-         */
+        // Copia della testa per non perdere il next del mazzoPesca quando scorrerà (lo vediamo immediatamente)
+        Carta *tmpMazzoPesca = (*mazzoPesca)->next;
+        switch ((*mazzoPesca)->tipo) {
+            case MATRICOLA:
+            case STUDENTE_SEMPLICE:
+            case LAUREANDO:
+                // Mette come next della carta in testa al mazzo da pesca, la testa del mazzo delle carte del giocatore
+                (*mazzoPesca)->next = listaGiocatori->carteAulaGiocatore;
+                // La nuova carta (con tutte le carte già presenti al next) viene messa come nuova testa del mazzo
+                listaGiocatori->carteAulaGiocatore = *mazzoPesca;
+                break;
+            case BONUS:
+            case MALUS:
+                // Mette come next della carta in testa al mazzo da pesca, la testa del mazzo delle carte del giocatore
+                (*mazzoPesca)->next = listaGiocatori->carteGiocatore;
+                // La nuova carta (con tutte le carte già presenti al next) viene messa come nuova testa del mazzo
+                listaGiocatori->carteGiocatore = *mazzoPesca;
+                break;
+            default:
+                // Mette come next della carta in testa al mazzo da pesca, la testa del mazzo delle carte del giocatore
+                (*mazzoPesca)->next = listaGiocatori->carteGiocatore;
+                // La nuova carta (con tutte le carte già presenti al next) viene messa come nuova testa del mazzo
+                listaGiocatori->carteGiocatore = *mazzoPesca;
+                break;
+        }
+        // Mette come next della carta in testa al mazzo da pesca, la testa del mazzo delle carte del giocatore
         (*mazzoPesca)->next = listaGiocatori->carteGiocatore;
+        // La nuova carta (con tutte le carte già presenti al next) viene messa come nuova testa del mazzo
         listaGiocatori->carteGiocatore = *mazzoPesca;
-        *mazzoPesca = tmpMazzoPesca; // Scorre in avanti usando la carta temporanea salvata prima
+
+        // Scorre avanti le due liste
+        *mazzoPesca = tmpMazzoPesca;
+        listaGiocatori = listaGiocatori->next;
     }
 }
 
@@ -102,9 +123,9 @@ void gioco () {
     Carta *mazzoPesca = NULL;
     leggiCarteDaFile(&mazzoPesca);
 
-    // Divide il mazzo da pesca originale, creando il mazzo
+    // Divide il mazzo da pesca originale, creando il mazzo delle matricole
     Carta *mazzoMatricole = NULL;
-    mazzoMatricole = dividiMazzoMatricola(&mazzoPesca);
+    mazzoMatricole = dividiMazzoMatricola(&mazzoPesca); // Crea il mazzo matricola partendo dal mazzo da pesca
 
     // Mischia i due mazzi appena creati
     shuffleCarte(&mazzoPesca);
@@ -112,8 +133,12 @@ void gioco () {
 
     // Distribuisce le carte a ogni giocatore, dal mazzo di pesca
     stampaCarte(mazzoPesca);
-    distribuisciCarte(5 * nGiocatori, listaGiocatori, &mazzoPesca);
+    distribuisciCarte(N_CARTE_PER_GIOCATORE * nGiocatori, listaGiocatori, &mazzoPesca);
     stampaCarte(listaGiocatori->carteGiocatore);
+    stampaCarte(listaGiocatori->next->carteGiocatore);
+    stampaCarte(listaGiocatori->next->next->carteGiocatore);
+    stampaCarte(listaGiocatori->next->next->next->carteGiocatore);
+    stampaCarte(mazzoPesca);
 }
 
 /** Funzione che libera l'input buffer.
