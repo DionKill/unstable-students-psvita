@@ -137,6 +137,45 @@ void gioco () {
     stampaCarte(mazzoPesca);
     distribuisciCarte(N_CARTE_PER_GIOCATORE * nGiocatori, listaGiocatori, &mazzoPesca);
 
+    // Gestione dei turni
+    int turno = 0;
+    // TODO: Funzione che controlla quando vinci così la metto nella condizione del main
+    while (turno < 5) {
+        int scelta = scegliAzione();
+        
+        switch (scelta) {
+            case 1:
+                // TODO: gioca una carta
+                    break;
+            case 2:
+                // TODO: pesca una carta
+                    break;
+            case 3:
+                // TODO: tutta la roba del salvataggio lol
+                    break;
+        }
+        turno++;
+    }
+}
+
+/** Funzione ineccepibile che fornisce una scelta di cose che può fare il giocatore e ritorna l'opzione scelta.
+ *
+ * @return La scelta del giocatore.
+ */
+int scegliAzione () {
+    printf("Scegli la tua prossima azione: "
+        "\t"
+        "1. Gioca una carta"
+        "\t"
+        "2. Pesca una carta"
+        "\t"
+        "3. Salva ed Esci"
+        "\t");
+
+    int scelta;
+    scanf("%d", &scelta);
+
+    return scelta;
 }
 
 /** Funzione che libera l'input buffer.

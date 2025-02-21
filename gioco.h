@@ -14,6 +14,7 @@
 
 void menu ();
 void gioco ();
+int scegliAzione ();
 
 int creaGiocatori(Giocatore **listaGiocatori);
 void flushInputBuffer ();
