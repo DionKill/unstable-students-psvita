@@ -16,6 +16,8 @@ void menu ();
 void gioco ();
 int scegliAzione ();
 
+void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput);
+
 int creaGiocatori(Giocatore **listaGiocatori);
 void flushInputBuffer ();
 

@@ -134,7 +134,6 @@ void gioco () {
     shuffleCarte(&mazzoMatricole);
 
     // Distribuisce le carte a ogni giocatore, dal mazzo di pesca
-    stampaCarte(mazzoPesca);
     distribuisciCarte(N_CARTE_PER_GIOCATORE * nGiocatori, listaGiocatori, &mazzoPesca);
 
     // Gestione dei turni
@@ -142,18 +141,21 @@ void gioco () {
     // TODO: Funzione che controlla quando vinci così la metto nella condizione del main
     while (turno < 5) {
         int scelta = scegliAzione();
-        
+
         switch (scelta) {
             case 1:
                 // TODO: gioca una carta
-                    break;
+                break;
             case 2:
                 // TODO: pesca una carta
-                    break;
+
+                break;
             case 3:
                 // TODO: tutta la roba del salvataggio lol
-                    break;
+                break;
         }
+
+        // Aumenta il conteggio del turno (c'era bisogno di commentarlo?)
         turno++;
     }
 }
@@ -169,13 +171,56 @@ int scegliAzione () {
         "\t"
         "2. Pesca una carta"
         "\t"
-        "3. Salva ed Esci"
-        "\t");
+        "3. Salva ed Esci");
 
     int scelta;
     scanf("%d", &scelta);
+    flushInputBuffer();
 
     return scelta;
+}
+
+/** Dati i due mazzi, sposta una carta da un mazzo e la mette in testa all'altro.
+ *
+ * @param mazzoInput Il mazzo da cui dovrà essere spostata la carta.
+ * @param cartaInput La carta da spostare (può anche essere il mazzoInput).
+ * @param mazzoOutput Il mazzo in cui testa verrà posta la nuova carta.
+ */
+void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput) {
+    // Se una di queste due carte è nulla, non c'è niente da spostare, perciò esce
+    if (*mazzoInput == NULL || cartaInput == NULL)
+        return;
+
+    // Una carta che scorre fino a quella precedente di quella che serve spostare
+    Carta *scorriLista = *mazzoInput;
+
+    // Se il mazzo di input e la carta da spostare sono diversi, allora scorre fino quella precedente che va spostata
+    if (cartaInput != *mazzoInput) {
+        while (scorriLista->next != cartaInput)
+            scorriLista = scorriLista->next;
+
+        // Unisce la carta prima e dopo quella che va spostata (sostanzialmente la rimuove dal mazzoInput)
+        scorriLista->next = scorriLista->next->next;
+
+        // Crea una carta temporanea al mazzo di output corrente
+        Carta *tmp = *mazzoOutput;
+        *mazzoOutput = cartaInput;
+        cartaInput->next = tmp;
+    }
+
+    // Entra qui solo se mazzoInput e cartaInput sono identiche
+    else {
+        // Usa scorriLista come temporaneo per contenere il valore attuale del mazzoInput
+        // Il mazzoInput scorre in avanti di uno, dato che la sua carta è contenuta in scorriLista
+        *mazzoInput = (*mazzoInput)->next;
+
+        // Il prossimo elemento di scorriLista viene impostato al mazzoOutput
+        scorriLista->next = *mazzoOutput;
+
+        /* Il mazzoOutput viene impostato a scorriLista, che contiene la carta che è stata appena aggiunta seguita
+         * dalle precedenti contenute nel mazzoOutput */
+        *mazzoOutput = scorriLista;
+    }
 }
 
 /** Funzione che libera l'input buffer.

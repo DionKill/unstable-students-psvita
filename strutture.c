@@ -137,13 +137,8 @@ Carta *dividiMazzoMatricola (Carta **mazzo) {
     Carta *mazzoMatricole = NULL;
 
     // Finché ci sono matricole scorre avanti e le sposta in un nuovo mazzo
-    while ((*mazzo)->tipo == MATRICOLA) {
-        Carta *tmp = *mazzo;
-        *mazzo = (*mazzo)->next; // Sposta il mazzo in avanti
-        // Scorre il mazzo matricole in avanti
-        tmp->next = mazzoMatricole;
-        mazzoMatricole = tmp;
-    }
+    while ((*mazzo)->tipo == MATRICOLA)
+        spostaCarta(mazzo, *mazzo, &mazzoMatricole);
 
     return mazzoMatricole;
 }
@@ -193,6 +188,7 @@ void shuffleCarte (Carta **mazzoOriginale) {
 }
 
 /** Libera la memoria usata dal programma prima dell'uscita
+ * TODO: completare la funzione
  *
  * @param testaMazzo Il mazzo da liberare
  */
