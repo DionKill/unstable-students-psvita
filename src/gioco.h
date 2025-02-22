@@ -7,8 +7,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "colori-ansi.h"
 #include "strutture.h"
+#include "file.h"
+#include "grafica.h"
 
 #define N_CARTE_PER_GIOCATORE 5
 
