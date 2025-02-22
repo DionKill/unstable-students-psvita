@@ -6,8 +6,6 @@
 
 #include "strutture.h"
 #include "gioco.h"
-#include "file.h"
-#include "debug.h" // Solo per testing personale, da rimuovere
 
 // Versione non definitiva, in fase di sviluppo
 

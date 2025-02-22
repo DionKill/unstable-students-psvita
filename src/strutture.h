@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include "gioco.h"
 
 #define NOME_LENGTH 31 //32 char utili
 #define NOME_LENGTH_STR "31"

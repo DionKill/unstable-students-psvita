@@ -4,8 +4,6 @@
 
 #include "strutture.h"
 
-#include "gioco.h"
-
 /*--- Gestione dei giocatori ---*/
 
 /** Funzione ricorsiva per allocare la lista di Giocatori in memoria.
