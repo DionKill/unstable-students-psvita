@@ -9,6 +9,6 @@
 #include "colori-ansi.h"
 
 void menu ();
-void sceltiAzioneGui ();
+void scegliAzioneGui ();
 
 #endif //GRAFICA_H

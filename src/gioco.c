@@ -129,18 +129,11 @@ void gioco () {
  * @return La scelta del giocatore.
  */
 int scegliAzione () {
-    sceltiAzioneGui();
+    scegliAzioneGui();
 
     int scelta;
     scanf("%d", &scelta);
     flushInputBuffer();
 
     return scelta;
-}
-
-/** Funzione che libera l'input buffer.
- * Con questa non vengono aggiunti gli invii e caratteri speciali durante l'inserimento di testo.
- */
-void flushInputBuffer () {
-    while (getchar() != '\n');
 }
