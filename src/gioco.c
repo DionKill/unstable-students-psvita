@@ -112,11 +112,11 @@ void gioco () {
                 break;
             case 2:
                 // TODO: pesca una carta
-
+                spostaCarta(&mazzoPesca, mazzoPesca, listaGiocatori.)
                 break;
             case 3:
                 // TODO: tutta la roba del salvataggio lol
-                break;
+                return;
         }
 
         // Aumenta il conteggio del turno (c'era bisogno di commentarlo?)

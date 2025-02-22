@@ -228,17 +228,3 @@ void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput) {
     }
 }
 
-/** Libera la memoria usata dal programma prima dell'uscita
- * TODO: completare la funzione
- *
- * @param testaMazzo Il mazzo da liberare
- */
-void liberaMemoria (Carta *testaMazzo) {
-    while (testaMazzo != NULL) {
-        Carta *tmp = testaMazzo;
-        testaMazzo = testaMazzo->next;
-
-        free(tmp->effetto);
-        free(tmp);
-    }
-}

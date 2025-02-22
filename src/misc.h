@@ -6,7 +6,9 @@
 #define OS_H
 
 #include <stdio.h>
+#include "strutture.h"
 
 void flushInputBuffer ();
+void liberaMemoria (Carta *testaMazzo);
 
 #endif //OS_H
