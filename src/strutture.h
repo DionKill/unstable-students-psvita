@@ -53,6 +53,7 @@ int contaCarte (Carta *c);
 Carta *copiaCarta (Carta *c, int nCopie);
 Carta *dividiMazzoMatricola (Carta **mazzo);
 void shuffleCarte (Carta **mazzoOriginale);
+void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput);
 // Miscellanei
 void liberaMemoria (Carta *testaMazzo);
 
