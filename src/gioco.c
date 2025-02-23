@@ -42,10 +42,12 @@ void gioco () {
                 // TODO: gioca una carta
                     break;
             case 2:
-                // TODO: pesca una carta
                     spostaCartaNelMazzoGiocatoreGiusto(listaGiocatori, &mazzoPesca);
             break;
             case 3:
+                // TODO: mostra le carte che ha in mano il giocatore
+
+            case 4:
                 // TODO: tutta la roba del salvataggio lol
                     return;
         }
@@ -162,7 +164,7 @@ void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPe
  */
 int scegliAzione () {
     // Stampa il menù di scelta (devo davvero scriverlo?)
-    scegliAzioneGui();
+    guiScegliAzione();
 
     int scelta;
     scanf("%d", &scelta);

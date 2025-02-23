@@ -8,9 +8,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "colori-ansi.h"
+#include "strutture.h"
 
-void menu ();
-void scegliAzioneGui ();
+void guiMenu ();
+void guiScegliAzione ();
+void guiStampaCarte (Carta *mazzoCarte);
 void pulisciSchermo ();
 
 #endif //GRAFICA_H
