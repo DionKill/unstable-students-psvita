@@ -61,7 +61,7 @@ void gioco () {
  * @param nGiocatori Il quantitativo di giocatori
  * @return Ritorna la lista
  */
-Giocatore *aggiungiGiocatori (Giocatore *listaGiocatori, int nGiocatori) {
+Giocatore *allocaGiocatori (Giocatore *listaGiocatori, int nGiocatori) {
     if (nGiocatori == 0)
         return listaGiocatori;
 
@@ -72,16 +72,16 @@ Giocatore *aggiungiGiocatori (Giocatore *listaGiocatori, int nGiocatori) {
     // Continua il codice, mettendo subito il prossimo nodo a NULL
     listaGiocatori->next = NULL;
 
-    // Chiede all'utente il nome finché non è valido
+    // Chiede all'utente il nome finché non è valido, il numero viene calcolato (+4 byte di memoria risparmiati)
     do {
         printf ("\n"
-                "Inserisci il nome del nuovo giocatore: ");
+                "Inserisci il nome del giocatore %d: ", (nGiocatori - 5) * -1);
         scanf(" %" NOME_LENGTH_STR "[^\n]s", listaGiocatori->nome);
         flushInputBuffer();
     } while (strlen(listaGiocatori->nome) < 0);
 
     // Si richiama da solo finché non ha finito di aggiungere i giocatori
-    listaGiocatori->next = aggiungiGiocatori(listaGiocatori->next, nGiocatori - 1);
+    listaGiocatori->next = allocaGiocatori(listaGiocatori->next, nGiocatori - 1);
 
     // Ritorna la lista
     return listaGiocatori;
@@ -106,7 +106,7 @@ int creaGiocatori(Giocatore **listaGiocatori) {
     } while (nGiocatori < 2 || nGiocatori > 4);
 
     // Alloca lo spazio in memoria e li aggiunge in una lista di tipo Giocatore
-    *listaGiocatori = aggiungiGiocatori(*listaGiocatori, nGiocatori);
+    *listaGiocatori = allocaGiocatori(*listaGiocatori, nGiocatori);
 
     *listaGiocatori = rendiListaGiocatoriCircolare(*listaGiocatori); // Rende la lista dei giocatori circolare
 
