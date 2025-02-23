@@ -10,10 +10,19 @@
 #include "colori-ansi.h"
 #include "strutture.h"
 
+// GUI
 void guiMenu ();
 void guiScegliAzione ();
 void guiMostraCarte (int turno, Giocatore *giocatore);
 void guiStampaCarte (Carta *mazzoCarte);
+
+// Da enum a stringa
+void strAzione(char* str, Azione azione);
+void strTipologiaCarta(char* str, TipologiaCarta tipologia);
+void strTargetGiocatori(char* str, TargetGiocatori target);
+void strQuando(char* str, Quando quando);
+
+// Misc
 void pulisciSchermo ();
 
 #endif //GRAFICA_H
