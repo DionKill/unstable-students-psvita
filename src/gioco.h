@@ -15,8 +15,8 @@
 #define COMANDO_PESCA_CARTA 2
 #define COMANDO_MOSTRA_CARTE 3
 #define COMANDO_ESCI 4
-#define COMANDO_INVIO 13
-#define COMANDO_ANNULLA 27
+#define COMANDO_CONFERMA 13 // Invio
+#define COMANDO_ANNULLA 27 // ESC
 
 void gioco ();
 int scegliAzione ();

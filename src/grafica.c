@@ -44,14 +44,18 @@ void guiMenu () {
  * TODO: cose che ha senso mostrare
  */
 void guiHeader (int turno, char nomeGiocatore[]) {
-    printf(CYN
+    printf(WHTB
+        "\n"
+        RESET
+        "\t"
+        CYN
         "Turno: "
         RESET
         "%d"
         "\t"
         YEL
         "Giocatore: "
-        WHTB
+        RESET
         "%s"
         "\n",
         turno, nomeGiocatore);
@@ -64,14 +68,17 @@ void guiHeader (int turno, char nomeGiocatore[]) {
  */
 void guiMostraCarte (int turno, Giocatore *giocatore) {
     guiHeader(turno, giocatore->nome);
-    printf("\n"
-           "");
+
     Carta *tmp = giocatore->carteGiocatore;
+    guiStampaCarte(tmp);
+    tmp = giocatore->carteAulaGiocatore;
+    guiStampaCarte(tmp);
+    tmp = giocatore->carteBonusMalusGiocatore;
     guiStampaCarte(tmp);
 }
 
 void guiStampaCarte (Carta *mazzoCarte) {
-    int i;
+    int j = 0;
 
     while (mazzoCarte != NULL) {
         printf("\n"
@@ -85,13 +92,13 @@ void guiStampaCarte (Carta *mazzoCarte) {
         printf("\n"
         "Numero di effetti: %d", mazzoCarte->nEffetti);
 
-        for (i = 0; i < mazzoCarte->nEffetti; i++) {
+        for (j = 0; j < mazzoCarte->nEffetti; j++) {
             printf("\n"
-            "\t- Azione: %d", mazzoCarte->effetto[i].azione);
+            "\t- Azione: %d", mazzoCarte->effetto[j].azione);
             printf("\n"
-            "\t- Target: %d", mazzoCarte->effetto[i].targetGiocatori);
+            "\t- Target: %d", mazzoCarte->effetto[j].targetGiocatori);
             printf("\n"
-            "\t- Tipo: %d", mazzoCarte->effetto[i].tipo);
+            "\t- Tipo: %d", mazzoCarte->effetto[j].tipo);
         }
 
         printf("\n"
@@ -102,9 +109,9 @@ void guiStampaCarte (Carta *mazzoCarte) {
         "-----");
 
         mazzoCarte = mazzoCarte->next;
-        i++;
+        j++;
     }
-    printf("\n" REDB "TOTALE CARTE: %d" RESET, i);
+    printf("\n" REDB "TOTALE CARTE: %d\n" RESET, j);
 }
 
 /** Mostra il menù di scelta delle carte.
@@ -119,8 +126,11 @@ void guiScegliAzione () {
     "\t"
     "3. Controlla le tue carte"
     "\t"
-    "4. Salva ed Esci");
+    "4. Salva ed Esci"
+    "\n>: ");
 }
+
+
 
 /** Pulisce lo schermo.
  * Usa le direttive di pre-processing per dedurre il comando da utilizzare in base all'OS.
