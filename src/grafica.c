@@ -85,30 +85,46 @@ void guiStampaCarte (Carta *mazzoCarte) {
     int j = 0;
 
     while (mazzoCarte != NULL) {
+        // Stringa che verrà modificata per stampare il tipo come stringa
+        char *str = NULL;
+
         printf("\n"
         "-----");
         printf("\n"
         "Nome: %s", mazzoCarte->nome);
         printf("\n"
         "Descrizione: %s", mazzoCarte->descrizione);
+
+        strTipologiaCarta(&str, mazzoCarte->tipo);
         printf("\n"
-        "Tipo: %d", mazzoCarte->tipo);
+        "Tipo: %s", str);
+
         printf("\n"
         "Numero di effetti: %d", mazzoCarte->nEffetti);
 
         for (j = 0; j < mazzoCarte->nEffetti; j++) {
+            strAzione(&str, mazzoCarte->effetto[j].azione);
             printf("\n"
-            "\t- Azione: %d", mazzoCarte->effetto[j].azione);
+            "\t- Azione: %s", str);
+
+            strTargetGiocatori(&str, mazzoCarte->effetto[j].targetGiocatori);
             printf("\n"
-            "\t- Target: %d", mazzoCarte->effetto[j].targetGiocatori);
+            "\t- Target: %s", str);
+
+            strTipologiaCarta(&str, mazzoCarte->effetto[j].tipo);
             printf("\n"
-            "\t- Tipo: %d", mazzoCarte->effetto[j].tipo);
+            "\t- Tipo: %s", str);
         }
 
+        strQuando(&str, mazzoCarte->quandoEffetto);
         printf("\n"
-        "Quando: %d", mazzoCarte->quandoEffetto);
-        printf("\n"
-        "Disessere giocati: %d", mazzoCarte->puoEssereGiocato);
+        "Quando: %s", str);
+
+        strDisessereGiocati(&str, mazzoCarte->puoEssereGiocato);
+        printf( "\n"
+                YELB
+                "Disessere giocati: %s"
+                RESET, str);
         printf("\n"
         "-----");
 
@@ -139,41 +155,41 @@ void guiScegliAzione () {
  * @param str La stringa da modificare
  * @param azione L'azione che dovrà essere cambiata in testo
  */
-void strAzione(char* str, Azione azione) {
+void strAzione(char **str, Azione azione) {
     switch (azione) {
         case GIOCA:
-            strcpy(str, STR_GIOCA);
-            break;
+            *str = STR_GIOCA;
+        break;
         case SCARTA:
-            strcpy(str, STR_SCARTA);
-            break;
+            *str = STR_SCARTA;
+        break;
         case ELIMINA:
-            strcpy(str, STR_ELIMINA);
-            break;
+            *str = STR_ELIMINA;
+        break;
         case RUBA:
-            strcpy(str, STR_RUBA);
-            break;
+            *str = STR_RUBA;
+        break;
         case PESCA:
-            strcpy(str, STR_PESCA);
-            break;
+            *str = STR_PESCA;
+        break;
         case PRENDI:
-            strcpy(str, STR_PRENDI);
-            break;
+            *str = STR_PRENDI;
+        break;
         case BLOCCA:
-            strcpy(str, STR_BLOCCA);
-            break;
+            *str = STR_BLOCCA;
+        break;
         case SCAMBIA:
-            strcpy(str, STR_SCAMBIA);
-            break;
+            *str = STR_SCAMBIA;
+        break;
         case MOSTRA:
-            strcpy(str, STR_MOSTRA);
-            break;
+            *str = STR_MOSTRA;
+        break;
         case IMPEDIRE:
-            strcpy(str, STR_IMPEDIRE);
-            break;
+            *str = STR_IMPEDIRE;
+        break;
         case INGEGNERE:
-            strcpy(str, STR_INGEGNERE);
-            break;
+            *str = STR_INGEGNERE;
+        break;
     }
 }
 
@@ -182,83 +198,91 @@ void strAzione(char* str, Azione azione) {
  * @param str La stringa da modificare
  * @param tipologia La topologia da trasformare in testo
  */
-void strTipologiaCarta(char* str, TipologiaCarta tipologia) {
+void strTipologiaCarta(char **str, TipologiaCarta tipologia) {
     switch (tipologia) {
         case ALL:
-            strcpy(str, STR_ALL);
-            break;
+            *str = STR_ALL;
+        break;
         case STUDENTE:
-            strcpy(str, STR_STUDENTE);
-            break;
+            *str = STR_STUDENTE;
+        break;
         case MATRICOLA:
-            strcpy(str, STR_MATRICOLA);
-            break;
+            *str = STR_MATRICOLA;
+        break;
         case STUDENTE_SEMPLICE:
-            strcpy(str, STR_STUDENTE_SEMPLICE);
-            break;
+            *str = STR_STUDENTE_SEMPLICE;
+        break;
         case LAUREANDO:
-            strcpy(str, STR_LAUREANDO);
-            break;
+            *str = STR_LAUREANDO;
+        break;
         case BONUS:
-            strcpy(str, STR_BONUS);
-            break;
+            *str = STR_BONUS;
+        break;
         case MALUS:
-            strcpy(str, STR_MALUS);
-            break;
+            *str = STR_MALUS;
+        break;
         case MAGIA:
-            strcpy(str, STR_MAGIA);
-            break;
+            *str = STR_MAGIA;
+        break;
         case ISTANTANEA:
-            strcpy(str, STR_ISTANTANEA);
-            break;
-    }
-}
+            *str = STR_ISTANTANEA;
+        break;
+    }}
 
 /** Da target a stringa
  *
  * @param str La stringa da modificare
  * @param target Il target da trasformare in testo
  */
-void strTargetGiocatori(char* str, TargetGiocatori target) {
+void strTargetGiocatori(char **str, TargetGiocatori target) {
     switch (target) {
         case IO:
-            strcpy(str, STR_IO);
-            break;
+            *str = STR_IO;
+        break;
         case TU:
-            strcpy(str, STR_TU);
-            break;
+            *str = STR_TU;
+        break;
         case VOI:
-            strcpy(str, STR_VOI);
-            break;
+            *str = STR_VOI;
+        break;
         case TUTTI:
-            strcpy(str, STR_TUTTI);
-            break;
-    }
-}
+            *str = STR_TUTTI;
+        break;
+    }}
 
 /** Non ho più voglia di scrivere
  *
  * @param str La stringa da modificare
  * @param quando Croissant
  */
-void strQuando(char* str, Quando quando) {
+void strQuando(char **str, Quando quando) {
     switch (quando) {
         case SUBITO:
-            strcpy(str, STR_SUBITO);
+            *str = STR_SUBITO;
         break;
         case INIZIO:
-            strcpy(str, STR_INIZIO);
+            *str = STR_INIZIO;
         break;
         case FINE:
-            strcpy(str, STR_FINE);
+            *str = STR_FINE;
         break;
         case MAI:
-            strcpy(str, STR_MAI);
+            *str = STR_MAI;
         break;
         case SEMPRE:
-            strcpy(str, STR_SEMPRE);
+            *str = STR_SEMPRE;
         break;
     }
+}
+
+/** Funzione che restituisce una stringa che contiene la disessere giocabilità vera o falsa
+ *
+ * @param str La stringa che conterrà VERO o FALSO
+ * @param puoEssereGiocato Disessere giocati
+ */
+void strDisessereGiocati (char **str, bool puoEssereGiocato) {
+    if (puoEssereGiocato) *str = STR_TRUE;
+    else *str = STR_FALSE;
 }
 
 /** Pulisce lo schermo.
@@ -266,7 +290,7 @@ void strQuando(char* str, Quando quando) {
  */
 void pulisciSchermo () {
 #ifdef _WIN32
-    system("cls"); // Windows a 32 o 64 bit, penso indipendente dall'architettura
+    system("cls"); // Windows a 32 o 64 bit, indipendente dall'architettura (sapevate che c'è windows nt 4.0 per ppc?)
 #elif __unix__
     system("clear"); // Unix (GNU/Linux, MacOS, etc...)
 #endif

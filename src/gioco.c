@@ -42,13 +42,13 @@ void gioco () {
         switch (scelta) {
             case COMANDO_GIOCA_CARTA:
                 // TODO: gioca una carta
-                break;
+            break;
             case COMANDO_PESCA_CARTA:
                 spostaCartaNelMazzoGiocatoreGiusto(listaGiocatori, &mazzoPesca);
-                break;
+            break;
             case COMANDO_MOSTRA_CARTE:
                 guiMostraCarte(turno, listaGiocatori);
-                break;
+            break;
             case COMANDO_ESCI:
                 // TODO: tutta la roba del salvataggio lol
                 return;
@@ -137,18 +137,18 @@ void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPe
             case LAUREANDO:
                 (*mazzoPesca)->next = listaGiocatori->carteAulaGiocatore;
                 listaGiocatori->carteAulaGiocatore = *mazzoPesca;
-                break;
+            break;
 
             case BONUS:
             case MALUS:
                 (*mazzoPesca)->next = listaGiocatori->carteBonusMalusGiocatore;
                 listaGiocatori->carteBonusMalusGiocatore = *mazzoPesca;
-                break;
+            break;
 
             default:
                 (*mazzoPesca)->next = listaGiocatori->carteGiocatore;
                 listaGiocatori->carteGiocatore = *mazzoPesca;
-                break;
+            break;
         }
 
         // Scorre avanti le due liste

@@ -17,10 +17,11 @@ void guiMostraCarte (int turno, Giocatore *giocatore);
 void guiStampaCarte (Carta *mazzoCarte);
 
 // Da enum a stringa
-void strAzione(char* str, Azione azione);
-void strTipologiaCarta(char* str, TipologiaCarta tipologia);
-void strTargetGiocatori(char* str, TargetGiocatori target);
-void strQuando(char* str, Quando quando);
+void strAzione(char **str, Azione azione);
+void strTipologiaCarta(char **str, TipologiaCarta tipologia);
+void strTargetGiocatori(char **str, TargetGiocatori target);
+void strQuando(char **str, Quando quando);
+void strDisessereGiocati (char **str, bool puoEssereGiocato); // Disessere giocati
 
 // Misc
 void pulisciSchermo ();

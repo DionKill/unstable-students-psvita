@@ -15,6 +15,8 @@
 #define DESC_CARTA_LENGTH 255 //256 char totali per la descrizione della carta
 #define N_CARTE_PER_GIOCATORE 5
 
+// A essere sincero non so se sono necessarie, comunque le ho fatte giusto per comodità
+// Azione
 #define STR_GIOCA "GIOCA"
 #define STR_SCARTA "SCARTA"
 #define STR_ELIMINA "ELIMINA"
@@ -26,7 +28,7 @@
 #define STR_MOSTRA "MOSTRA"
 #define STR_IMPEDIRE "IMPEDIRE"
 #define STR_INGEGNERE "INGEGNERE"
-
+// Tipologia carta
 #define STR_ALL "ALL"
 #define STR_STUDENTE "STUDENTE"
 #define STR_MATRICOLA "MATRICOLA"
@@ -36,17 +38,20 @@
 #define STR_MALUS "MALUS"
 #define STR_MAGIA "MAGIA"
 #define STR_ISTANTANEA "ISTANTANEA"
-
+// Target giocatori
 #define STR_IO "IO"
 #define STR_TU "TU"
 #define STR_VOI "VOI"
 #define STR_TUTTI "TUTTI"
-
+// Quando
 #define STR_SUBITO "SUBITO"
 #define STR_INIZIO "INIZIO"
 #define STR_FINE "FINE"
 #define STR_MAI "MAI"
 #define STR_SEMPRE "SEMPRE"
+// Può essere giocato (conosciuto anche come disessere giocati)
+#define STR_TRUE "VERO"
+#define STR_FALSE "FALSO"
 
 typedef enum {GIOCA, SCARTA, ELIMINA, RUBA, PESCA, PRENDI, BLOCCA, SCAMBIA, MOSTRA, IMPEDIRE, INGEGNERE} Azione;
 typedef enum {ALL, STUDENTE, MATRICOLA, STUDENTE_SEMPLICE, LAUREANDO, BONUS, MALUS, MAGIA, ISTANTANEA} TipologiaCarta;
