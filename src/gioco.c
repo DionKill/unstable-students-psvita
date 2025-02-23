@@ -112,7 +112,7 @@ void gioco () {
                 break;
             case 2:
                 // TODO: pesca una carta
-                spostaCarta(&mazzoPesca, mazzoPesca, listaGiocatori.)
+                spostaCartaNelMazzoGiocatoreGiusto(listaGiocatori, &mazzoPesca);
                 break;
             case 3:
                 // TODO: tutta la roba del salvataggio lol
