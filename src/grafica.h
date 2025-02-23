@@ -6,9 +6,11 @@
 #define GRAFICA_H
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "colori-ansi.h"
 
 void menu ();
 void scegliAzioneGui ();
+void pulisciSchermo ();
 
 #endif //GRAFICA_H

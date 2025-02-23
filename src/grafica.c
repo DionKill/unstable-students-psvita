@@ -36,6 +36,9 @@ void menu () {
     );
 }
 
+/** Mostra il menù di scelta delle carte.
+ *
+ */
 void scegliAzioneGui () {
     printf("Scegli la tua prossima azione: "
     "\t"
@@ -44,4 +47,15 @@ void scegliAzioneGui () {
     "2. Pesca una carta"
     "\t"
     "3. Salva ed Esci");
+}
+
+/** Pulisce lo schermo.
+ * Usa le direttive di pre-processing per dedurre il comando da utilizzare.
+ */
+void pulisciSchermo () {
+#ifdef _WIN32
+    system("cls");
+#elif __unix__
+    system("clear");
+#endif
 }

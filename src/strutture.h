@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "misc.h"
 
 #define NOME_LENGTH 31 //32 char utili
 #define NOME_LENGTH_STR "31"
@@ -56,5 +55,7 @@ Carta *dividiMazzoMatricola (Carta **mazzo);
 void shuffleCarte (Carta **mazzoOriginale);
 void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput);
 void spostaCartaNelMazzoGiocatoreGiusto (Giocatore *g, Carta **c);
+// Miscellanee
+void liberaMemoria (Carta *testaMazzo);
 
 #endif //STRUTTURE_H

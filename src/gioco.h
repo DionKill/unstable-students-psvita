@@ -10,14 +10,13 @@
 #include "strutture.h"
 #include "file.h"
 #include "grafica.h"
-#include "misc.h"
 
 #define N_CARTE_PER_GIOCATORE 5
 
-void menu ();
 void gioco ();
 int scegliAzione ();
-
 int creaGiocatori(Giocatore **listaGiocatori);
+
+void flushInputBuffer ();
 
 #endif //GIOCO_H

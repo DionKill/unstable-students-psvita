@@ -4,6 +4,38 @@
 
 #include "gioco.h"
 
+/** Funzione ricorsiva per allocare la lista di Giocatori in memoria.
+ *
+ * @param nodo Il giocatore attuale
+ * @param nGiocatori Il quantitativo di giocatori
+ * @return Ritorna la lista
+ */
+Giocatore *aggiungiGiocatori (Giocatore *nodo, int nGiocatori) {
+    if (nGiocatori == 0)
+        return nodo;
+
+    // Crea un nuovo giocatore e lo alloca
+    nodo = (Giocatore *) malloc(sizeof(Giocatore));
+    if (nodo == NULL) exit(EXIT_FAILURE); // Esce se non puo' allocare memoria
+
+    // Continua il codice, mettendo subito il prossimo nodo a NULL
+    nodo->next = NULL;
+
+    // Chiede all'utente il nome finché non è valido
+    do {
+        printf ("\n"
+                "Inserisci il nome del nuovo giocatore: ");
+        scanf(" %" NOME_LENGTH_STR "[^\n]s", nodo->nome);
+        flushInputBuffer();
+    } while (strlen(nodo->nome) < 0);
+
+    // Si richiama da solo finché non ha finito di aggiungere i giocatori
+    nodo->next = aggiungiGiocatori(nodo->next, nGiocatori - 1);
+
+    // Ritorna la lista
+    return nodo;
+}
+
 /** Funzione che crea la lista di giocatori
  *
  * @return Ritorna la nuova lista di giocatori
@@ -129,6 +161,7 @@ void gioco () {
  * @return La scelta del giocatore.
  */
 int scegliAzione () {
+    // Stampa il menù di scelta (devo davvero scriverlo?)
     scegliAzioneGui();
 
     int scelta;
@@ -136,4 +169,11 @@ int scegliAzione () {
     flushInputBuffer();
 
     return scelta;
+}
+
+/** Funzione che libera l'input buffer.
+ * Con questa non vengono aggiunti gli invii e caratteri speciali durante l'inserimento di testo.
+ */
+void flushInputBuffer () {
+    while (getchar() != '\n');
 }

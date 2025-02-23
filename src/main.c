@@ -3,9 +3,9 @@
 //Tipologia progetto: BASE
 
 #include <time.h>
-
 #include "strutture.h"
 #include "gioco.h"
+#include "grafica.h"
 
 // Versione non definitiva, in fase di sviluppo
 
@@ -17,8 +17,6 @@
  */
 int main(int argc, char **argv) {
     srand(time(NULL));
-
-    menu();
 
     gioco();
 

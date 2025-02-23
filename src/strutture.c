@@ -6,38 +6,6 @@
 
 /*--- Gestione dei giocatori ---*/
 
-/** Funzione ricorsiva per allocare la lista di Giocatori in memoria.
- *
- * @param nodo Il giocatore attuale
- * @param nGiocatori Il quantitativo di giocatori
- * @return Ritorna la lista
- */
-Giocatore *aggiungiGiocatori (Giocatore *nodo, int nGiocatori) {
-    if (nGiocatori == 0)
-        return nodo;
-
-    // Crea un nuovo giocatore e lo alloca
-    nodo = (Giocatore *) malloc(sizeof(Giocatore));
-    if (nodo == NULL) exit(EXIT_FAILURE); // Esce se non puo' allocare memoria
-
-    // Continua il codice, mettendo subito il prossimo nodo a NULL
-    nodo->next = NULL;
-
-    // Chiede all'utente il nome finché non è valido
-    do {
-        printf ("\n"
-                "Inserisci il nome del nuovo giocatore: ");
-        scanf(" %" NOME_LENGTH_STR "[^\n]s", nodo->nome);
-        flushInputBuffer();
-    } while (strlen(nodo->nome) < 0);
-
-    // Si richiama da solo finché non ha finito di aggiungere i giocatori
-    nodo->next = aggiungiGiocatori(nodo->next, nGiocatori - 1);
-
-    // Ritorna la lista
-    return nodo;
-}
-
 /** Inserisce la testa come prossimo nodo in coda, per poter ciclare all'infinito, creando una lista circolare
  *
  * @param listaGiocatori La lista dei giocatori
@@ -241,4 +209,20 @@ void spostaCartaNelMazzoGiocatoreGiusto (Giocatore *g, Carta **c) {
         spostaCarta(c, *c, &g->carteBonusMalusGiocatore);
 
     else spostaCarta(c, *c, &g->carteGiocatore);
+}
+
+/** Libera la memoria usata dal programma prima dell'uscita
+ * Spoiler: le dipendenze circolari mi costringono a mettere la funzione qui, perciò così sarà.
+ * TODO: completare la funzione
+ *
+ * @param testaMazzo Il mazzo da liberare
+ */
+void liberaMemoria (Carta *testaMazzo) {
+    while (testaMazzo != NULL) {
+        Carta *tmp = testaMazzo;
+        testaMazzo = testaMazzo->next;
+
+        free(tmp->effetto);
+        free(tmp);
+    }
 }
