@@ -34,6 +34,10 @@ void guiMenu () {
     "-------------------------------------------------------------------------------"       "\n"
     RESET
     );
+
+    printf("\n"
+           "Premi INVIO per continuare"
+           "\n");
 }
 
 /** Stampa una riga che segnala alcune statistiche
@@ -56,13 +60,13 @@ void guiHeader (int turno, char nomeGiocatore[]) {
 /** Mostra le carte di un giocatore.
  *
  * @param turno
- * @param g Il giocatore di cui deve mostrare le carte
+ * @param giocatore Il giocatore di cui deve mostrare le carte
  */
-void guiMostraCarte (int turno, Giocatore *g) {
-    guiHeader(turno, g->nome);
+void guiMostraCarte (int turno, Giocatore *giocatore) {
+    guiHeader(turno, giocatore->nome);
     printf("\n"
            "");
-    Carta *tmp = g->carteGiocatore;
+    Carta *tmp = giocatore->carteGiocatore;
     guiStampaCarte(tmp);
 }
 

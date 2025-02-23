@@ -54,7 +54,7 @@ Carta *copiaCarta (Carta *c, int nCopie);
 Carta *dividiMazzoMatricola (Carta **mazzo);
 void shuffleCarte (Carta **mazzoOriginale);
 void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput);
-void spostaCartaNelMazzoGiocatoreGiusto (Giocatore *g, Carta **c);
+void spostaCartaNelMazzoGiocatoreGiusto (Giocatore *giocatore, Carta **carta);
 // Miscellanee
 void liberaMemoria (Carta *testaMazzo);
 

@@ -198,17 +198,17 @@ void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput) {
 
 /** Funzione che sposta la carta desiderata nel corretto mazzo del giocatore,
  * ad esempio le carte bonus nel mazzo bonusmalus... etc...
- * @param g Il giocatore a cui va messa la carta nel mazzo giusto
- * @param c La carta da spostare
+ * @param giocatore Il giocatore a cui va messa la carta nel mazzo giusto
+ * @param carta La carta da spostare
  */
-void spostaCartaNelMazzoGiocatoreGiusto (Giocatore *g, Carta **c) {
-    if ((*c)->tipo == MATRICOLA || (*c)->tipo == STUDENTE_SEMPLICE || (*c)->tipo == LAUREANDO)
-        spostaCarta(c, *c, &g->carteAulaGiocatore);
+void spostaCartaNelMazzoGiocatoreGiusto (Giocatore *giocatore, Carta **carta) {
+    if ((*carta)->tipo == MATRICOLA || (*carta)->tipo == STUDENTE_SEMPLICE || (*carta)->tipo == LAUREANDO)
+        spostaCarta(carta, *carta, &giocatore->carteAulaGiocatore);
 
-    else if ((*c)->tipo == BONUS || (*c)->tipo == MALUS)
-        spostaCarta(c, *c, &g->carteBonusMalusGiocatore);
+    else if ((*carta)->tipo == BONUS || (*carta)->tipo == MALUS)
+        spostaCarta(carta, *carta, &giocatore->carteBonusMalusGiocatore);
 
-    else spostaCarta(c, *c, &g->carteGiocatore);
+    else spostaCarta(carta, *carta, &giocatore->carteGiocatore);
 }
 
 /** Libera la memoria usata dal programma prima dell'uscita

@@ -12,6 +12,7 @@
 
 void guiMenu ();
 void guiScegliAzione ();
+void guiMostraCarte (int turno, Giocatore *giocatore);
 void guiStampaCarte (Carta *mazzoCarte);
 void pulisciSchermo ();
 

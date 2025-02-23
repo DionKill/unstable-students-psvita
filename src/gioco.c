@@ -8,6 +8,8 @@
  *
  */
 void gioco () {
+    pulisciSchermo();
+
     // Crea i giocatori e li popola
     Giocatore *listaGiocatori = NULL;
     int nGiocatori = creaGiocatori(&listaGiocatori);
@@ -38,18 +40,18 @@ void gioco () {
         int scelta = scegliAzione();
 
         switch (scelta) {
-            case 1:
+            case COMANDO_GIOCA_CARTA:
                 // TODO: gioca una carta
-                    break;
-            case 2:
-                    spostaCartaNelMazzoGiocatoreGiusto(listaGiocatori, &mazzoPesca);
-            break;
-            case 3:
-                // TODO: mostra le carte che ha in mano il giocatore
-
-            case 4:
+                break;
+            case COMANDO_PESCA_CARTA:
+                spostaCartaNelMazzoGiocatoreGiusto(listaGiocatori, &mazzoPesca);
+                break;
+            case COMANDO_MOSTRA_CARTE:
+                guiMostraCarte(turno, listaGiocatori);
+                break;
+            case COMANDO_ESCI:
                 // TODO: tutta la roba del salvataggio lol
-                    return;
+                return;
         }
 
         // Aumenta il conteggio del turno (c'era bisogno di commentarlo?)
@@ -77,7 +79,7 @@ Giocatore *allocaGiocatori (Giocatore *listaGiocatori, int nGiocatori) {
     // Chiede all'utente il nome finché non è valido, il numero viene calcolato (+4 byte di memoria risparmiati)
     do {
         printf ("\n"
-                "Inserisci il nome del giocatore %d: ", (nGiocatori - 5) * -1);
+                "Inserisci il nome del giocatore %d: ", (nGiocatori - 5) * -1); // Spoiler non funziona bene
         scanf(" %" NOME_LENGTH_STR "[^\n]s", listaGiocatori->nome);
         flushInputBuffer();
     } while (strlen(listaGiocatori->nome) < 0);
@@ -117,7 +119,7 @@ int creaGiocatori(Giocatore **listaGiocatori) {
 
 /** Distribuisce le carte ai giocatori, prendendole dal mazzo già mescolato da pesca.
  *
- * @param cntCarte Il numero di giocatori (perché la lista è circolare -_-)
+ * @param cntCarte Il numero di giocatori
  * @param listaGiocatori La lista di giocatori a cui dare le carte
  * @param mazzoPesca Il mazzo da cui attingere le carte
  */
@@ -126,28 +128,25 @@ void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPe
     for (int i = 0; i < cntCarte; i++) {
         // Copia della testa per non perdere il next del mazzoPesca quando scorrerà (lo vediamo immediatamente)
         Carta *tmpMazzoPesca = (*mazzoPesca)->next;
+
+        // Mette come next della carta in testa al mazzo da pesca, la testa del mazzo del giocatore
+        // La nuova carta (con tutte le carte già presenti al next) viene messa come nuova testa del mazzo
         switch ((*mazzoPesca)->tipo) {
             case MATRICOLA:
             case STUDENTE_SEMPLICE:
             case LAUREANDO:
-                // Mette come next della carta in testa al mazzo da pesca, la testa del mazzo delle carte del giocatore
                 (*mazzoPesca)->next = listaGiocatori->carteAulaGiocatore;
-                // La nuova carta (con tutte le carte già presenti al next) viene messa come nuova testa del mazzo
                 listaGiocatori->carteAulaGiocatore = *mazzoPesca;
                 break;
 
             case BONUS:
             case MALUS:
-                // Mette come next della carta in testa al mazzo da pesca, la testa del mazzo delle carte del giocatore
                 (*mazzoPesca)->next = listaGiocatori->carteBonusMalusGiocatore;
-                // La nuova carta (con tutte le carte già presenti al next) viene messa come nuova testa del mazzo
                 listaGiocatori->carteBonusMalusGiocatore = *mazzoPesca;
                 break;
 
             default:
-                // Mette come next della carta in testa al mazzo da pesca, la testa del mazzo delle carte del giocatore
                 (*mazzoPesca)->next = listaGiocatori->carteGiocatore;
-                // La nuova carta (con tutte le carte già presenti al next) viene messa come nuova testa del mazzo
                 listaGiocatori->carteGiocatore = *mazzoPesca;
                 break;
         }
@@ -163,7 +162,7 @@ void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPe
  * @return La scelta del giocatore.
  */
 int scegliAzione () {
-    // Stampa il menù di scelta (devo davvero scriverlo?)
+    // Stampa il menù di scelta
     guiScegliAzione();
 
     int scelta;

@@ -11,6 +11,13 @@
 #include "file.h"
 #include "grafica.h"
 
+#define COMANDO_GIOCA_CARTA 1
+#define COMANDO_PESCA_CARTA 2
+#define COMANDO_MOSTRA_CARTE 3
+#define COMANDO_ESCI 4
+#define COMANDO_INVIO 13
+#define COMANDO_ANNULLA 27
+
 void gioco ();
 int scegliAzione ();
 int creaGiocatori(Giocatore **listaGiocatori);
