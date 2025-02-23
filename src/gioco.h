@@ -11,11 +11,10 @@
 #include "file.h"
 #include "grafica.h"
 
-#define N_CARTE_PER_GIOCATORE 5
-
 void gioco ();
 int scegliAzione ();
 int creaGiocatori(Giocatore **listaGiocatori);
+void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPesca);
 
 void flushInputBuffer ();
 

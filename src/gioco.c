@@ -4,36 +4,87 @@
 
 #include "gioco.h"
 
+/** La funzione principale del gioco. Da qui viene gestito tutto.
+ *
+ */
+void gioco () {
+    // Crea i giocatori e li popola
+    Giocatore *listaGiocatori = NULL;
+    int nGiocatori = creaGiocatori(&listaGiocatori);
+
+    // Crea il mazzo di carte, e lo popola usando il file mazzo.txt
+    Carta *mazzoPesca = NULL;
+    leggiCarteDaFile(&mazzoPesca);
+
+    // Crea il mazzo delle carte scartate e dell'aula studio
+    Carta *mazzoScarti = NULL; // Sacrate (per pochi)
+    Carta *mazzoAulaStudio = NULL;
+
+    // Divide il mazzo da pesca originale, creando il mazzo delle matricole
+    Carta *mazzoMatricole = NULL;
+    mazzoMatricole = dividiMazzoMatricola(&mazzoPesca); // Crea il mazzo matricola partendo dal mazzo da pesca
+
+    // Mischia i due mazzi appena creati
+    shuffleCarte(&mazzoPesca);
+    shuffleCarte(&mazzoMatricole);
+
+    // Distribuisce le carte a ogni giocatore, dal mazzo di pesca
+    distribuisciCarte(N_CARTE_PER_GIOCATORE * nGiocatori, listaGiocatori, &mazzoPesca);
+
+    // Gestione dei turni
+    int turno = 0;
+    // TODO: Funzione che controlla quando vinci così la metto nella condizione del main
+    while (turno < 5) {
+        int scelta = scegliAzione();
+
+        switch (scelta) {
+            case 1:
+                // TODO: gioca una carta
+                    break;
+            case 2:
+                // TODO: pesca una carta
+                    spostaCartaNelMazzoGiocatoreGiusto(listaGiocatori, &mazzoPesca);
+            break;
+            case 3:
+                // TODO: tutta la roba del salvataggio lol
+                    return;
+        }
+
+        // Aumenta il conteggio del turno (c'era bisogno di commentarlo?)
+        turno++;
+    }
+}
+
 /** Funzione ricorsiva per allocare la lista di Giocatori in memoria.
  *
- * @param nodo Il giocatore attuale
+ * @param listaGiocatori Il giocatore attuale
  * @param nGiocatori Il quantitativo di giocatori
  * @return Ritorna la lista
  */
-Giocatore *aggiungiGiocatori (Giocatore *nodo, int nGiocatori) {
+Giocatore *aggiungiGiocatori (Giocatore *listaGiocatori, int nGiocatori) {
     if (nGiocatori == 0)
-        return nodo;
+        return listaGiocatori;
 
     // Crea un nuovo giocatore e lo alloca
-    nodo = (Giocatore *) malloc(sizeof(Giocatore));
-    if (nodo == NULL) exit(EXIT_FAILURE); // Esce se non puo' allocare memoria
+    listaGiocatori = (Giocatore *) malloc(sizeof(Giocatore));
+    if (listaGiocatori == NULL) exit(EXIT_FAILURE); // Esce se non puo' allocare memoria
 
     // Continua il codice, mettendo subito il prossimo nodo a NULL
-    nodo->next = NULL;
+    listaGiocatori->next = NULL;
 
     // Chiede all'utente il nome finché non è valido
     do {
         printf ("\n"
                 "Inserisci il nome del nuovo giocatore: ");
-        scanf(" %" NOME_LENGTH_STR "[^\n]s", nodo->nome);
+        scanf(" %" NOME_LENGTH_STR "[^\n]s", listaGiocatori->nome);
         flushInputBuffer();
-    } while (strlen(nodo->nome) < 0);
+    } while (strlen(listaGiocatori->nome) < 0);
 
     // Si richiama da solo finché non ha finito di aggiungere i giocatori
-    nodo->next = aggiungiGiocatori(nodo->next, nGiocatori - 1);
+    listaGiocatori->next = aggiungiGiocatori(listaGiocatori->next, nGiocatori - 1);
 
     // Ritorna la lista
-    return nodo;
+    return listaGiocatori;
 }
 
 /** Funzione che crea la lista di giocatori
@@ -102,57 +153,6 @@ void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPe
         // Scorre avanti le due liste
         *mazzoPesca = tmpMazzoPesca;
         listaGiocatori = listaGiocatori->next;
-    }
-}
-
-/** La funzione principale del gioco. Da qui viene gestito tutto.
- *
- */
-void gioco () {
-    // Crea i giocatori e li popola
-    Giocatore *listaGiocatori = NULL;
-    int nGiocatori = creaGiocatori(&listaGiocatori);
-
-    // Crea il mazzo di carte, e lo popola usando il file mazzo.txt
-    Carta *mazzoPesca = NULL;
-    leggiCarteDaFile(&mazzoPesca);
-
-    // Crea il mazzo delle carte scartate e dell'aula studio
-    Carta *mazzoScarti = NULL; // Sacrate (per pochi)
-    Carta *mazzoAulaStudio = NULL;
-
-    // Divide il mazzo da pesca originale, creando il mazzo delle matricole
-    Carta *mazzoMatricole = NULL;
-    mazzoMatricole = dividiMazzoMatricola(&mazzoPesca); // Crea il mazzo matricola partendo dal mazzo da pesca
-
-    // Mischia i due mazzi appena creati
-    shuffleCarte(&mazzoPesca);
-    shuffleCarte(&mazzoMatricole);
-
-    // Distribuisce le carte a ogni giocatore, dal mazzo di pesca
-    distribuisciCarte(N_CARTE_PER_GIOCATORE * nGiocatori, listaGiocatori, &mazzoPesca);
-
-    // Gestione dei turni
-    int turno = 0;
-    // TODO: Funzione che controlla quando vinci così la metto nella condizione del main
-    while (turno < 5) {
-        int scelta = scegliAzione();
-
-        switch (scelta) {
-            case 1:
-                // TODO: gioca una carta
-                break;
-            case 2:
-                // TODO: pesca una carta
-                spostaCartaNelMazzoGiocatoreGiusto(listaGiocatori, &mazzoPesca);
-                break;
-            case 3:
-                // TODO: tutta la roba del salvataggio lol
-                return;
-        }
-
-        // Aumenta il conteggio del turno (c'era bisogno di commentarlo?)
-        turno++;
     }
 }
 

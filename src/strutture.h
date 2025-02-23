@@ -13,6 +13,7 @@
 #define NOME_LENGTH 31 //32 char utili
 #define NOME_LENGTH_STR "31"
 #define DESC_CARTA_LENGTH 255 //256 char totali per la descrizione della carta
+#define N_CARTE_PER_GIOCATORE 5
 
 typedef enum {GIOCA, SCARTA, ELIMINA, RUBA, PESCA, PRENDI, BLOCCA, SCAMBIA, MOSTRA, IMPEDIRE, INGEGNERE} Azione;
 typedef enum {ALL, STUDENTE, MATRICOLA, STUDENTE_SEMPLICE, LAUREANDO, BONUS, MALUS, MAGIA, ISTANTANEA} TipologiaCarta;
@@ -45,7 +46,6 @@ typedef struct effetto {
 } Effetto;
 
 // Gestione giocatori
-Giocatore *aggiungiGiocatori (Giocatore *nodo, int nGiocatori);
 Giocatore *rendiListaGiocatoriCircolare (Giocatore *listaGiocatori);
 // Gestione carte
 Carta *allocaCarta ();
