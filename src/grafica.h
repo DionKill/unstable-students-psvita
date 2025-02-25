@@ -21,7 +21,7 @@ void strAzione(char **str, Azione azione);
 void strTipologiaCarta(char **str, TipologiaCarta tipologia);
 void strTargetGiocatori(char **str, TargetGiocatori target);
 void strQuando(char **str, Quando quando);
-void strDisessereGiocati (char **str, bool puoEssereGiocato); // Disessere giocati
+void strPuoEssereGiocato (char **str, bool puoEssereGiocato); // Disessere giocati
 
 // Misc
 void pulisciSchermo ();

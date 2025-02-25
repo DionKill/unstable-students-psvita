@@ -120,10 +120,10 @@ void guiStampaCarte (Carta *mazzoCarte) {
         printf("\n"
         "Quando: %s", str);
 
-        strDisessereGiocati(&str, mazzoCarte->puoEssereGiocato);
+        strPuoEssereGiocato(&str, mazzoCarte->puoEssereGiocato);
         printf( "\n"
                 YELB
-                "Disessere giocati: %s"
+                "Puo' essere giocato: %s" // Disessere giocati
                 RESET, str);
         printf("\n"
         "-----");
@@ -275,12 +275,12 @@ void strQuando(char **str, Quando quando) {
     }
 }
 
-/** Funzione che restituisce una stringa che contiene la disessere giocabilità vera o falsa
+/** Funzione che restituisce una stringa che indica se la carta è o non è giocabile
  *
  * @param str La stringa che conterrà VERO o FALSO
- * @param puoEssereGiocato Disessere giocati
+ * @param puoEssereGiocato Bool che contiene se la carta può disessere giocata o no
  */
-void strDisessereGiocati (char **str, bool puoEssereGiocato) {
+void strPuoEssereGiocato (char **str, bool puoEssereGiocato) {
     if (puoEssereGiocato) *str = STR_TRUE;
     else *str = STR_FALSE;
 }
