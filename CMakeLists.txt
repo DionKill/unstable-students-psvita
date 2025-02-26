@@ -13,4 +13,6 @@ add_executable(Progetto_PR1 src/main.c
         src/colori-ansi.h
         src/grafica.c
         src/grafica.h
+        src/misc.c
+        src/misc.h
 )

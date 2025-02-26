@@ -20,6 +20,64 @@ Giocatore *rendiListaGiocatoriCircolare (Giocatore *listaGiocatori) {
     return listaGiocatori;
 }
 
+/** Funzione ricorsiva per allocare la lista di Giocatori in memoria.
+ *
+ * @param listaGiocatori Il giocatore attuale
+ * @param nGiocatori Il quantitativo di giocatori
+ * @return Ritorna la lista
+ */
+Giocatore *allocaGiocatori (Giocatore *listaGiocatori, int nGiocatori) {
+    if (nGiocatori == 0)
+        return listaGiocatori;
+
+    // Crea un nuovo giocatore e lo alloca
+    listaGiocatori = (Giocatore *) malloc(sizeof(Giocatore));
+    if (listaGiocatori == NULL) exit(EXIT_FAILURE); // Esce se non puo' allocare memoria
+
+    // Continua il codice, mettendo subito il prossimo nodo a NULL
+    listaGiocatori->next = NULL;
+
+    // Chiede all'utente il nome finché non è valido, il numero viene calcolato (+4 byte di memoria risparmiati)
+    do {
+        printf ("\n"
+                "Inserisci il nome del giocatore %d: ", nGiocatori); // Spoiler non funziona bene
+        scanf(" %" NOME_LENGTH_STR "[^\n]s", listaGiocatori->nome);
+        flushInputBuffer();
+    } while (strlen(listaGiocatori->nome) < 0);
+
+    // Si richiama da solo finché non ha finito di aggiungere i giocatori
+    listaGiocatori->next = allocaGiocatori(listaGiocatori->next, nGiocatori - 1);
+
+    // Ritorna la lista
+    return listaGiocatori;
+}
+
+/** Funzione che crea la lista di giocatori
+ *
+ * @return Ritorna la nuova lista di giocatori
+ */
+int creaGiocatori(Giocatore **listaGiocatori) {
+    int nGiocatori;
+
+    printf("Quanti giocatori giocheranno?");
+    do {
+        printf("\n"
+        "[2-4]: ");
+        scanf("%d", &nGiocatori);
+        if (nGiocatori < 2 || nGiocatori > 4 )
+            printf("\n"
+                "Il valore inserito non e' valido!");
+    flushInputBuffer();
+    } while (nGiocatori < 2 || nGiocatori > 4);
+
+    // Alloca lo spazio in memoria e li aggiunge in una lista di tipo Giocatore
+    *listaGiocatori = allocaGiocatori(*listaGiocatori, nGiocatori);
+
+    *listaGiocatori = rendiListaGiocatoriCircolare(*listaGiocatori); // Rende la lista dei giocatori circolare
+
+    return nGiocatori;
+}
+
 /*--- Gestione delle carte ---*/
 
 /** Alloca spazio in memoria per una singola carta, altrimenti esce
@@ -209,6 +267,34 @@ void spostaCartaNelMazzoGiocatoreGiusto (Giocatore *giocatore, Carta **carta) {
         spostaCarta(carta, *carta, &giocatore->carteBonusMalusGiocatore);
 
     else spostaCarta(carta, *carta, &giocatore->carteGiocatore);
+}
+
+/** Distribuisce le carte ai giocatori, prendendole dal mazzo già mescolato da pesca.
+ *
+ * @param cntCarte Il numero di giocatori
+ * @param listaGiocatori La lista di giocatori a cui dare le carte
+ * @param mazzoPesca Il mazzo da cui attingere le carte
+ */
+void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPesca) {
+    // Un ciclo che continua finché ci sono carte da pescare (scorre nella lista circolare dei giocatori)
+    for (int i = 0; i < cntCarte; i++) {
+        // Copia della testa per non perdere il next del mazzoPesca quando scorrerà (lo vediamo immediatamente)
+        Carta *tmpMazzoPesca = (*mazzoPesca)->next;
+
+        // Mette come next della carta in testa al mazzo da pesca, la testa del mazzo del giocatore
+        // La nuova carta (con tutte le carte già presenti al next) viene messa come nuova testa del mazzo
+        if ((*mazzoPesca)->tipo == MATRICOLA) {
+            (*mazzoPesca)->next = listaGiocatori->carteAulaGiocatore;
+            listaGiocatori->carteAulaGiocatore = *mazzoPesca;
+        } else {
+            (*mazzoPesca)->next = listaGiocatori->carteGiocatore;
+            listaGiocatori->carteGiocatore = *mazzoPesca;
+        }
+
+        // Scorre avanti le due liste
+        *mazzoPesca = tmpMazzoPesca;
+        listaGiocatori = listaGiocatori->next;
+    }
 }
 
 /** Libera la memoria usata dal programma prima dell'uscita

@@ -10,6 +10,7 @@
 #include "strutture.h"
 #include "file.h"
 #include "grafica.h"
+#include "misc.h"
 
 #define COMANDO_GIOCA_CARTA 1
 #define COMANDO_PESCA_CARTA 2
@@ -19,13 +20,7 @@
 #define COMANDO_ANNULLA 27 // ESC
 
 void gioco ();
-Giocatore *allocaGiocatori (Giocatore *listaGiocatori, int nGiocatori);
-int creaGiocatori(Giocatore **listaGiocatori);
-void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPesca);
 void giocaCarta (Giocatore *giocatore);
 int scegliAzione ();
-
-void premiInvioPerContinuare ();
-void flushInputBuffer ();
 
 #endif //GIOCO_H

@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include "misc.h"
 
 #define NOME_LENGTH 31 //32 char utili
 #define NOME_LENGTH_STR "31"
@@ -83,8 +84,10 @@ typedef struct effetto {
     TargetGiocatori targetGiocatori;
 } Effetto;
 
-// Gestione giocatori
+// Gestione giocatori (alcune di queste includono inserimento di testo, ma era inevitabile)
 Giocatore *rendiListaGiocatoriCircolare (Giocatore *listaGiocatori);
+Giocatore *allocaGiocatori (Giocatore *listaGiocatori, int nGiocatori);
+int creaGiocatori(Giocatore **listaGiocatori);
 // Gestione carte
 Carta *allocaCarta ();
 int contaCarte (Carta *c);
@@ -93,6 +96,7 @@ Carta *dividiMazzoMatricola (Carta **mazzo);
 void shuffleCarte (Carta **mazzoOriginale);
 void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput);
 void spostaCartaNelMazzoGiocatoreGiusto (Giocatore *giocatore, Carta **carta);
+void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPesca)
 // Miscellanee
 void liberaMemoria (Carta *testaMazzo);
 
