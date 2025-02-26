@@ -18,7 +18,7 @@ void gioco () {
     Carta *mazzoPesca = NULL;
     leggiCarteDaFile(&mazzoPesca);
 
-    // Crea il mazzo delle carte scartate e dell'aula studio
+    // Crea il mazzo delle carte scartate (sacrtate) e dell'aula studio
     Carta *mazzoScarti = NULL; // Sacrate (per pochi)
     Carta *mazzoAulaStudio = NULL;
 
@@ -30,32 +30,42 @@ void gioco () {
     shuffleCarte(&mazzoPesca);
     shuffleCarte(&mazzoMatricole);
 
-    // Distribuisce le carte a ogni giocatore, dal mazzo di pesca
+    // Distribuisce le carte a ogni giocatore, dal mazzo delle matricole e quello di pesca
+    distribuisciCarte(nGiocatori, listaGiocatori, &mazzoMatricole);
     distribuisciCarte(N_CARTE_PER_GIOCATORE * nGiocatori, listaGiocatori, &mazzoPesca);
 
     // Gestione dei turni
     int turno = 0;
+
     // TODO: Funzione che controlla quando vinci così la metto nella condizione del main
     while (turno < 5) {
+        guiHeader(turno, listaGiocatori->nome);
+
         int scelta = scegliAzione();
 
         switch (scelta) {
             case COMANDO_GIOCA_CARTA:
                 // TODO: gioca una carta
+                turno++;
             break;
             case COMANDO_PESCA_CARTA:
+                Carta *tmp = mazzoPesca; // La carta che verrà aggiunta al giocatore
                 spostaCartaNelMazzoGiocatoreGiusto(listaGiocatori, &mazzoPesca);
+                guiStampaCarta(tmp);
+                turno++;
             break;
             case COMANDO_MOSTRA_CARTE:
-                guiMostraCarte(turno, listaGiocatori);
+                // TODO: scegli quali di queste carte mostrare (o meglio ancora tutte e tre assieme affiancate)
+                guiStampaMazzo(listaGiocatori->carteGiocatore);
+                guiStampaMazzo(listaGiocatori->carteAulaGiocatore);
+                guiStampaMazzo(listaGiocatori->carteBonusMalusGiocatore);
+                turno++;
             break;
             case COMANDO_ESCI:
                 // TODO: tutta la roba del salvataggio lol
                 return;
+            default: break;
         }
-
-        // Aumenta il conteggio del turno (c'era bisogno di commentarlo?)
-        turno++;
     }
 }
 
@@ -171,6 +181,8 @@ int scegliAzione () {
 
     return scelta;
 }
+
+// TODO: scegli che mazzo vedere
 
 /** Funzione che libera l'input buffer.
  * Con questa non vengono aggiunti gli invii e caratteri speciali durante l'inserimento di testo.

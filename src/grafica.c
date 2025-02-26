@@ -61,77 +61,67 @@ void guiHeader (int turno, char nomeGiocatore[]) {
         turno, nomeGiocatore);
 }
 
-/** Mostra le carte di un giocatore.
- *
- * @param turno
- * @param giocatore Il giocatore di cui deve mostrare le carte
- */
-void guiMostraCarte (int turno, Giocatore *giocatore) {
-    guiHeader(turno, giocatore->nome);
-
-    Carta *tmp = giocatore->carteGiocatore;
-    guiStampaCarte(tmp);
-    tmp = giocatore->carteAulaGiocatore;
-    guiStampaCarte(tmp);
-    tmp = giocatore->carteBonusMalusGiocatore;
-    guiStampaCarte(tmp);
-}
-
 /** Dato un mazzo, stampa le carte in esso contenute con tutti i dettagli
  *
  * @param mazzoCarte Il mazzo di carte
  */
-void guiStampaCarte (Carta *mazzoCarte) {
-    int j = 0;
+void guiStampaMazzo (Carta *mazzoCarte) {
+    int i = 0;
 
     while (mazzoCarte != NULL) {
         // Stringa che verrà modificata per stampare il tipo come stringa
-        char *str = NULL;
+        printf("\n"
+            "-----");
+        guiStampaCarta(mazzoCarte);
+        printf("\n"
+            "-----");
+        mazzoCarte = mazzoCarte->next;
+        i++;
+    }
+    printf("\n" YELHB "TOTALE CARTE: %d" RESET "\n", i);
+}
 
-        printf("\n"
-        "-----");
-        printf("\n"
-        "Nome: %s", mazzoCarte->nome);
-        printf("\n"
-        "Descrizione: %s", mazzoCarte->descrizione);
+/** Stampa una singola carta
+ *
+ * @param carta La carta da stampare
+ */
+void guiStampaCarta (Carta *carta) {
+    char *str = NULL;
 
-        strTipologiaCarta(&str, mazzoCarte->tipo);
-        printf("\n"
+    printf("\n"
+        "Nome: %s", carta->nome);
+    printf(" | "
+        "Descrizione: %s", carta->descrizione);
+
+    strTipologiaCarta(&str, carta->tipo);
+    printf("\n"
         "Tipo: %s", str);
 
+    printf("\n"
+        "Numero di effetti: %d", carta->nEffetti);
+
+    for (int i = 0; i < carta->nEffetti; i++) {
+        strAzione(&str, carta->effetto[i].azione);
         printf("\n"
-        "Numero di effetti: %d", mazzoCarte->nEffetti);
+            "\t-<{ Azione: %s", str);
 
-        for (j = 0; j < mazzoCarte->nEffetti; j++) {
-            strAzione(&str, mazzoCarte->effetto[j].azione);
-            printf("\n"
-            "\t- Azione: %s", str);
+        strTargetGiocatori(&str, carta->effetto[i].targetGiocatori);
+        printf(" | "
+            "Target: %s", str);
 
-            strTargetGiocatori(&str, mazzoCarte->effetto[j].targetGiocatori);
-            printf("\n"
-            "\t- Target: %s", str);
+        strTipologiaCarta(&str, carta->effetto[i].tipo);
+        printf(" | "
+            "Tipo: %s }>-", str);
+    }
 
-            strTipologiaCarta(&str, mazzoCarte->effetto[j].tipo);
-            printf("\n"
-            "\t- Tipo: %s", str);
-        }
-
-        strQuando(&str, mazzoCarte->quandoEffetto);
-        printf("\n"
+    strQuando(&str, carta->quandoEffetto);
+    printf("\n"
         "Quando: %s", str);
 
-        strPuoEssereGiocato(&str, mazzoCarte->puoEssereGiocato);
-        printf( "\n"
-                YELB
-                "Puo' essere giocato: %s" // Disessere giocati
-                RESET, str);
-        printf("\n"
-        "-----");
-
-        mazzoCarte = mazzoCarte->next;
-        j++;
-    }
-    printf("\n" REDB "TOTALE CARTE: %d\n" RESET, j);
+    strPuoEssereGiocato(&str, carta->puoEssereGiocato);
+    printf( "\n"
+        "Puo' essere giocato: %s" // Disessere giocati
+        , str);
 }
 
 /** Mostra il menù di scelta delle carte.

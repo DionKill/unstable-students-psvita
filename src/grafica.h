@@ -13,8 +13,9 @@
 // GUI
 void guiMenu ();
 void guiScegliAzione ();
-void guiMostraCarte (int turno, Giocatore *giocatore);
-void guiStampaCarte (Carta *mazzoCarte);
+void guiStampaMazzo (Carta *mazzoCarte);
+void guiStampaCarta (Carta *carta);
+void guiHeader (int turno, char nomeGiocatore[]);
 
 // Da enum a stringa
 void strAzione(char **str, Azione azione);
