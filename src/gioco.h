@@ -19,10 +19,11 @@
 #define COMANDO_ANNULLA 27 // ESC
 
 void gioco ();
-int scegliAzione ();
+Giocatore *allocaGiocatori (Giocatore *listaGiocatori, int nGiocatori);
 int creaGiocatori(Giocatore **listaGiocatori);
 void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPesca);
-void giocaCarta ();
+void giocaCarta (Giocatore *giocatore);
+int scegliAzione ();
 
 void premiInvioPerContinuare ();
 void flushInputBuffer ();

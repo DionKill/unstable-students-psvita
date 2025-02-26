@@ -70,11 +70,11 @@ void guiStampaMazzo (Carta *mazzoCarte) {
         printf("\n"
             "-----");
         guiStampaCarta(mazzoCarte);
-        printf("\n"
-            "-----");
         mazzoCarte = mazzoCarte->next;
         i++;
     }
+    printf("\n"
+    "-----");
     printf("\n" YELHB "TOTALE CARTE: %d" RESET "\n", i);
 }
 
@@ -136,6 +136,10 @@ void guiScegliAzione () {
         " | "
         "4. Salva ed Esci"
         "\n>: ");
+}
+
+void guiCartaDaGiocare () {
+
 }
 
 /** Modifica il parametro str con l'azione in entrata

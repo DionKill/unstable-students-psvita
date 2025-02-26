@@ -8,9 +8,7 @@
  *
  */
 void gioco () {
-    premiInvioPerContinuare();
-    pulisciSchermo();
-
+    // TODO: salvataggio e funzione che popola le cose se è una partita nuova
     // Crea i giocatori e li popola
     Giocatore *listaGiocatori = NULL;
     int nGiocatori = creaGiocatori(&listaGiocatori);
@@ -39,19 +37,25 @@ void gioco () {
     int turno = 0;
 
     // TODO: Funzione che controlla quando vinci così la metto nella condizione del main
+    // Questo loop controlla le scelte del giocatore. È abbastanza self-explanatory
     while (turno < 5) {
         guiHeader(turno, listaGiocatori->nome);
 
         int scelta = scegliAzione();
 
+        // Controlla la scelta e richiama le funzioni necessarie
         switch (scelta) {
             case COMANDO_GIOCA_CARTA:
                 // TODO: gioca una carta
+
+                listaGiocatori = listaGiocatori->next;
                 turno++;
             break;
             case COMANDO_PESCA_CARTA:
                 spostaCartaNelMazzoGiocatoreGiusto(listaGiocatori, &mazzoPesca);
                 guiStampaCarta(mazzoPesca);
+
+                listaGiocatori = listaGiocatori->next;
                 turno++;
             break;
             case COMANDO_MOSTRA_CARTE:
@@ -59,12 +63,11 @@ void gioco () {
                 guiStampaMazzo(listaGiocatori->carteGiocatore);
                 guiStampaMazzo(listaGiocatori->carteAulaGiocatore);
                 guiStampaMazzo(listaGiocatori->carteBonusMalusGiocatore);
-                turno++;
             break;
             case COMANDO_ESCI:
                 // TODO: tutta la roba del salvataggio lol
                 return;
-            default: break;
+            default: break; // Aggiunto solo perché CLion dava warning
         }
         premiInvioPerContinuare();
     }
@@ -90,7 +93,7 @@ Giocatore *allocaGiocatori (Giocatore *listaGiocatori, int nGiocatori) {
     // Chiede all'utente il nome finché non è valido, il numero viene calcolato (+4 byte di memoria risparmiati)
     do {
         printf ("\n"
-                "Inserisci il nome del giocatore %d: ", (nGiocatori - 5) * -1); // Spoiler non funziona bene
+                "Inserisci il nome del giocatore %d: ", nGiocatori); // Spoiler non funziona bene
         scanf(" %" NOME_LENGTH_STR "[^\n]s", listaGiocatori->nome);
         flushInputBuffer();
     } while (strlen(listaGiocatori->nome) < 0);
@@ -142,24 +145,12 @@ void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPe
 
         // Mette come next della carta in testa al mazzo da pesca, la testa del mazzo del giocatore
         // La nuova carta (con tutte le carte già presenti al next) viene messa come nuova testa del mazzo
-        switch ((*mazzoPesca)->tipo) {
-            case MATRICOLA:
-            case STUDENTE_SEMPLICE:
-            case LAUREANDO:
-                (*mazzoPesca)->next = listaGiocatori->carteAulaGiocatore;
-                listaGiocatori->carteAulaGiocatore = *mazzoPesca;
-            break;
-
-            case BONUS:
-            case MALUS:
-                (*mazzoPesca)->next = listaGiocatori->carteBonusMalusGiocatore;
-                listaGiocatori->carteBonusMalusGiocatore = *mazzoPesca;
-            break;
-
-            default:
-                (*mazzoPesca)->next = listaGiocatori->carteGiocatore;
-                listaGiocatori->carteGiocatore = *mazzoPesca;
-            break;
+        if ((*mazzoPesca)->tipo == MATRICOLA) {
+            (*mazzoPesca)->next = listaGiocatori->carteAulaGiocatore;
+            listaGiocatori->carteAulaGiocatore = *mazzoPesca;
+        } else {
+            (*mazzoPesca)->next = listaGiocatori->carteGiocatore;
+            listaGiocatori->carteGiocatore = *mazzoPesca;
         }
 
         // Scorre avanti le due liste
@@ -171,7 +162,8 @@ void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPe
 /** Una funzione che gioca una carta a scelta del giocatore
  *
  */
-void giocaCarta () {
+void giocaCarta (Giocatore *giocatore) {
+    int scelta;
 
 }
 
@@ -190,14 +182,15 @@ int scegliAzione () {
     return scelta;
 }
 
+/** Una semplice funzione che chiede di premere invio per continuare.
+ * Utile per fare in modo che l'utente possa leggere su schermo prima di andare avanti.
+ */
 void premiInvioPerContinuare () {
     printf("\n"
            "Premi INVIO per continuare"
            "\n");
     flushInputBuffer();
 }
-
-// TODO: scegli che mazzo vedere
 
 /** Funzione che libera l'input buffer.
  * Con questa non vengono aggiunti gli invii e caratteri speciali durante l'inserimento di testo.
