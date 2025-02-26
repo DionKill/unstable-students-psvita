@@ -96,7 +96,7 @@ Carta *dividiMazzoMatricola (Carta **mazzo);
 void shuffleCarte (Carta **mazzoOriginale);
 void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput);
 void spostaCartaNelMazzoGiocatoreGiusto (Giocatore *giocatore, Carta **carta);
-void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPesca)
+void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPesca);
 // Miscellanee
 void liberaMemoria (Carta *testaMazzo);
 

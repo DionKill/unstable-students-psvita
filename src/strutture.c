@@ -270,7 +270,7 @@ void spostaCartaNelMazzoGiocatoreGiusto (Giocatore *giocatore, Carta **carta) {
 }
 
 /** Distribuisce le carte ai giocatori, prendendole dal mazzo già mescolato da pesca.
- *
+ * TODO: serve a qualcosa?????
  * @param cntCarte Il numero di giocatori
  * @param listaGiocatori La lista di giocatori a cui dare le carte
  * @param mazzoPesca Il mazzo da cui attingere le carte

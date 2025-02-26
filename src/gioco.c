@@ -48,14 +48,14 @@ void gioco () {
             case COMANDO_GIOCA_CARTA:
                 // TODO: gioca una carta
 
-                listaGiocatori = listaGiocatori->next;
+                //listaGiocatori = listaGiocatori->next; // Scorre la lista
                 turno++;
             break;
             case COMANDO_PESCA_CARTA:
-                spostaCartaNelMazzoGiocatoreGiusto(listaGiocatori, &mazzoPesca);
+                spostaCarta(&mazzoPesca, mazzoPesca, &listaGiocatori->carteGiocatore);
                 guiStampaCarta(mazzoPesca);
 
-                listaGiocatori = listaGiocatori->next;
+                //listaGiocatori = listaGiocatori->next; // Scorre la lista
                 turno++;
             break;
             case COMANDO_MOSTRA_CARTE:
