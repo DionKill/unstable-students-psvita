@@ -34,16 +34,13 @@ void guiMenu () {
     "-------------------------------------------------------------------------------"       "\n"
     RESET
     );
-
-    printf("\n"
-           "Premi INVIO per continuare"
-           "\n");
 }
 
 /** Stampa una riga che segnala alcune statistiche
  * TODO: cose che ha senso mostrare
  */
 void guiHeader (int turno, char nomeGiocatore[]) {
+    pulisciSchermo();
     printf(WHTB
         "\n"
         RESET
@@ -106,11 +103,11 @@ void guiStampaCarta (Carta *carta) {
             "\t-<{ Azione: %s", str);
 
         strTargetGiocatori(&str, carta->effetto[i].targetGiocatori);
-        printf(" | "
+        printf("\t| "
             "Target: %s", str);
 
         strTipologiaCarta(&str, carta->effetto[i].tipo);
-        printf(" | "
+        printf("\t| "
             "Tipo: %s }>-", str);
     }
 
@@ -119,7 +116,7 @@ void guiStampaCarta (Carta *carta) {
         "Quando: %s", str);
 
     strPuoEssereGiocato(&str, carta->puoEssereGiocato);
-    printf( "\n"
+    printf( " | "
         "Puo' essere giocato: %s" // Disessere giocati
         , str);
 }
@@ -128,16 +125,17 @@ void guiStampaCarta (Carta *carta) {
  *
  */
 void guiScegliAzione () {
-    printf("Scegli la tua prossima azione:"
-    "\n"
-    "1. Gioca una carta"
-    "\t"
-    "2. Pesca una carta"
-    "\t"
-    "3. Controlla le tue carte"
-    "\t"
-    "4. Salva ed Esci"
-    "\n>: ");
+    printf("\n"
+        "Scegli la tua prossima azione:"
+        "\n"
+        "1. Gioca una carta"
+        " | "
+        "2. Pesca una carta"
+        " | "
+        "3. Controlla le tue carte"
+        " | "
+        "4. Salva ed Esci"
+        "\n>: ");
 }
 
 /** Modifica il parametro str con l'azione in entrata

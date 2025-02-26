@@ -8,6 +8,7 @@
  *
  */
 void gioco () {
+    premiInvioPerContinuare();
     pulisciSchermo();
 
     // Crea i giocatori e li popola
@@ -49,9 +50,8 @@ void gioco () {
                 turno++;
             break;
             case COMANDO_PESCA_CARTA:
-                Carta *tmp = mazzoPesca; // La carta che verrà aggiunta al giocatore
                 spostaCartaNelMazzoGiocatoreGiusto(listaGiocatori, &mazzoPesca);
-                guiStampaCarta(tmp);
+                guiStampaCarta(mazzoPesca);
                 turno++;
             break;
             case COMANDO_MOSTRA_CARTE:
@@ -66,6 +66,7 @@ void gioco () {
                 return;
             default: break;
         }
+        premiInvioPerContinuare();
     }
 }
 
@@ -167,6 +168,13 @@ void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPe
     }
 }
 
+/** Una funzione che gioca una carta a scelta del giocatore
+ *
+ */
+void giocaCarta () {
+
+}
+
 /** Funzione ineccepibile che fornisce una scelta di cose che può fare il giocatore e ritorna l'opzione scelta.
  *
  * @return La scelta del giocatore.
@@ -180,6 +188,13 @@ int scegliAzione () {
     flushInputBuffer();
 
     return scelta;
+}
+
+void premiInvioPerContinuare () {
+    printf("\n"
+           "Premi INVIO per continuare"
+           "\n");
+    flushInputBuffer();
 }
 
 // TODO: scegli che mazzo vedere

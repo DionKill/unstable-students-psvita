@@ -18,7 +18,6 @@ int main(int argc, char **argv) {
     srand(time(NULL));
 
     guiMenu();
-    getchar();
 
     gioco();
 

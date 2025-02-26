@@ -22,7 +22,9 @@ void gioco ();
 int scegliAzione ();
 int creaGiocatori(Giocatore **listaGiocatori);
 void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPesca);
+void giocaCarta ();
 
+void premiInvioPerContinuare ();
 void flushInputBuffer ();
 
 #endif //GIOCO_H
