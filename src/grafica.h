@@ -10,6 +10,8 @@
 #include "colori-ansi.h"
 #include "strutture.h"
 
+#define CURSORE_INPUT "\n>: "
+
 // GUI
 void guiMenu ();
 void guiScegliAzione ();

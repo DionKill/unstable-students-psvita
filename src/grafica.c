@@ -135,7 +135,7 @@ void guiScegliAzione () {
         "3. Controlla le tue carte"
         " | "
         "4. Salva ed Esci"
-        "\n>: ");
+        CURSORE_INPUT);
 }
 
 /** Modifica il parametro str con l'azione in entrata

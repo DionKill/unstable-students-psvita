@@ -96,13 +96,13 @@ Carta *allocaCarta () {
 
 /** Cicla il mazzo e conta quante carte ci sono
  *
- * @param c Il mazzo di cui bisogna contare le carte
+ * @param mazzo Il mazzo di cui bisogna contare le carte
  * @return Ritorna il numero di carte nel mazzo
  */
-int contaCarte (Carta *c) {
+int contaCarte (Carta *mazzo) {
     int i = 0;
-    while (c != NULL) {
-        c = c->next;
+    while (mazzo != NULL) {
+        mazzo = mazzo->next;
         i++;
     }
     return i;
@@ -110,11 +110,11 @@ int contaCarte (Carta *c) {
 
 /** Funzione ricorsiva che prende in ingresso un nodo Carta, alloca la successiva, e copia i contenuti nella successiva.
  *
- * @param c Il nodo carta da copiare
+ * @param carta Il nodo carta da copiare
  * @param nCopie Quante volte deve essere ancora copiato
  * @return Ritorna la carta
  */
-Carta *copiaCarta (Carta *c, int nCopie) {
+Carta *copiaCarta (Carta *carta, int nCopie) {
     if (nCopie == 0)
         return NULL;
 
@@ -122,10 +122,10 @@ Carta *copiaCarta (Carta *c, int nCopie) {
     Carta *tmp = allocaCarta();
 
     // Copia i dati un parametro alla volta
-    strcpy(tmp->nome, c->nome);
-    strcpy(tmp->descrizione, c->descrizione);
-    tmp->tipo = c->tipo;
-    tmp->nEffetti = c->nEffetti;
+    strcpy(tmp->nome, carta->nome);
+    strcpy(tmp->descrizione, carta->descrizione);
+    tmp->tipo = carta->tipo;
+    tmp->nEffetti = carta->nEffetti;
 
     // Copia i parametri degli effetti
     if (tmp->nEffetti > 0) {
@@ -135,14 +135,14 @@ Carta *copiaCarta (Carta *c, int nCopie) {
 
         // For che legge gli effetti e li mette nell'array dinamico
         for (int i = 0; i < tmp->nEffetti; i++) {
-            tmp->effetto[i].azione = c->effetto[i].azione;
-            tmp->effetto[i].tipo = c->effetto[i].tipo;
-            tmp->effetto[i].targetGiocatori = c->effetto[i].targetGiocatori;
+            tmp->effetto[i].azione = carta->effetto[i].azione;
+            tmp->effetto[i].tipo = carta->effetto[i].tipo;
+            tmp->effetto[i].targetGiocatori = carta->effetto[i].targetGiocatori;
         }
     }
 
-    tmp->quandoEffetto = c->quandoEffetto;
-    tmp->puoEssereGiocato = c->puoEssereGiocato; // Disessere giocati
+    tmp->quandoEffetto = carta->quandoEffetto;
+    tmp->puoEssereGiocato = carta->puoEssereGiocato; // Disessere giocati
 
     tmp->next = copiaCarta(tmp, nCopie - 1);
 

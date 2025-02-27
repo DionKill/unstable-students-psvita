@@ -10,8 +10,8 @@
 void gioco () {
     // TODO: salvataggio e funzione che popola le cose se è una partita nuova
     // Crea i giocatori e li popola
-    Giocatore *listaGiocatori = NULL;
-    int nGiocatori = creaGiocatori(&listaGiocatori);
+    Giocatore *giocatore = NULL;
+    int nGiocatori = creaGiocatori(&giocatore);
 
     // Crea il mazzo di carte, e lo popola usando il file mazzo.txt
     Carta *mazzoPesca = NULL;
@@ -30,8 +30,8 @@ void gioco () {
     shuffleCarte(&mazzoMatricole);
 
     // Distribuisce le carte a ogni giocatore, dal mazzo delle matricole e quello di pesca
-    distribuisciCarte(nGiocatori, listaGiocatori, &mazzoMatricole);
-    distribuisciCarte(N_CARTE_PER_GIOCATORE * nGiocatori, listaGiocatori, &mazzoPesca);
+    distribuisciCarte(nGiocatori, giocatore, &mazzoMatricole);
+    distribuisciCarte(CARTE_DA_DISTRIBUIRE * nGiocatori, giocatore, &mazzoPesca);
 
     // Gestione dei turni
     int turno = 0;
@@ -39,7 +39,8 @@ void gioco () {
     // TODO: Funzione che controlla quando vinci così la metto nella condizione del main
     // Questo loop controlla le scelte del giocatore. È abbastanza self-explanatory
     while (turno < 5) {
-        guiHeader(turno, listaGiocatori->nome);
+        guiHeader(turno, giocatore->nome);
+        pescaCarta(&giocatore->carteGiocatore, &mazzoPesca);
 
         int scelta = scegliAzione();
 
@@ -52,17 +53,15 @@ void gioco () {
                 turno++;
             break;
             case COMANDO_PESCA_CARTA:
-                spostaCarta(&mazzoPesca, mazzoPesca, &listaGiocatori->carteGiocatore);
-                guiStampaCarta(mazzoPesca);
-
+                pescaCarta(&giocatore->carteGiocatore, &mazzoPesca);
                 //listaGiocatori = listaGiocatori->next; // Scorre la lista
                 turno++;
             break;
             case COMANDO_MOSTRA_CARTE:
                 // TODO: scegli quali di queste carte mostrare (o meglio ancora tutte e tre assieme affiancate)
-                guiStampaMazzo(listaGiocatori->carteGiocatore);
-                guiStampaMazzo(listaGiocatori->carteAulaGiocatore);
-                guiStampaMazzo(listaGiocatori->carteBonusMalusGiocatore);
+                guiStampaMazzo(giocatore->carteGiocatore);
+                guiStampaMazzo(giocatore->carteAulaGiocatore);
+                guiStampaMazzo(giocatore->carteBonusMalusGiocatore);
             break;
             case COMANDO_ESCI:
                 // TODO: tutta la roba del salvataggio lol
@@ -71,32 +70,6 @@ void gioco () {
         }
         premiInvioPerContinuare();
     }
-}
-
-/** Una funzione che gioca una carta a scelta del giocatore
- *
- */
-void giocaCarta (Giocatore *giocatore) {
-    // Pulisce lo schermo e stampa il mazzo
-    pulisciSchermo();
-    guiStampaMazzo(giocatore->carteGiocatore);
-
-    // L'utente inserisce una carta
-    int scelta, nCarte = contaCarte(giocatore->carteGiocatore);
-    do {
-        printf("\n"
-               "Scegli una carta: ");
-        scanf("%d", &scelta);
-
-        // Messaggio di errore se la carta scelta non è corretta
-        if (scelta > nCarte)
-            printf("\n"
-                "Hai inserito un numero invalido!");
-    } while (scelta <= nCarte && scelta > 0);
-
-    // Parte da uno nel contare
-    for (int i = 0; i < scelta; ++i)
-        giocatore = giocatore->next;
 }
 
 /** Funzione ineccepibile che fornisce una scelta di cose che può fare il giocatore e ritorna l'opzione scelta.
@@ -112,4 +85,50 @@ int scegliAzione () {
     flushInputBuffer();
 
     return scelta;
+}
+
+/** Una funzione che gioca una carta a scelta del giocatore
+ *
+ */
+void giocaCarta (Giocatore *giocatore) {
+    // Pulisce lo schermo e stampa il mazzo
+    pulisciSchermo();
+    guiStampaMazzo(giocatore->carteGiocatore);
+
+    // L'utente inserisce una carta
+    int scelta, nCarte = contaCarte(giocatore->carteGiocatore);
+    do {
+        printf("\n"
+               "Scegli una carta:"
+               CURSORE_INPUT);
+        scanf("%d", &scelta);
+
+        // Messaggio di errore se la carta scelta non è corretta
+        if (scelta > nCarte)
+            printf("\n"
+                "Hai inserito un numero invalido!"
+                CURSORE_INPUT);
+    } while (scelta <= nCarte && scelta > 0);
+
+    // Parte da uno nel contare
+    for (int i = 0; i < scelta; ++i)
+        giocatore = giocatore->next;
+}
+
+/** Gestisce gli effetti della carta, e in base a essi, cambia il seguito della partita
+ * In pratica è la parte giocabile del gioco.
+ *
+ */
+void gestioneEffetti () {
+
+}
+
+/** Piccola funzione che fa pescare una carta
+ *
+ */
+void pescaCarta (Carta **mazzoGiocatore, Carta **mazzoPesca) {
+    printf("Hai pescato:");
+    spostaCarta(mazzoPesca, *mazzoPesca, mazzoGiocatore);
+    guiStampaCarta(*mazzoPesca);
+    premiInvioPerContinuare();
 }

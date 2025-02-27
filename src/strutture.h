@@ -14,7 +14,7 @@
 #define NOME_LENGTH 31 //32 char utili
 #define NOME_LENGTH_STR "31"
 #define DESC_CARTA_LENGTH 255 //256 char totali per la descrizione della carta
-#define N_CARTE_PER_GIOCATORE 5
+#define CARTE_DA_DISTRIBUIRE 5
 
 // A essere sincero non so se sono necessarie, comunque le ho fatte giusto per comodità
 // Azione
@@ -90,8 +90,8 @@ Giocatore *allocaGiocatori (Giocatore *listaGiocatori, int nGiocatori);
 int creaGiocatori(Giocatore **listaGiocatori);
 // Gestione carte
 Carta *allocaCarta ();
-int contaCarte (Carta *c);
-Carta *copiaCarta (Carta *c, int nCopie);
+int contaCarte (Carta *mazzo);
+Carta *copiaCarta (Carta *carta, int nCopie);
 Carta *dividiMazzoMatricola (Carta **mazzo);
 void shuffleCarte (Carta **mazzoOriginale);
 void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput);

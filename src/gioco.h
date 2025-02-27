@@ -21,6 +21,8 @@
 
 void gioco ();
 void giocaCarta (Giocatore *giocatore);
+void gestioneEffetti ();
+void pescaCarta (Carta **mazzoGiocatore, Carta **mazzoPesca);
 int scegliAzione ();
 
 #endif //GIOCO_H
