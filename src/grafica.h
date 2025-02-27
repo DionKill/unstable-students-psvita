@@ -10,21 +10,20 @@
 #include "colori-ansi.h"
 #include "strutture.h"
 
-#define CURSORE_INPUT "\n>: "
-
 // GUI
 void guiMenu ();
 void guiScegliAzione ();
 void guiStampaMazzo (Carta *mazzoCarte);
-void guiStampaCarta (Carta *carta);
-void guiHeader (int turno, char nomeGiocatore[]);
+void guiStampaCarta (Carta *carta, bool dettagli);
+void guiHeader (int turno, int nGiocatori, char nomeGiocatore[]);
 
-// Da enum a stringa
+// Stringhe
 void strAzione(char **str, Azione azione);
 void strTipologiaCarta(char **str, TipologiaCarta tipologia);
 void strTargetGiocatori(char **str, TargetGiocatori target);
 void strQuando(char **str, Quando quando);
 void strPuoEssereGiocato (char **str, bool puoEssereGiocato); // Disessere giocati
+void strColoreGiocatore (char **str, int giocatore);
 
 // Misc
 void pulisciSchermo ();

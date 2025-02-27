@@ -9,9 +9,9 @@
  */
 void gioco () {
     // TODO: salvataggio e funzione che popola le cose se è una partita nuova
-    // Crea i giocatori e li popola
-    Giocatore *giocatore = NULL;
-    int nGiocatori = creaGiocatori(&giocatore);
+    // Crea la lista dei giocatori e li popola
+    Giocatore *listaGiocatori = NULL;
+    int nGiocatori = creaGiocatori(&listaGiocatori);
 
     // Crea il mazzo di carte, e lo popola usando il file mazzo.txt
     Carta *mazzoPesca = NULL;
@@ -30,17 +30,16 @@ void gioco () {
     shuffleCarte(&mazzoMatricole);
 
     // Distribuisce le carte a ogni giocatore, dal mazzo delle matricole e quello di pesca
-    distribuisciCarte(nGiocatori, giocatore, &mazzoMatricole);
-    distribuisciCarte(CARTE_DA_DISTRIBUIRE * nGiocatori, giocatore, &mazzoPesca);
+    distribuisciCarte(nGiocatori, listaGiocatori, &mazzoMatricole);
+    distribuisciCarte(CARTE_DA_DISTRIBUIRE * nGiocatori, listaGiocatori, &mazzoPesca);
 
     // Gestione dei turni
-    int turno = 0;
+    int turno = 1;
 
     // TODO: Funzione che controlla quando vinci così la metto nella condizione del main
     // Questo loop controlla le scelte del giocatore. È abbastanza self-explanatory
     while (turno < 5) {
-        guiHeader(turno, giocatore->nome);
-        pescaCarta(&giocatore->carteGiocatore, &mazzoPesca);
+        guiHeader(turno, nGiocatori, listaGiocatori->nome);
 
         int scelta = scegliAzione();
 
@@ -48,20 +47,20 @@ void gioco () {
         switch (scelta) {
             case COMANDO_GIOCA_CARTA:
                 // TODO: gioca una carta
-
-                //listaGiocatori = listaGiocatori->next; // Scorre la lista
-                turno++;
+                gestioneTurni(&turno, &listaGiocatori, &mazzoPesca);
             break;
             case COMANDO_PESCA_CARTA:
-                pescaCarta(&giocatore->carteGiocatore, &mazzoPesca);
-                //listaGiocatori = listaGiocatori->next; // Scorre la lista
-                turno++;
+                pescaCarta(&listaGiocatori->carteGiocatore, &mazzoPesca);
+                gestioneTurni(&turno, &listaGiocatori, &mazzoPesca);
             break;
             case COMANDO_MOSTRA_CARTE:
                 // TODO: scegli quali di queste carte mostrare (o meglio ancora tutte e tre assieme affiancate)
-                guiStampaMazzo(giocatore->carteGiocatore);
-                guiStampaMazzo(giocatore->carteAulaGiocatore);
-                guiStampaMazzo(giocatore->carteBonusMalusGiocatore);
+                guiStampaMazzo(listaGiocatori->carteGiocatore);
+                guiStampaMazzo(listaGiocatori->carteAulaGiocatore);
+                guiStampaMazzo(listaGiocatori->carteBonusMalusGiocatore);
+                premiInvioPerContinuare();
+                pulisciSchermo();
+                guiHeader(turno, nGiocatori, listaGiocatori->nome);
             break;
             case COMANDO_ESCI:
                 // TODO: tutta la roba del salvataggio lol
@@ -72,17 +71,25 @@ void gioco () {
     }
 }
 
+void gestioneTurni (int *turno, Giocatore **listaGiocatori, Carta **mazzoPesca) {
+    pescaCarta(&(*listaGiocatori)->carteGiocatore, mazzoPesca);
+
+    //listaGiocatori = listaGiocatori->next; // Scorre la lista
+    *turno++;
+}
+
 /** Funzione ineccepibile che fornisce una scelta di cose che può fare il giocatore e ritorna l'opzione scelta.
  *
  * @return La scelta del giocatore.
  */
 int scegliAzione () {
-    // Stampa il menù di scelta
-    guiScegliAzione();
-
     int scelta;
-    scanf("%d", &scelta);
-    flushInputBuffer();
+    do {
+        guiScegliAzione(); // Stampa il menù di scelta
+
+        scanf("%d", &scelta);
+        flushInputBuffer();
+    } while (scelta < 0 || scelta > COMANDO_ESCI);
 
     return scelta;
 }
@@ -119,7 +126,7 @@ void giocaCarta (Giocatore *giocatore) {
  * In pratica è la parte giocabile del gioco.
  *
  */
-void gestioneEffetti () {
+void gestioneEffetti (Giocatore *listaGiocatori, Carta *mazzoPesca) {
 
 }
 
@@ -127,8 +134,11 @@ void gestioneEffetti () {
  *
  */
 void pescaCarta (Carta **mazzoGiocatore, Carta **mazzoPesca) {
-    printf("Hai pescato:");
+    printf("\n"
+           "Hai pescato:"
+           "\n");
     spostaCarta(mazzoPesca, *mazzoPesca, mazzoGiocatore);
-    guiStampaCarta(*mazzoPesca);
+    guiStampaCarta(*mazzoPesca, false);
     premiInvioPerContinuare();
+    pulisciSchermo();
 }

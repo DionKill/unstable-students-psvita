@@ -7,6 +7,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "colori-ansi.h"
+
+#define CURSORE_INPUT "\n>: "
 
 void premiInvioPerContinuare ();
 void flushInputBuffer ();

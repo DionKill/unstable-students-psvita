@@ -9,8 +9,12 @@
  */
 void premiInvioPerContinuare () {
     printf("\n"
-           "Premi INVIO per continuare"
-           "\n");
+           "Premi "
+           BGRN
+           "INVIO"
+           RESET
+           " per continuare"
+           CURSORE_INPUT);
     flushInputBuffer();
 }
 

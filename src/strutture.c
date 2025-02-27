@@ -4,6 +4,8 @@
 
 #include "strutture.h"
 
+#include "grafica.h"
+
 /*--- Gestione dei giocatori ---*/
 
 /** Inserisce la testa come prossimo nodo in coda, per poter ciclare all'infinito, creando una lista circolare
@@ -37,11 +39,21 @@ Giocatore *allocaGiocatori (Giocatore *listaGiocatori, int nGiocatori) {
     // Continua il codice, mettendo subito il prossimo nodo a NULL
     listaGiocatori->next = NULL;
 
+    char *str; // Stringa che contiene il colore del giocatore
+    strColoreGiocatore(&str, nGiocatori);
+
     // Chiede all'utente il nome finché non è valido, il numero viene calcolato (+4 byte di memoria risparmiati)
     do {
         printf ("\n"
-                "Inserisci il nome del giocatore %d: ", nGiocatori); // Spoiler non funziona bene
+                "Inserisci il nome del giocatore ");
+        printf("%s"
+            "%d"
+            RESET
+            CURSORE_INPUT
+            , str, nGiocatori);
+
         scanf(" %" NOME_LENGTH_STR "[^\n]s", listaGiocatori->nome);
+
         flushInputBuffer();
     } while (strlen(listaGiocatori->nome) < 0);
 
@@ -59,15 +71,17 @@ Giocatore *allocaGiocatori (Giocatore *listaGiocatori, int nGiocatori) {
 int creaGiocatori(Giocatore **listaGiocatori) {
     int nGiocatori;
 
-    printf("Quanti giocatori giocheranno?");
     do {
         printf("\n"
-        "[2-4]: ");
+            "Quanti giocatori giocheranno? [2-4]:"
+            CURSORE_INPUT);
+
         scanf("%d", &nGiocatori);
+        flushInputBuffer();
+
         if (nGiocatori < 2 || nGiocatori > 4 )
             printf("\n"
                 "Il valore inserito non e' valido!");
-    flushInputBuffer();
     } while (nGiocatori < 2 || nGiocatori > 4);
 
     // Alloca lo spazio in memoria e li aggiunge in una lista di tipo Giocatore

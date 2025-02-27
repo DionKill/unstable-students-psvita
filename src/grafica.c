@@ -39,7 +39,10 @@ void guiMenu () {
 /** Stampa una riga che segnala alcune statistiche
  * TODO: cose che ha senso mostrare
  */
-void guiHeader (int turno, char nomeGiocatore[]) {
+void guiHeader (int turno, int nGiocatori, char nomeGiocatore[]) {
+    char *str;
+    strColoreGiocatore(&str, turno % nGiocatori);
+
     pulisciSchermo();
     printf(WHTB
         "\n"
@@ -53,9 +56,11 @@ void guiHeader (int turno, char nomeGiocatore[]) {
         YEL
         "Giocatore: "
         RESET
-        "%s"
+        "%s" // Colore
+        "%s" // Nome giocatore
+        RESET
         "\n",
-        turno, nomeGiocatore);
+        turno, str, nomeGiocatore);
 }
 
 /** Dato un mazzo, stampa le carte in esso contenute con tutti i dettagli
@@ -63,62 +68,73 @@ void guiHeader (int turno, char nomeGiocatore[]) {
  * @param mazzoCarte Il mazzo di carte
  */
 void guiStampaMazzo (Carta *mazzoCarte) {
-    int i = 0;
-
     while (mazzoCarte != NULL) {
         // Stringa che verrà modificata per stampare il tipo come stringa
         printf("\n"
             "-----");
-        guiStampaCarta(mazzoCarte);
+        guiStampaCarta(mazzoCarte, true);
         mazzoCarte = mazzoCarte->next;
-        i++;
     }
     printf("\n"
     "-----");
-    printf("\n" YELHB "TOTALE CARTE: %d" RESET "\n", i);
 }
 
 /** Stampa una singola carta
  *
  * @param carta La carta da stampare
+ * @param dettagli Booleano che, se vero, mostra più dettagli sulla carta
  */
-void guiStampaCarta (Carta *carta) {
+void guiStampaCarta (Carta *carta, bool dettagli) {
     char *str = NULL;
 
     printf("\n"
-        "Nome: %s", carta->nome);
+        BHBLU
+        "Nome: "
+        RESET UNDERLINE
+        "%s"
+        RESET, carta->nome);
+
     printf(" | "
-        "Descrizione: %s", carta->descrizione);
+        BHBLU
+        "Descrizione: "
+        RESET UNDERLINE
+        "%s"
+        RESET, carta->descrizione);
 
     strTipologiaCarta(&str, carta->tipo);
     printf("\n"
-        "Tipo: %s", str);
+        BMAG
+        "Tipo: "
+        RESET
+        "%s"
+        "\n", str);
 
-    printf("\n"
-        "Numero di effetti: %d", carta->nEffetti);
+    if (dettagli) {
+        printf("Numero di effetti: %d", carta->nEffetti);
 
-    for (int i = 0; i < carta->nEffetti; i++) {
-        strAzione(&str, carta->effetto[i].azione);
+        for (int i = 0; i < carta->nEffetti; i++) {
+            strAzione(&str, carta->effetto[i].azione);
+            printf("\n"
+                "\t-<{ Azione: %s", str);
+
+            strTargetGiocatori(&str, carta->effetto[i].targetGiocatori);
+            printf(" | "
+                "Target: %s", str);
+
+            strTipologiaCarta(&str, carta->effetto[i].tipo);
+            printf(" | "
+                "Tipo: %s }>-", str);
+        }
+
+        strQuando(&str, carta->quandoEffetto);
         printf("\n"
-            "\t-<{ Azione: %s", str);
+            "Quando: %s", str);
 
-        strTargetGiocatori(&str, carta->effetto[i].targetGiocatori);
-        printf("\t| "
-            "Target: %s", str);
-
-        strTipologiaCarta(&str, carta->effetto[i].tipo);
-        printf("\t| "
-            "Tipo: %s }>-", str);
+        strPuoEssereGiocato(&str, carta->puoEssereGiocato);
+        printf( " | "
+            "Puo' essere giocato: %s" // Disessere giocati
+            , str);
     }
-
-    strQuando(&str, carta->quandoEffetto);
-    printf("\n"
-        "Quando: %s", str);
-
-    strPuoEssereGiocato(&str, carta->puoEssereGiocato);
-    printf( " | "
-        "Puo' essere giocato: %s" // Disessere giocati
-        , str);
 }
 
 /** Mostra il menù di scelta delle carte.
@@ -271,6 +287,24 @@ void strQuando(char **str, Quando quando) {
 void strPuoEssereGiocato (char **str, bool puoEssereGiocato) {
     if (puoEssereGiocato) *str = STR_TRUE;
     else *str = STR_FALSE;
+}
+
+void strColoreGiocatore (char **str, int giocatore) {
+    switch (giocatore) {
+        case 1:
+            *str = RED;
+        break;
+        case 2:
+            *str = BLU;
+        break;
+        case 3:
+            *str = GRN;
+        break;
+        case 4:
+            *str = YEL;
+        break;
+        default: *str = HWHT; // Per ovviare ai warning, è inutile altrimenti
+    }
 }
 
 /** Pulisce lo schermo.

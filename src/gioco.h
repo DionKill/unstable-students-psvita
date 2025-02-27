@@ -15,7 +15,7 @@
 #define COMANDO_GIOCA_CARTA 1
 #define COMANDO_PESCA_CARTA 2
 #define COMANDO_MOSTRA_CARTE 3
-#define COMANDO_ESCI 4
+#define COMANDO_ESCI 4 // Sempre l'ultima opzione disponibile
 #define COMANDO_CONFERMA 13 // Invio
 #define COMANDO_ANNULLA 27 // ESC
 
@@ -23,6 +23,7 @@ void gioco ();
 void giocaCarta (Giocatore *giocatore);
 void gestioneEffetti ();
 void pescaCarta (Carta **mazzoGiocatore, Carta **mazzoPesca);
+void gestioneTurni (int *turno, Giocatore **listaGiocatori, Carta **mazzoPesca);
 int scegliAzione ();
 
 #endif //GIOCO_H
