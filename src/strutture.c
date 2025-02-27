@@ -45,17 +45,17 @@ Giocatore *allocaGiocatori (Giocatore *listaGiocatori, int nGiocatori) {
     // Chiede all'utente il nome finché non è valido, il numero viene calcolato (+4 byte di memoria risparmiati)
     do {
         printf ("\n"
-                "Inserisci il nome del giocatore ");
-        printf("%s"
-            "%d"
+            "Inserisci il nome del giocatore %s%d:"
             RESET
             CURSORE_INPUT
-            , str, nGiocatori);
+            "%s", str, nGiocatori, str); // Colora il nome del giocatore
 
         scanf(" %" NOME_LENGTH_STR "[^\n]s", listaGiocatori->nome);
 
+        printf(RESET);
+
         flushInputBuffer();
-    } while (strlen(listaGiocatori->nome) < 0);
+    } while (strlen(listaGiocatori->nome) == 0);
 
     // Si richiama da solo finché non ha finito di aggiungere i giocatori
     listaGiocatori->next = allocaGiocatori(listaGiocatori->next, nGiocatori - 1);

@@ -39,6 +39,7 @@ void gioco () {
     // TODO: Funzione che controlla quando vinci così la metto nella condizione del main
     // Questo loop controlla le scelte del giocatore. È abbastanza self-explanatory
     while (turno < 5) {
+        pulisciSchermo();
         guiHeader(turno, nGiocatori, listaGiocatori->nome);
 
         int scelta = scegliAzione();
@@ -47,20 +48,18 @@ void gioco () {
         switch (scelta) {
             case COMANDO_GIOCA_CARTA:
                 // TODO: gioca una carta
-                gestioneTurni(&turno, &listaGiocatori, &mazzoPesca);
+                giocaCarta(listaGiocatori);
+                avantiTurno(&turno, &listaGiocatori, &mazzoPesca);
             break;
             case COMANDO_PESCA_CARTA:
                 pescaCarta(&listaGiocatori->carteGiocatore, &mazzoPesca);
-                gestioneTurni(&turno, &listaGiocatori, &mazzoPesca);
+                avantiTurno(&turno, &listaGiocatori, &mazzoPesca);
             break;
             case COMANDO_MOSTRA_CARTE:
                 // TODO: scegli quali di queste carte mostrare (o meglio ancora tutte e tre assieme affiancate)
                 guiStampaMazzo(listaGiocatori->carteGiocatore);
                 guiStampaMazzo(listaGiocatori->carteAulaGiocatore);
                 guiStampaMazzo(listaGiocatori->carteBonusMalusGiocatore);
-                premiInvioPerContinuare();
-                pulisciSchermo();
-                guiHeader(turno, nGiocatori, listaGiocatori->nome);
             break;
             case COMANDO_ESCI:
                 // TODO: tutta la roba del salvataggio lol
@@ -71,7 +70,7 @@ void gioco () {
     }
 }
 
-void gestioneTurni (int *turno, Giocatore **listaGiocatori, Carta **mazzoPesca) {
+void avantiTurno (int *turno, Giocatore **listaGiocatori, Carta **mazzoPesca) {
     pescaCarta(&(*listaGiocatori)->carteGiocatore, mazzoPesca);
 
     //listaGiocatori = listaGiocatori->next; // Scorre la lista
@@ -94,7 +93,7 @@ int scegliAzione () {
     return scelta;
 }
 
-/** Una funzione che gioca una carta a scelta del giocatore
+/** Una funzione che gioca una carta scelta del giocatore
  *
  */
 void giocaCarta (Giocatore *giocatore) {

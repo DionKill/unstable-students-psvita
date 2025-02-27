@@ -49,13 +49,13 @@ void guiHeader (int turno, int nGiocatori, char nomeGiocatore[]) {
         RESET
         "\t"
         CYN
-        "Turno: "
-        RESET
+        "Turno"
+        RESET ": "
         "%d"
         "\t"
         YEL
-        "Giocatore: "
-        RESET
+        "Giocatore"
+        RESET ": "
         "%s" // Colore
         "%s" // Nome giocatore
         RESET
