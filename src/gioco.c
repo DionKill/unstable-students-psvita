@@ -77,8 +77,26 @@ void gioco () {
  *
  */
 void giocaCarta (Giocatore *giocatore) {
-    int scelta;
+    // Pulisce lo schermo e stampa il mazzo
+    pulisciSchermo();
+    guiStampaMazzo(giocatore->carteGiocatore);
 
+    // L'utente inserisce una carta
+    int scelta, nCarte = contaCarte(giocatore->carteGiocatore);
+    do {
+        printf("\n"
+               "Scegli una carta: ");
+        scanf("%d", &scelta);
+
+        // Messaggio di errore se la carta scelta non è corretta
+        if (scelta > nCarte)
+            printf("\n"
+                "Hai inserito un numero invalido!");
+    } while (scelta <= nCarte && scelta > 0);
+
+    // Parte da uno nel contare
+    for (int i = 0; i < scelta; ++i)
+        giocatore = giocatore->next;
 }
 
 /** Funzione ineccepibile che fornisce una scelta di cose che può fare il giocatore e ritorna l'opzione scelta.

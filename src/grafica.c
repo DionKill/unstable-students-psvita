@@ -138,10 +138,6 @@ void guiScegliAzione () {
         "\n>: ");
 }
 
-void guiCartaDaGiocare () {
-
-}
-
 /** Modifica il parametro str con l'azione in entrata
  *
  * @param str La stringa da modificare
