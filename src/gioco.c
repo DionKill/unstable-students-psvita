@@ -33,6 +33,9 @@ void gioco () {
     distribuisciCarte(nGiocatori, listaGiocatori, &mazzoMatricole);
     distribuisciCarte(CARTE_DA_DISTRIBUIRE * nGiocatori, listaGiocatori, &mazzoPesca);
 
+    // Rimuove il mazzo delle matricole
+    free(mazzoMatricole);
+
     // Gestione dei turni
     int turno = 1;
 
@@ -66,7 +69,7 @@ void gioco () {
                 return;
             default: break; // Aggiunto solo perché CLion dava warning
         }
-        premiInvioPerContinuare();
+        salvataggio(nGiocatori, listaGiocatori, mazzoPesca, mazzoScarti, mazzoAulaStudio, SALVATAGGIO);
     }
 }
 

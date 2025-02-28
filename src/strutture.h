@@ -11,7 +11,7 @@
 #include <string.h>
 #include "misc.h"
 
-#define NOME_LENGTH 31 //32 char utili
+#define NOME_LENGTH 31 //32 char totali
 #define NOME_LENGTH_STR "31"
 #define DESC_CARTA_LENGTH 255 //256 char totali per la descrizione della carta
 #define CARTE_DA_DISTRIBUIRE 5
