@@ -8,35 +8,25 @@
  *
  */
 void gioco () {
-    // TODO: salvataggio e funzione che popola le cose se è una partita nuova
     // Crea la lista dei giocatori e li popola
     Giocatore *listaGiocatori = NULL;
-    int nGiocatori = creaGiocatori(&listaGiocatori);
+    int nGiocatori;
 
-    // Crea il mazzo di carte, e lo popola usando il file mazzo.txt
+    // Crea il mazzo di carte, popolato usando il file mazzo.txt
     Carta *mazzoPesca = NULL;
-    leggiCarteDaFile(&mazzoPesca);
 
     // Crea il mazzo delle carte scartate (sacrtate) e dell'aula studio
     Carta *mazzoScarti = NULL; // Sacrate (per pochi)
     Carta *mazzoAulaStudio = NULL;
 
-    // Divide il mazzo da pesca originale, creando il mazzo delle matricole
+    // Mazzo che contiene le matricole che verranno distribuite a tutti i giocatori
     Carta *mazzoMatricole = NULL;
-    mazzoMatricole = dividiMazzoMatricola(&mazzoPesca); // Crea il mazzo matricola partendo dal mazzo da pesca
 
-    // Mischia i due mazzi appena creati
-    shuffleCarte(&mazzoPesca);
-    shuffleCarte(&mazzoMatricole);
+    creaNuovaPartita(&nGiocatori, &listaGiocatori, &mazzoPesca, &mazzoScarti, &mazzoAulaStudio);
 
     // Distribuisce le carte a ogni giocatore, dal mazzo delle matricole e quello di pesca
-    distribuisciCarte(nGiocatori, listaGiocatori, &mazzoMatricole);
-    distribuisciCarte(CARTE_DA_DISTRIBUIRE * nGiocatori, listaGiocatori, &mazzoPesca);
 
-    caricamento(&nGiocatori, &listaGiocatori, &mazzoPesca, &mazzoScarti, &mazzoAulaStudio, SALVATAGGIO);
-
-    // Rimuove il mazzo delle matricole
-    free(mazzoMatricole);
+    //caricamento(&nGiocatori, &listaGiocatori, &mazzoPesca, &mazzoScarti, &mazzoAulaStudio, SALVATAGGIO);
 
     // Gestione dei turni
     int turno = 1;
@@ -65,6 +55,7 @@ void gioco () {
                 guiStampaMazzo(listaGiocatori->carteGiocatore);
                 guiStampaMazzo(listaGiocatori->carteAulaGiocatore);
                 guiStampaMazzo(listaGiocatori->carteBonusMalusGiocatore);
+                premiInvioPerContinuare();
             break;
             case COMANDO_ESCI:
                 // TODO: tutta la roba del salvataggio lol
@@ -73,6 +64,35 @@ void gioco () {
         }
         salvataggio(nGiocatori, listaGiocatori, mazzoPesca, mazzoScarti, mazzoAulaStudio, SALVATAGGIO);
     }
+}
+
+/** Crea una nuova partita, allocando ogni cosa e caricando dal file
+ *
+ * @param nGiocatori Numero di giocatori per la partita
+ * @param listaGiocatori La lista dinamica che contiene tutti i giocatori
+ * @param mazzoPesca Il mazzo delle carte che vanno pescate
+ * @param mazzoScarti Il mazzo degli scarti
+ * @param mazzoAulaStudio Il mazzo delle carte STUDENTE che vengono buttate qui quando giocate
+ */
+void creaNuovaPartita (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesca,
+                       Carta **mazzoScarti, Carta **mazzoAulaStudio) {
+    // Crea i giocatori e restituisce l'intero che contiene il numero dei giocatori
+    *nGiocatori = creaGiocatori(listaGiocatori);
+
+    // Crea il mazzo di carte, e lo popola usando il file mazzo.txt
+    leggiCarteDaFile(mazzoPesca);
+    Carta *mazzoMatricole = dividiMazzoMatricola(mazzoPesca); // Crea il mazzo matricola partendo dal mazzo da pesca
+
+    // Mischia i due mazzi appena creati
+    shuffleCarte(mazzoPesca);
+    shuffleCarte(&mazzoMatricole);
+
+    // Distribuisce le carte a ogni giocatore
+    distribuisciCarte(*nGiocatori, *listaGiocatori, &mazzoMatricole); // Distribuisce le matricole
+    distribuisciCarte(CARTE_DA_DISTRIBUIRE * *nGiocatori, *listaGiocatori, mazzoPesca); // Distribuisce il resto
+
+    // Rimuove il mazzo delle matricole, che non servirà più
+    free(mazzoMatricole);
 }
 
 void avantiTurno (int *turno, Giocatore **listaGiocatori, Carta **mazzoPesca) {
