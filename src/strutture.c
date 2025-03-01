@@ -22,6 +22,25 @@ Giocatore *rendiListaGiocatoriCircolare (Giocatore *listaGiocatori) {
     return listaGiocatori;
 }
 
+/** Una funzione migliorata per l'allocazione dei giocatori in memoria
+ * Rispetto alla soluzione con un singolo puntatore, questa può scorrere in avanti senza dover tenere un puntatore
+ * all'elemento precedente della lista, quindi è anche più semplice da implementare (ma comunque difficile da capire)
+ *
+ * @param giocatore Il giocatore da allocare
+ */
+void allocaGiocatoriBene (Giocatore **giocatore) {
+    // Crea un doppio puntatore temporaneo al giocatore.
+    Giocatore **tmp = giocatore;
+
+    // Finché tmp esiste, va alla fine della lista
+    while (*tmp != NULL)
+        *tmp = (*tmp)->next;
+
+    // Alloca lo spazio e nel peggiore dei casi esce con un errore
+    *tmp = (Giocatore *) malloc(sizeof(Giocatore));
+    if (*tmp == NULL) exit(EXIT_FAILURE);
+}
+
 /** Funzione ricorsiva per allocare la lista di Giocatori in memoria.
  *
  * @param listaGiocatori Il giocatore attuale

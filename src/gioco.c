@@ -33,6 +33,8 @@ void gioco () {
     distribuisciCarte(nGiocatori, listaGiocatori, &mazzoMatricole);
     distribuisciCarte(CARTE_DA_DISTRIBUIRE * nGiocatori, listaGiocatori, &mazzoPesca);
 
+    caricamento(&nGiocatori, &listaGiocatori, &mazzoPesca, &mazzoScarti, &mazzoAulaStudio, SALVATAGGIO);
+
     // Rimuove il mazzo delle matricole
     free(mazzoMatricole);
 

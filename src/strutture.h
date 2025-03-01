@@ -86,6 +86,7 @@ typedef struct effetto {
 
 // Gestione giocatori (alcune di queste includono inserimento di testo, ma era inevitabile)
 Giocatore *rendiListaGiocatoriCircolare (Giocatore *listaGiocatori);
+void allocaGiocatoriBene (Giocatore **giocatore);
 Giocatore *allocaGiocatori (Giocatore *listaGiocatori, int nGiocatori);
 int creaGiocatori(Giocatore **listaGiocatori);
 // Gestione carte

@@ -100,9 +100,14 @@ void salvataggio (int nGiocatori, Giocatore *listaGiocatori, Carta *mazzoPesca,
 
         int length = contaCarte(listaGiocatori->carteGiocatore); // Int che ha la lunghezza della lista
         fwrite(&length, sizeof(int), 1, fp);
-
         salvataggioMazzo(listaGiocatori->carteGiocatore, &fp);
+
+        length = contaCarte(listaGiocatori->carteAulaGiocatore); // Int che ha la lunghezza della lista
+        fwrite(&length, sizeof(int), 1, fp);
         salvataggioMazzo(listaGiocatori->carteAulaGiocatore, &fp);
+
+        length = contaCarte(listaGiocatori->carteBonusMalusGiocatore); // Int che ha la lunghezza della lista
+        fwrite(&length, sizeof(int), 1, fp);
         salvataggioMazzo(listaGiocatori->carteBonusMalusGiocatore, &fp);
     }
 
@@ -123,7 +128,7 @@ void salvataggio (int nGiocatori, Giocatore *listaGiocatori, Carta *mazzoPesca,
     fclose(fp);
 }
 
-/** Salva un mazzo intero (o anche una singola carta) su file
+/** Salva un intero mazzo (o anche una singola carta) su file
  *
  * @param mazzo Il mazzo da salvare su file
  * @param fp Il puntatore a file, che va modificato
@@ -147,4 +152,95 @@ void salvataggioMazzo (Carta *mazzo, FILE **fp) {
 
         mazzo = mazzo->next; // Segue alla prossima carta
     }
+}
+
+/** Funzione responsabile del caricamento dei dati da file.
+ *
+ * @param nGiocatori Il numero di giocatori
+ * @param listaGiocatori La lista dei giocatori da salvare
+ * @param mazzoPesca Il mazzo da pesca
+ * @param mazzoScarti Il mazzo delle carte che vengono giocate
+ * @param mazzoAulaStudio Il mazzo delle carte laureando / studente che vengono giocate (credo)
+ * @param salvataggio Il file da aprire (può essere savegame.sav oppure un file dato all'apertura del programma)
+ */
+void caricamento (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesca,
+                  Carta **mazzoScarti, Carta **mazzoAulaStudio, char *salvataggio) {
+    // Apertura del file
+    FILE *fp = apriFile(salvataggio, "rb");
+    int length; // Int che ha contiene lunghezza della lista da leggere
+
+    // Legge il numero dei giocatori dal file
+    fread(nGiocatori, sizeof(int), 1, fp);
+
+    Giocatore **tmpGiocatore = listaGiocatori;
+    // Alloca lo spazio in memoria per i giocatori, e legge le carte dal file aggiungendole ai mazzi del giocatore
+    for (int i = 0; i < *nGiocatori; i++) {
+        allocaGiocatoriBene(tmpGiocatore);
+        fread(&(*tmpGiocatore)->nome, sizeof((*tmpGiocatore)->nome), 1, fp);
+
+        fread(&length, sizeof(int), 1, fp);
+        caricamentoMazzo(length, &(*tmpGiocatore)->carteGiocatore, &fp);
+
+        fread(&length, sizeof(int), 1, fp);
+        caricamentoMazzo(length, &(*tmpGiocatore)->carteAulaGiocatore, &fp);
+
+        fread(&length, sizeof(int), 1, fp);
+        caricamentoMazzo(length, &(*tmpGiocatore)->carteBonusMalusGiocatore, &fp);
+
+        *tmpGiocatore = (*tmpGiocatore)->next;
+    }
+
+    // Legge la grandezza di ogni altro mazzo rimanente, seguito da tutte le carte di quel mazzo
+    fread(&length, sizeof(int), 1, fp);
+    caricamentoMazzo(length, mazzoPesca, &fp);
+
+    fread(&length, sizeof(int), 1, fp);
+    caricamentoMazzo(length, mazzoScarti, &fp);
+
+    fread(&length, sizeof(int), 1, fp);
+    caricamentoMazzo(length, mazzoAulaStudio, &fp);
+
+    // Chiude il file
+    fclose(fp);
+}
+
+/** Carica un intero mazzo (o anche una singola carta) da file
+ *
+ * @param size La lunghezza della lista. Serve per poter allocare nuovamente spazio in memoria
+ * @param mazzo Il mazzo da caricare dal file
+ * @param fp Il puntatore a file, che va modificato
+ */
+void caricamentoMazzo (int size, Carta **mazzo, FILE **fp) {
+    // Alloca la prima carta nel mazzo
+    *mazzo = allocaCarta();
+    // Carte temporanee per scorrere il mazzo
+    Carta *tmp = *mazzo;
+    Carta *tmpPre = NULL; // Serve per non scorrere il mazzo di nuovo
+
+    for (int i = 0; i < size; i++) {
+        fread(tmp->nome, sizeof(tmp->nome), 1, *fp); // Legge il nome
+        fread(tmp->descrizione, sizeof(tmp->descrizione), 1, *fp); // Legge la descrizione
+        fread(&tmp->tipo, sizeof(TipologiaCarta), 1, *fp); // Legge il tipo della carta
+        fread(&tmp->nEffetti, sizeof(tmp->nEffetti), 1, *fp); // Legge il numero degli effetti
+
+        // Se il numero degli effetti è maggiore di 0, alloca l'array dinamico
+        if (tmp->nEffetti > 0)
+            tmp->effetto = (Effetto *) malloc(sizeof(Effetto) * tmp->nEffetti);
+
+        // Se degli effetti sono presenti, scrive i loro attributi sul file
+        for (int j = 0; j < tmp->nEffetti; j++) {
+            fread(&tmp->effetto[j].azione, sizeof(Azione), 1, *fp); // Scrive l'azione
+            fread(&tmp->effetto[j].targetGiocatori, sizeof(TargetGiocatori), 1, *fp); // Scrive il target
+            fread(&tmp->effetto[j].tipo, sizeof(TipologiaCarta), 1, *fp); // Scrive la tipologia
+        }
+
+        fread(&tmp->quandoEffetto, sizeof(Quando), 1, *fp); // Quando la carta effettua
+        fread(&tmp->puoEssereGiocato, sizeof(bool), 1, *fp); // Disessere giocati
+
+        tmpPre = tmp; // La carta tmpPre è un puntatore alla carta precedente (serve per la free)
+        tmp = tmp->next; // Segue alla prossima carta
+    }
+    // Dato che si alloca sempre la prossima carta anche quando è finito
+    free(&tmpPre->next);
+    tmp->next = NULL;
 }
