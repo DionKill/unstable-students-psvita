@@ -19,5 +19,6 @@ void salvataggio (int nGiocatori, Giocatore *listaGiocatori, Carta *mazzoPesca,
 void salvataggioMazzo (Carta *mazzo, FILE **fp);
 void caricamento (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesca,
                   Carta **mazzoScarti, Carta **mazzoAulaStudio, char *salvataggio);
-void caricamentoMazzo (int size, Carta **mazzo, FILE **fp);
+void caricamentoMazzo(int size, Carta **mazzo, FILE **fp);
+
 #endif //FILE_H

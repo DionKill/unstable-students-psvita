@@ -57,6 +57,7 @@ void leggiCarteDaFile (Carta **mazzo) {
         fscanf(fp, "%d", &tmp->quandoEffetto);
         fscanf(fp, "%d", &tmp->puoEssereGiocato); // Disessere giocati
 
+        // Se la quantità è maggiore di uno, copia la carta
         if (quantita > 1)
             tmp->next = copiaCarta(tmp, quantita - 1); // -1 perché una c'è già (quando è stata letta dal file)
 
@@ -176,7 +177,7 @@ void caricamento (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesc
     // Alloca lo spazio in memoria per i giocatori, e legge le carte dal file aggiungendole ai mazzi del giocatore
     for (int i = 0; i < *nGiocatori; i++) {
         allocaGiocatoriBene(tmpGiocatore);
-        fread(&(*tmpGiocatore)->nome, sizeof((*tmpGiocatore)->nome), 1, fp);
+        fread(&(*tmpGiocatore)->nome, NOME_LENGTH + 1, 1, fp);
 
         fread(&length, sizeof(int), 1, fp);
         caricamentoMazzo(length, &(*tmpGiocatore)->carteGiocatore, &fp);
@@ -187,7 +188,7 @@ void caricamento (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesc
         fread(&length, sizeof(int), 1, fp);
         caricamentoMazzo(length, &(*tmpGiocatore)->carteBonusMalusGiocatore, &fp);
 
-        *tmpGiocatore = (*tmpGiocatore)->next;
+        tmpGiocatore = &(*tmpGiocatore)->next;
     }
 
     // Legge la grandezza di ogni altro mazzo rimanente, seguito da tutte le carte di quel mazzo
@@ -207,40 +208,35 @@ void caricamento (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesc
 /** Carica un intero mazzo (o anche una singola carta) da file
  *
  * @param size La lunghezza della lista. Serve per poter allocare nuovamente spazio in memoria
- * @param mazzo Il mazzo da caricare dal file
+ * @param mazzo
  * @param fp Il puntatore a file, che va modificato
- */
-void caricamentoMazzo (int size, Carta **mazzo, FILE **fp) {
-    // Alloca la prima carta nel mazzo
-    *mazzo = allocaCarta();
+*/
+void caricamentoMazzo(int size, Carta **mazzo, FILE **fp) {
     // Carte temporanee per scorrere il mazzo
-    Carta *tmp = *mazzo;
-    Carta *tmpPre = NULL; // Serve per non scorrere il mazzo di nuovo
+    Carta **tmp = mazzo;
 
     for (int i = 0; i < size; i++) {
-        fread(tmp->nome, sizeof(tmp->nome), 1, *fp); // Legge il nome
-        fread(tmp->descrizione, sizeof(tmp->descrizione), 1, *fp); // Legge la descrizione
-        fread(&tmp->tipo, sizeof(TipologiaCarta), 1, *fp); // Legge il tipo della carta
-        fread(&tmp->nEffetti, sizeof(tmp->nEffetti), 1, *fp); // Legge il numero degli effetti
+        *tmp = allocaCarta();
+
+        fread((*tmp)->nome, sizeof((*tmp)->nome), 1, *fp); // Legge il nome
+        fread((*tmp)->descrizione, sizeof((*tmp)->descrizione), 1, *fp); // Legge la descrizione
+        fread(&(*tmp)->tipo, sizeof(TipologiaCarta), 1, *fp); // Legge il tipo della carta
+        fread(&(*tmp)->nEffetti, sizeof((*tmp)->nEffetti), 1, *fp); // Legge il numero degli effetti
 
         // Se il numero degli effetti è maggiore di 0, alloca l'array dinamico
-        if (tmp->nEffetti > 0)
-            tmp->effetto = (Effetto *) malloc(sizeof(Effetto) * tmp->nEffetti);
+        if ((*tmp)->nEffetti > 0)
+            (*tmp)->effetto = (Effetto *) malloc(sizeof(Effetto) * (*tmp)->nEffetti);
 
         // Se degli effetti sono presenti, scrive i loro attributi sul file
-        for (int j = 0; j < tmp->nEffetti; j++) {
-            fread(&tmp->effetto[j].azione, sizeof(Azione), 1, *fp); // Scrive l'azione
-            fread(&tmp->effetto[j].targetGiocatori, sizeof(TargetGiocatori), 1, *fp); // Scrive il target
-            fread(&tmp->effetto[j].tipo, sizeof(TipologiaCarta), 1, *fp); // Scrive la tipologia
+        for (int j = 0; j < (*tmp)->nEffetti; j++) {
+            fread(&(*tmp)->effetto[j].azione, sizeof(Azione), 1, *fp); // Scrive l'azione
+            fread(&(*tmp)->effetto[j].targetGiocatori, sizeof(TargetGiocatori), 1, *fp); // Scrive il target
+            fread(&(*tmp)->effetto[j].tipo, sizeof(TipologiaCarta), 1, *fp); // Scrive la tipologia
         }
 
-        fread(&tmp->quandoEffetto, sizeof(Quando), 1, *fp); // Quando la carta effettua
-        fread(&tmp->puoEssereGiocato, sizeof(bool), 1, *fp); // Disessere giocati
+        fread(&(*tmp)->quandoEffetto, sizeof(Quando), 1, *fp); // Quando la carta effettua
+        fread(&(*tmp)->puoEssereGiocato, sizeof(bool), 1, *fp); // Disessere giocati
 
-        tmpPre = tmp; // La carta tmpPre è un puntatore alla carta precedente (serve per la free)
-        tmp = tmp->next; // Segue alla prossima carta
+        tmp = &(*tmp)->next; // Segue alla prossima carta
     }
-    // Dato che si alloca sempre la prossima carta anche quando è finito
-    free(&tmpPre->next);
-    tmp->next = NULL;
 }
