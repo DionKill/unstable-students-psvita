@@ -41,11 +41,11 @@ void gioco () {
             case COMANDO_GIOCA_CARTA:
                 // TODO: gioca una carta
                 giocaCarta(listaGiocatori);
-                avantiTurno(&turno, &listaGiocatori, &mazzoPesca);
+                turno = avantiTurno(turno, &listaGiocatori, &mazzoPesca);
             break;
             case COMANDO_PESCA_CARTA:
                 pescaCarta(&listaGiocatori->carteGiocatore, &mazzoPesca);
-                avantiTurno(&turno, &listaGiocatori, &mazzoPesca);
+                turno = avantiTurno(turno, &listaGiocatori, &mazzoPesca);
             break;
             case COMANDO_MOSTRA_CARTE:
                 // TODO: scegli quali di queste carte mostrare (o meglio ancora tutte e tre assieme affiancate)
@@ -59,6 +59,7 @@ void gioco () {
                 return;
             default: break; // Aggiunto solo perché CLion dava warning
         }
+        listaGiocatori = listaGiocatori->next;
         salvataggio(nGiocatori, listaGiocatori, mazzoPesca, mazzoScarti, mazzoAulaStudio, SALVATAGGIO);
     }
 }
@@ -92,11 +93,11 @@ void creaNuovaPartita (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazz
     free(mazzoMatricole);
 }
 
-void avantiTurno (int *turno, Giocatore **listaGiocatori, Carta **mazzoPesca) {
+int avantiTurno(int turno, Giocatore **listaGiocatori, Carta **mazzoPesca) {
     pescaCarta(&(*listaGiocatori)->carteGiocatore, mazzoPesca);
 
-    //listaGiocatori = listaGiocatori->next; // Scorre la lista
-    *turno++;
+    *listaGiocatori = (*listaGiocatori)->next; // Scorre la lista
+    return turno + 1;
 }
 
 /** Funzione ineccepibile che fornisce una scelta di cose che può fare il giocatore e ritorna l'opzione scelta.

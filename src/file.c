@@ -97,7 +97,7 @@ void salvataggio (int nGiocatori, Giocatore *listaGiocatori, Carta *mazzoPesca,
 
     // Scrive gli elementi del giocatore (comprese le carte in mano)
     for (int i = 0; i < nGiocatori; i++) {
-        fwrite(listaGiocatori->nome, sizeof(listaGiocatori->nome), 1, fp);
+        fwrite(listaGiocatori, sizeof(Giocatore), 1, fp);
 
         int length = contaCarte(listaGiocatori->carteGiocatore); // Int che ha la lunghezza della lista
         fwrite(&length, sizeof(int), 1, fp);
@@ -136,10 +136,7 @@ void salvataggio (int nGiocatori, Giocatore *listaGiocatori, Carta *mazzoPesca,
  */
 void salvataggioMazzo (Carta *mazzo, FILE **fp) {
     while (mazzo != NULL) {
-        fwrite(mazzo->nome, sizeof(mazzo->nome), 1, *fp); // Scrive il nome
-        fwrite(mazzo->descrizione, sizeof(mazzo->descrizione), 1, *fp); // Scrive la descrizione
-        fwrite(&mazzo->tipo, sizeof(TipologiaCarta), 1, *fp);
-        fwrite(&mazzo->nEffetti, sizeof(mazzo->nEffetti), 1, *fp);
+        fwrite(mazzo, sizeof(Carta), 1, *fp);
 
         // Se degli effetti sono presenti, scrive i loro attributi sul file
         for (int j = 0; j < mazzo->nEffetti; j++) {
@@ -147,9 +144,6 @@ void salvataggioMazzo (Carta *mazzo, FILE **fp) {
             fwrite(&mazzo->effetto[j].targetGiocatori, sizeof(TargetGiocatori), 1, *fp); // Scrive il target
             fwrite(&mazzo->effetto[j].tipo, sizeof(TipologiaCarta), 1, *fp); // Scrive la tipologia
         }
-
-        fwrite(&mazzo->quandoEffetto, sizeof(Quando), 1, *fp); // Quando la carta effettua
-        fwrite(&mazzo->puoEssereGiocato, sizeof(bool), 1, *fp); // Disessere giocati
 
         mazzo = mazzo->next; // Segue alla prossima carta
     }
@@ -203,6 +197,8 @@ void caricamento (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesc
 
     fread(&length, sizeof(int), 1, fp);
     caricamentoMazzo(length, mazzoAulaStudio, &fp);
+
+    //rendiListaGiocatoriCircolare(*listaGiocatori);
 
     // Chiude il file
     fclose(fp);
