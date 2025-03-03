@@ -174,10 +174,13 @@ void caricamento (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesc
     fread(nGiocatori, sizeof(int), 1, fp);
 
     Giocatore **tmpGiocatore = listaGiocatori;
+
     // Alloca lo spazio in memoria per i giocatori, e legge le carte dal file aggiungendole ai mazzi del giocatore
     for (int i = 0; i < *nGiocatori; i++) {
-        allocaGiocatoriBene(tmpGiocatore);
-        fread(&(*tmpGiocatore)->nome, NOME_LENGTH + 1, 1, fp);
+        *tmpGiocatore = (Giocatore *) malloc(sizeof(Giocatore));
+        if (*tmpGiocatore == NULL) exit(EXIT_FAILURE);
+
+        fread(*tmpGiocatore, sizeof(Giocatore), 1, fp);
 
         fread(&length, sizeof(int), 1, fp);
         caricamentoMazzo(length, &(*tmpGiocatore)->carteGiocatore, &fp);
@@ -218,10 +221,7 @@ void caricamentoMazzo(int size, Carta **mazzo, FILE **fp) {
     for (int i = 0; i < size; i++) {
         *tmp = allocaCarta();
 
-        fread((*tmp)->nome, sizeof((*tmp)->nome), 1, *fp); // Legge il nome
-        fread((*tmp)->descrizione, sizeof((*tmp)->descrizione), 1, *fp); // Legge la descrizione
-        fread(&(*tmp)->tipo, sizeof(TipologiaCarta), 1, *fp); // Legge il tipo della carta
-        fread(&(*tmp)->nEffetti, sizeof((*tmp)->nEffetti), 1, *fp); // Legge il numero degli effetti
+        fread(*tmp, sizeof(Carta), 1, *fp);
 
         // Se il numero degli effetti è maggiore di 0, alloca l'array dinamico
         if ((*tmp)->nEffetti > 0)
@@ -233,10 +233,6 @@ void caricamentoMazzo(int size, Carta **mazzo, FILE **fp) {
             fread(&(*tmp)->effetto[j].targetGiocatori, sizeof(TargetGiocatori), 1, *fp); // Scrive il target
             fread(&(*tmp)->effetto[j].tipo, sizeof(TipologiaCarta), 1, *fp); // Scrive la tipologia
         }
-
-        fread(&(*tmp)->quandoEffetto, sizeof(Quando), 1, *fp); // Quando la carta effettua
-        fread(&(*tmp)->puoEssereGiocato, sizeof(bool), 1, *fp); // Disessere giocati
-
         tmp = &(*tmp)->next; // Segue alla prossima carta
     }
 }

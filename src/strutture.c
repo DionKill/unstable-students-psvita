@@ -41,54 +41,14 @@ void allocaGiocatoriBene (Giocatore **giocatore) {
     if (*tmp == NULL) exit(EXIT_FAILURE);
 }
 
-/** Funzione ricorsiva per allocare la lista di Giocatori in memoria.
- *
- * @param listaGiocatori Il giocatore attuale
- * @param nGiocatori Il quantitativo di giocatori
- * @return Ritorna la lista
- */
-Giocatore *allocaGiocatori (Giocatore *listaGiocatori, int nGiocatori) {
-    if (nGiocatori == 0)
-        return listaGiocatori;
-
-    // Crea un nuovo giocatore e lo alloca
-    listaGiocatori = (Giocatore *) malloc(sizeof(Giocatore));
-    if (listaGiocatori == NULL) exit(EXIT_FAILURE); // Esce se non puo' allocare memoria
-
-    // Continua il codice, mettendo subito il prossimo nodo a NULL
-    listaGiocatori->next = NULL;
-
-    char *str; // Stringa che contiene il colore del giocatore
-    strColoreGiocatore(&str, nGiocatori);
-
-    // Chiede all'utente il nome finché non è valido, il numero viene calcolato (+4 byte di memoria risparmiati)
-    do {
-        printf ("\n"
-            "Inserisci il nome del giocatore %s%d:"
-            RESET
-            CURSORE_INPUT
-            "%s", str, nGiocatori, str); // Colora il nome del giocatore
-
-        scanf(" %" NOME_LENGTH_STR "[^\n]s", listaGiocatori->nome);
-
-        printf(RESET);
-
-        flushInputBuffer();
-    } while (strlen(listaGiocatori->nome) == 0);
-
-    // Si richiama da solo finché non ha finito di aggiungere i giocatori
-    listaGiocatori->next = allocaGiocatori(listaGiocatori->next, nGiocatori - 1);
-
-    // Ritorna la lista
-    return listaGiocatori;
-}
-
 /** Funzione che crea la lista di giocatori
  *
  * @return Ritorna la nuova lista di giocatori
  */
 int creaGiocatori(Giocatore **listaGiocatori) {
     int nGiocatori;
+
+    Giocatore **tmp = listaGiocatori;
 
     do {
         printf("\n"
@@ -103,8 +63,32 @@ int creaGiocatori(Giocatore **listaGiocatori) {
                 "Il valore inserito non e' valido!");
     } while (nGiocatori < 2 || nGiocatori > 4);
 
-    // Alloca lo spazio in memoria e li aggiunge in una lista di tipo Giocatore
-    *listaGiocatori = allocaGiocatori(*listaGiocatori, nGiocatori);
+    // Inizio richiesta di aiuto da parte degli americani
+    char *str; // Stringa che contiene il colore del giocatore
+    strColoreGiocatore(&str, nGiocatori);
+
+    int i = 1;
+    // Chiede all'utente il nome finché non è valido
+    do {
+        printf ("\n"
+            "Inserisci il nome del giocatore %s%d:"
+            RESET
+            CURSORE_INPUT
+            "%s", str, i, str); // Colora il nome del giocatore
+
+        scanf(" %" NOME_LENGTH_STR "[^\n]s", (*tmp)->nome);
+
+        printf(RESET);
+        if (strlen((*tmp)->nome) == 0)
+            printf("\n"
+                   "Inserire un valore corretto!");
+        else {
+            tmp = &(*tmp)->next; // Scorre nella lista
+            i++;
+        }
+
+        flushInputBuffer();
+    } while (strlen((*tmp)->nome) == 0 && i < nGiocatori);
 
     *listaGiocatori = rendiListaGiocatoriCircolare(*listaGiocatori); // Rende la lista dei giocatori circolare
 
