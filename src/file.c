@@ -15,7 +15,8 @@ FILE *apriFile (char *path, char *mode) {
     FILE *fp = NULL;
     fp = fopen(path, mode);
     if (fp == NULL) {
-        printf(RED "Il file non è stato trovato!");
+        printf("\n"
+            RED "Il file non è stato trovato!");
         exit(EXIT_FAILURE);
     }
     return fp;
@@ -28,7 +29,7 @@ void leggiCarteDaFile (Carta **mazzo) {
     FILE *fp = apriFile(MAZZO, "r");
 
     // Crea una lista di carte e alloca lo spazio per una singola carta, e puntatore temporaneo per scorrere la lista
-    Carta *scorriLista = NULL;
+    Carta **tmp = mazzo;
 
     int quantita; // Il numero di copie della carta
 
@@ -36,41 +37,36 @@ void leggiCarteDaFile (Carta **mazzo) {
      * Controlla il risultato della fscanf, basta che non sia arrivato alla fine del file (EOF) per continuare. */
     while ( fscanf(fp, "%d", &quantita) != EOF ) {
         // Alloca una carta temporanea che viene popolata dal file
-        Carta *tmp = allocaCarta();
+        *tmp = allocaCarta();
 
-        fscanf(fp, " %[^\n]s", tmp->nome);
-        fscanf(fp, " %[^\n]s", tmp->descrizione);
-        fscanf(fp, "%d", &tmp->tipo);
-        fscanf(fp, "%d", &tmp->nEffetti);
+        // Legge questi nome, descrizione, tipo e numero di effetti
+        fscanf(fp, " %[^\n]s", (*tmp)->nome);
+        fscanf(fp, " %[^\n]s", (*tmp)->descrizione);
+        fscanf(fp, "%d", &(*tmp)->tipo);
+        fscanf(fp, "%d", &(*tmp)->nEffetti);
 
-        tmp->effetto = NULL;
+        (*tmp)->effetto = NULL; // Allocazione a NULL per evitare problemi
+
         // Se il numero di effetti è maggiore di 0, alloca memoria e legge i dati
-        if (tmp->nEffetti > 0) {
-            tmp->effetto = (Effetto *) malloc(tmp->nEffetti * sizeof(Effetto)); // Alloca un array dinamico
-
-            if (tmp->effetto == NULL) exit(EXIT_FAILURE);
+        if ((*tmp)->nEffetti > 0) {
+            // Alloca un array di effetti dinamico, se non può esce con un errore
+            (*tmp)->effetto = (Effetto *) malloc((*tmp)->nEffetti * sizeof(Effetto));
+            if ((*tmp)->effetto == NULL) exit(EXIT_FAILURE);
 
             // For che legge gli effetti e li mette nell'array dinamico
-            for (int i = 0; i < tmp->nEffetti; i++)
-                fscanf(fp, "%d %d %d", &tmp->effetto[i].azione, &tmp->effetto[i].targetGiocatori, &tmp->effetto[i].tipo);
+            for (int i = 0; i < (*tmp)->nEffetti; i++)
+                fscanf(fp, "%d %d %d", &(*tmp)->effetto[i].azione, &(*tmp)->effetto[i].targetGiocatori, &(*tmp)->effetto[i].tipo);
         }
-        fscanf(fp, "%d", &tmp->quandoEffetto);
-        fscanf(fp, "%d", &tmp->puoEssereGiocato); // Disessere giocati
+        fscanf(fp, "%d", &(*tmp)->quandoEffetto);
+        fscanf(fp, "%d", &(*tmp)->puoEssereGiocato); // Disessere giocati
 
         // Se la quantità è maggiore di uno, copia la carta
         if (quantita > 1)
-            tmp->next = copiaCarta(tmp, quantita - 1); // -1 perché una c'è già (quando è stata letta dal file)
+            (*tmp)->next = copiaCarta(*tmp, quantita - 1); // -1 perché una c'è già (quando è stata letta dal file)
 
-        // Se la lista è vuota, allora la lista del parametro viene impostata al primo elemento della nuova lista
-        if (scorriLista == NULL) {
-            scorriLista = tmp;
-            *mazzo = scorriLista;
-        }
-        // Altrimenti, se la lista è già esistente, appende alla lista i nuovi elementi appena letti dal file
-        else {
-            scorriLista->next = tmp;
-            while (scorriLista->next != NULL) scorriLista = scorriLista->next;
-        }
+        // Scorre la lista in avanti
+        while (*tmp != NULL)
+            tmp = &(*tmp)->next;
     }
     // Chiude il file e restituisce la lista appena creata
     fclose(fp);
@@ -167,10 +163,12 @@ void caricamento (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesc
     // Legge il numero dei giocatori dal file
     fread(nGiocatori, sizeof(int), 1, fp);
 
+    // Doppio puntatore temporaneo alla lista dei giocatori, per poterla scorrere
     Giocatore **tmpGiocatore = listaGiocatori;
 
     // Alloca lo spazio in memoria per i giocatori, e legge le carte dal file aggiungendole ai mazzi del giocatore
     for (int i = 0; i < *nGiocatori; i++) {
+        // Allocazione dinamica dei giocatori, altrimenti esce con errore
         *tmpGiocatore = (Giocatore *) malloc(sizeof(Giocatore));
         if (*tmpGiocatore == NULL) exit(EXIT_FAILURE);
 
@@ -219,10 +217,15 @@ void caricamentoMazzo(int size, Carta **mazzo, FILE **fp) {
     for (int i = 0; i < size; i++) {
         *tmp = allocaCarta();
 
+        // Legge il blocco della carta
         fread(*tmp, sizeof(Carta), 1, *fp);
+
+        // Imposta gli effetti della carta a NULL per evitare problemi
+        (*tmp)->effetto = NULL;
 
         // Se il numero degli effetti è maggiore di 0, alloca l'array dinamico
         if ((*tmp)->nEffetti > 0) {
+            // Alloca spazio in memoria
             (*tmp)->effetto = (Effetto *) malloc(sizeof(Effetto) * (*tmp)->nEffetti);
             if ((*tmp)->effetto == NULL) exit(EXIT_FAILURE);
         }
@@ -233,6 +236,8 @@ void caricamentoMazzo(int size, Carta **mazzo, FILE **fp) {
             fread(&(*tmp)->effetto[j].targetGiocatori, sizeof(TargetGiocatori), 1, *fp); // Scrive il target
             fread(&(*tmp)->effetto[j].tipo, sizeof(TipologiaCarta), 1, *fp); // Scrive la tipologia
         }
-        tmp = &(*tmp)->next; // Segue alla prossima carta
+
+        // Il temporaneo scorre alla prossima carta
+        tmp = &(*tmp)->next;
     }
 }

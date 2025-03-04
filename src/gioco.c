@@ -22,8 +22,8 @@ void gioco () {
     // Mazzo che contiene le matricole che verranno distribuite a tutti i giocatori
     Carta *mazzoMatricole = NULL;
 
-    //creaNuovaPartita(&nGiocatori, &listaGiocatori, &mazzoPesca, &mazzoScarti, &mazzoAulaStudio);
-    caricamento(&nGiocatori, &listaGiocatori, &mazzoPesca, &mazzoScarti, &mazzoAulaStudio, SALVATAGGIO);
+    creaNuovaPartita(&nGiocatori, &listaGiocatori, &mazzoPesca, &mazzoScarti, &mazzoAulaStudio);
+    //caricamento(&nGiocatori, &listaGiocatori, &mazzoPesca, &mazzoScarti, &mazzoAulaStudio, SALVATAGGIO);
 
     // Gestione dei turni
     int turno = 1;

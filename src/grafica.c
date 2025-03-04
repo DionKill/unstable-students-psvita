@@ -6,7 +6,7 @@
 
 // Genera un menu fantastico: https://patorjk.com/software/taag/#p=display&f=Big%20Money-ne&t=Unstable%0AStudents
 // Ovviamente ho dovuto copiare una riga alla volta, aggiungere le virgole, i \, e i \n, tutto a mano...
-void guiMenu () {
+void guiSplashScreen () {
     printf ("\n"
     MAG
     "-------------------------------------------------------------------------------"       "\n"
@@ -300,10 +300,10 @@ void strColoreGiocatore (char **str, int giocatore) {
         case 3:
             *str = GRN;
         break;
-        case 4:
+        case 4: // Questo sarebbe l'ultimo turno
             *str = YEL;
         break;
-        default: *str = HWHT; // Per ovviare ai warning, è inutile altrimenti
+        default: *str = HWHT; // Viene usato solo in casi estremi, non dovrebbe mai comparire normalmente
     }
 }
 

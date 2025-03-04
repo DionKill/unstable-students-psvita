@@ -17,7 +17,7 @@
 int main(int argc, char **argv) {
     srand(time(NULL));
 
-    guiMenu();
+    guiSplashScreen();
     // Chiede di continuare dopo aver mostrato il menù
     premiInvioPerContinuare();
     pulisciSchermo();

@@ -11,7 +11,7 @@
 #include "strutture.h"
 
 // GUI
-void guiMenu ();
+void guiSplashScreen ();
 void guiScegliAzione ();
 void guiStampaMazzo (Carta *mazzoCarte);
 void guiStampaCarta (Carta *carta, bool dettagli);

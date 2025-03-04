@@ -20,34 +20,17 @@ void rendiListaGiocatoriCircolare(Giocatore *listaGiocatori) {
     listaGiocatori->next = tmp;
 }
 
-/** Una funzione migliorata per l'allocazione dei giocatori in memoria
- * Rispetto alla soluzione con un singolo puntatore, questa può scorrere in avanti senza dover tenere un puntatore
- * all'elemento precedente della lista, quindi è anche più semplice da implementare (ma comunque difficile da capire)
- *
- * @param giocatore Il giocatore da allocare
- */
-void allocaGiocatoriBene (Giocatore **giocatore) {
-    // Crea un doppio puntatore temporaneo al giocatore.
-    Giocatore **tmp = giocatore;
-
-    // Finché tmp esiste, va alla fine della lista
-    while (*tmp != NULL)
-        *tmp = (*tmp)->next;
-
-    // Alloca lo spazio e nel peggiore dei casi esce con un errore
-    *tmp = (Giocatore *) malloc(sizeof(Giocatore));
-    if (*tmp == NULL) exit(EXIT_FAILURE);
-}
-
 /** Funzione che crea la lista di giocatori
  *
  * @return Ritorna la nuova lista di giocatori
  */
 int creaGiocatori(Giocatore **listaGiocatori) {
+    // Il numero di giocatori
     int nGiocatori;
-
+    // Un doppio puntatore alla lista che verrà modificata
     Giocatore **tmp = listaGiocatori;
 
+    // Un ciclo che chiede quanti giocatori giocheranno
     do {
         printf("\n"
             "Quanti giocatori giocheranno? [2-4]:"
@@ -61,18 +44,23 @@ int creaGiocatori(Giocatore **listaGiocatori) {
                 "Il valore inserito non e' valido!");
     } while (nGiocatori < 2 || nGiocatori > 4);
 
-    // Inizio richiesta di aiuto da parte degli americani
+    // Una stringa che contiene il colore che verrà usato per mostrare i giocatori
     char *str; // Stringa che contiene il colore del giocatore
     strColoreGiocatore(&str, nGiocatori);
 
-    int i = 1;
+    int i = 0;
     // Chiede all'utente il nome finché non è valido
-    do {
+    while (i < nGiocatori) {
+        // Alloca il giocatore, altrimenti esce, e imposta il prossimo nodo a NULL per evitare errori
+        *tmp = (Giocatore *) malloc(sizeof(Giocatore));
+        if (*tmp == NULL) exit(EXIT_FAILURE);
+        (*tmp)->next == NULL;
+
         printf ("\n"
             "Inserisci il nome del giocatore %s%d:"
             RESET
             CURSORE_INPUT
-            "%s", str, i, str); // Colora il nome del giocatore
+            "%s", str, i + 1, str); // Colora il nome del giocatore
 
         scanf(" %" NOME_LENGTH_STR "[^\n]s", (*tmp)->nome);
 
@@ -86,7 +74,7 @@ int creaGiocatori(Giocatore **listaGiocatori) {
         }
 
         flushInputBuffer();
-    } while (strlen((*tmp)->nome) == 0 && i < nGiocatori);
+    }
 
     rendiListaGiocatoriCircolare(*listaGiocatori); // Rende la lista dei giocatori circolare
 
@@ -115,12 +103,14 @@ Carta *allocaCarta () {
  * @return Ritorna il numero di carte nel mazzo
  */
 int contaCarte (Carta *mazzo) {
-    int i = 0;
+    int i = 0; // Contatore
+
+    // Scorre finché il mazzo non è NULL e aumenta di uno il contatore
     while (mazzo != NULL) {
         mazzo = mazzo->next;
         i++;
     }
-    return i;
+    return i; // Restituisce il valore
 }
 
 /** Funzione ricorsiva che prende in ingresso un nodo Carta, alloca la successiva, e copia i contenuti nella successiva.
@@ -156,7 +146,7 @@ Carta *copiaCarta (Carta *carta, int nCopie) {
         }
     }
 
-    tmp->quandoEffetto = carta->quandoEffetto;
+    tmp->quandoEffetto = carta->quandoEffetto; // Non ho ben capito come funzioni
     tmp->puoEssereGiocato = carta->puoEssereGiocato; // Disessere giocati
 
     tmp->next = copiaCarta(tmp, nCopie - 1);
