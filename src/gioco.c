@@ -60,7 +60,7 @@ void gioco () {
             default: break; // Aggiunto solo perché CLion dava warning
         }
         listaGiocatori = listaGiocatori->next;
-        salvataggio(nGiocatori, listaGiocatori, mazzoPesca, mazzoScarti, mazzoAulaStudio, SALVATAGGIO);
+        //salvataggio(nGiocatori, listaGiocatori, mazzoPesca, mazzoScarti, mazzoAulaStudio, SALVATAGGIO);
     }
 }
 

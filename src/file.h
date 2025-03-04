@@ -10,7 +10,7 @@
 #include "gioco.h"
 
 #define MAZZO "../mazzo.txt" // Il mazzo è nella cartella precedente
-#define SALVATAGGIO "../savegame1.sav"
+#define SALVATAGGIO "../savegame.sav"
 
 FILE *apriFile (char *path, char *mode);
 void leggiCarteDaFile (Carta **mazzo);

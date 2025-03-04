@@ -185,6 +185,7 @@ void caricamento (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesc
         fread(&length, sizeof(int), 1, fp);
         caricamentoMazzo(length, &(*tmpGiocatore)->carteBonusMalusGiocatore, &fp);
 
+        (*tmpGiocatore)->next = NULL;
         tmpGiocatore = &(*tmpGiocatore)->next;
     }
 
@@ -198,7 +199,8 @@ void caricamento (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesc
     fread(&length, sizeof(int), 1, fp);
     caricamentoMazzo(length, mazzoAulaStudio, &fp);
 
-    //rendiListaGiocatoriCircolare(*listaGiocatori);
+    // Rende la lista circolare
+    rendiListaGiocatoriCircolare(*listaGiocatori);
 
     // Chiude il file
     fclose(fp);
@@ -220,8 +222,10 @@ void caricamentoMazzo(int size, Carta **mazzo, FILE **fp) {
         fread(*tmp, sizeof(Carta), 1, *fp);
 
         // Se il numero degli effetti è maggiore di 0, alloca l'array dinamico
-        if ((*tmp)->nEffetti > 0)
+        if ((*tmp)->nEffetti > 0) {
             (*tmp)->effetto = (Effetto *) malloc(sizeof(Effetto) * (*tmp)->nEffetti);
+            if ((*tmp)->effetto == NULL) exit(EXIT_FAILURE);
+        }
 
         // Se degli effetti sono presenti, scrive i loro attributi sul file
         for (int j = 0; j < (*tmp)->nEffetti; j++) {

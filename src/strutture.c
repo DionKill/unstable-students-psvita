@@ -13,13 +13,11 @@
  * @param listaGiocatori La lista dei giocatori
  * @return La lista dei giocatori ma che ha, come ultimo nodo, il primo della lista
  */
-Giocatore *rendiListaGiocatoriCircolare (Giocatore *listaGiocatori) {
+void rendiListaGiocatoriCircolare(Giocatore *listaGiocatori) {
     Giocatore *tmp = listaGiocatori; // Variabile temporanea
     while (listaGiocatori->next != NULL)
         listaGiocatori = listaGiocatori->next;
     listaGiocatori->next = tmp;
-    listaGiocatori = listaGiocatori->next;
-    return listaGiocatori;
 }
 
 /** Una funzione migliorata per l'allocazione dei giocatori in memoria
@@ -90,7 +88,7 @@ int creaGiocatori(Giocatore **listaGiocatori) {
         flushInputBuffer();
     } while (strlen((*tmp)->nome) == 0 && i < nGiocatori);
 
-    *listaGiocatori = rendiListaGiocatoriCircolare(*listaGiocatori); // Rende la lista dei giocatori circolare
+    rendiListaGiocatoriCircolare(*listaGiocatori); // Rende la lista dei giocatori circolare
 
     return nGiocatori;
 }
