@@ -12,10 +12,12 @@
 #include "grafica.h"
 #include "misc.h"
 
-#define COMANDO_GIOCA_CARTA 1
-#define COMANDO_PESCA_CARTA 2
-#define COMANDO_MOSTRA_CARTE 3
-#define COMANDO_ESCI 4 // Sempre l'ultima opzione disponibile
+// Macro rappresentanti gli input da tastiera che vengono usati nel gioco, come per giocare una carta, pescare etc.
+#define COMANDO_OPZIONE_1 1 // Gioca una carta, ...
+#define COMANDO_OPZIONE_2 2 // Pesca una carta, ...
+#define COMANDO_OPZIONE_3 3 // Mostra le carte, ...
+#define COMANDO_OPZIONE_4 4 // Le carte altrui, ...
+#define COMANDO_ESCI 0 // Serve per uscire dal programma o tornare indietro
 #define COMANDO_CONFERMA 13 // Invio
 #define COMANDO_ANNULLA 27 // ESC
 
@@ -28,5 +30,6 @@ int avantiTurno(int turno, Giocatore **listaGiocatori, Carta **mazzoPesca);
 int scegliAzione ();
 void creaNuovaPartita (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesca,
                         Carta **mazzoScarti, Carta **mazzoAulaStudio);
+void mostraStatusPartita (Giocatore *listaGiocatori);
 
 #endif //GIOCO_H

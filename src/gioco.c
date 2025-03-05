@@ -22,8 +22,8 @@ void gioco () {
     // Mazzo che contiene le matricole che verranno distribuite a tutti i giocatori
     Carta *mazzoMatricole = NULL;
 
-    creaNuovaPartita(&nGiocatori, &listaGiocatori, &mazzoPesca, &mazzoScarti, &mazzoAulaStudio);
-    //caricamento(&nGiocatori, &listaGiocatori, &mazzoPesca, &mazzoScarti, &mazzoAulaStudio, SALVATAGGIO);
+    //creaNuovaPartita(&nGiocatori, &listaGiocatori, &mazzoPesca, &mazzoScarti, &mazzoAulaStudio);
+    caricamento(&nGiocatori, &listaGiocatori, &mazzoPesca, &mazzoScarti, &mazzoAulaStudio, SALVATAGGIO);
 
     // Gestione dei turni
     int turno = 1;
@@ -43,15 +43,14 @@ void gioco () {
                 giocaCarta(listaGiocatori);
                 turno = avantiTurno(turno, &listaGiocatori, &mazzoPesca);
             break;
-            case COMANDO_PESCA_CARTA:
+            case COMANDO_OPZIONE_2:
                 pescaCarta(&listaGiocatori->carteGiocatore, &mazzoPesca);
                 turno = avantiTurno(turno, &listaGiocatori, &mazzoPesca);
             break;
-            case COMANDO_MOSTRA_CARTE:
-                // TODO: scegli quali di queste carte mostrare (o meglio ancora tutte e tre assieme affiancate)
-                guiStampaMazzo(listaGiocatori->carteGiocatore);
-                guiStampaMazzo(listaGiocatori->carteAulaGiocatore);
-                guiStampaMazzo(listaGiocatori->carteBonusMalusGiocatore);
+            case COMANDO_OPZIONE_3:
+                pulisciSchermo();
+                guiHeader(turno, nGiocatori, listaGiocatori->nome);
+
                 premiInvioPerContinuare();
             break;
             case COMANDO_ESCI:
@@ -60,7 +59,7 @@ void gioco () {
             default: break; // Aggiunto solo perché CLion dava warning
         }
         listaGiocatori = listaGiocatori->next;
-        //salvataggio(nGiocatori, listaGiocatori, mazzoPesca, mazzoScarti, mazzoAulaStudio, SALVATAGGIO);
+        salvataggio(nGiocatori, listaGiocatori, mazzoPesca, mazzoScarti, mazzoAulaStudio, SALVATAGGIO);
     }
 }
 
@@ -135,8 +134,8 @@ void giocaCarta (Giocatore *giocatore) {
         // Messaggio di errore se la carta scelta non è corretta
         if (scelta > nCarte)
             printf("\n"
-                "Hai inserito un numero invalido!"
-                CURSORE_INPUT);
+                    "Hai inserito un numero invalido!"
+                    CURSORE_INPUT);
     } while (scelta <= nCarte && scelta > 0);
 
     // Parte da uno nel contare
@@ -144,12 +143,17 @@ void giocaCarta (Giocatore *giocatore) {
         giocatore = giocatore->next;
 }
 
-/** Gestisce gli effetti della carta, e in base a essi, cambia il seguito della partita
- * In pratica è la parte giocabile del gioco.
+/** Un menù che chiede al giocatore che cosa vuole vedere riguardo la partita corrente
  *
+ * @param listaGiocatori La lista dei giocatori
  */
-void gestioneEffetti (Giocatore *listaGiocatori, Carta *mazzoPesca) {
+void mostraStatusPartita (Giocatore *listaGiocatori) {
+    // Pulisce lo schermo e stampa le opzioni
+    pulisciSchermo();
+    guiMostraStatoPartita();
 
+    // Richiesta dell'input al giocatore
+    int input = richiediInput(COMANDO_ESCI, COMANDO_OPZIONE_4);
 }
 
 /** Piccola funzione che fa pescare una carta

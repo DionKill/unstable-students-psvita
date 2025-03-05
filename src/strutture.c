@@ -25,24 +25,13 @@ void rendiListaGiocatoriCircolare(Giocatore *listaGiocatori) {
  * @return Ritorna la nuova lista di giocatori
  */
 int creaGiocatori(Giocatore **listaGiocatori) {
-    // Il numero di giocatori
-    int nGiocatori;
     // Un doppio puntatore alla lista che verrà modificata
     Giocatore **tmp = listaGiocatori;
 
-    // Un ciclo che chiede quanti giocatori giocheranno
-    do {
-        printf("\n"
-            "Quanti giocatori giocheranno? [2-4]:"
-            CURSORE_INPUT);
-
-        scanf("%d", &nGiocatori);
-        flushInputBuffer();
-
-        if (nGiocatori < 2 || nGiocatori > 4 )
-            printf("\n"
-                "Il valore inserito non e' valido!");
-    } while (nGiocatori < 2 || nGiocatori > 4);
+    // Chiede quanti giocatori vuole che vengano creati
+    printf("\n"
+            "Quanti giocatori giocheranno? [2-4]:");
+    int nGiocatori = richiediInput(GIOCATORI_MIN, GIOCATORI_MAX);
 
     // Una stringa che contiene il colore che verrà usato per mostrare i giocatori
     char *str; // Stringa che contiene il colore del giocatore
@@ -57,10 +46,10 @@ int creaGiocatori(Giocatore **listaGiocatori) {
         (*tmp)->next == NULL;
 
         printf ("\n"
-            "Inserisci il nome del giocatore %s%d:"
-            RESET
-            CURSORE_INPUT
-            "%s", str, i + 1, str); // Colora il nome del giocatore
+                "Inserisci il nome del giocatore %s%d:"
+                RESET
+                CURSORE_INPUT
+                "%s", str, i + 1, str); // Colora il nome del giocatore
 
         scanf(" %" NOME_LENGTH_STR "[^\n]s", (*tmp)->nome);
 

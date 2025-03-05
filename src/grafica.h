@@ -7,15 +7,18 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "colori-ansi.h"
 #include "strutture.h"
+#include "misc.h"
+#include "colori-ansi.h"
+
 
 // GUI
 void guiSplashScreen ();
-void guiScegliAzione ();
+void guiHeader (int turno, int nGiocatori, char nomeGiocatore[]);
 void guiStampaMazzo (Carta *mazzoCarte);
 void guiStampaCarta (Carta *carta, bool dettagli);
-void guiHeader (int turno, int nGiocatori, char nomeGiocatore[]);
+void guiScegliAzione ();
+void guiMostraStatoPartita ();
 
 // Stringhe
 void strAzione(char **str, Azione azione);

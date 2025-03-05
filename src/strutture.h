@@ -16,6 +16,9 @@
 #define DESC_CARTA_LENGTH 255 //256 char totali per la descrizione della carta
 #define CARTE_DA_DISTRIBUIRE 5
 
+#define GIOCATORI_MIN 2
+#define GIOCATORI_MAX 4
+
 // A essere sincero non so se sono necessarie, comunque le ho fatte giusto per comodità
 // Azione
 #define STR_GIOCA "GIOCA"

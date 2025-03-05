@@ -4,40 +4,41 @@
 
 #include "grafica.h"
 
+#include "gioco.h"
+
 // Genera un menu fantastico: https://patorjk.com/software/taag/#p=display&f=Big%20Money-ne&t=Unstable%0AStudents
 // Ovviamente ho dovuto copiare una riga alla volta, aggiungere le virgole, i \, e i \n, tutto a mano...
 void guiSplashScreen () {
     printf ("\n"
-    MAG
-    "-------------------------------------------------------------------------------"       "\n"
-    RESET
-    "\n"
-    " /$$   /$$                       /$$               /$$       /$$"                      "\n"
-    "| $$  | $$                      | $$              | $$      | $$"                      "\n"
-    "| $$  | $$ /$$$$$$$   /$$$$$$$ /$$$$$$    /$$$$$$ | $$$$$$$ | $$  /$$$$$$"             "\n"
-    "| $$  | $$| $$__  $$ /$$_____/|_  $$_/   |____  $$| $$__  $$| $$ /$$__  $$"            "\n"
-    "| $$  | $$| $$  \\ $$|  $$$$$$   | $$      /$$$$$$$| $$  \\ $$| $$| $$$$$$$$"          "\n"
-    "| $$  | $$| $$  | $$ \\____  $$  | $$ /$$ /$$__  $$| $$  | $$| $$| $$_____/"           "\n"
-    "|  $$$$$$/| $$  | $$ /$$$$$$$/  |  $$$$/|  $$$$$$$| $$$$$$$/| $$|  $$$$$$$"            "\n"
-    " \\______/ |__/  |__/|_______/    \\___/   \\_______/|_______/ |__/ \\_______/"        "\n"
-    "\n"
-    "  /$$$$$$   /$$                     /$$                       /$$"                     "\n"
-    " /$$__  $$ | $$                    | $$                      | $$"                     "\n"
-    "| $$  \\__//$$$$$$   /$$   /$$  /$$$$$$$  /$$$$$$  /$$$$$$$  /$$$$$$   /$$$$$$$"       "\n"
-    "|  $$$$$$|_  $$_/  | $$  | $$ /$$__  $$ /$$__  $$| $$__  $$|_  $$_/  /$$_____/"        "\n"
-    " \\____  $$ | $$    | $$  | $$| $$  | $$| $$$$$$$$| $$  \\ $$  | $$   |  $$$$$$"       "\n"
-    " /$$  \\ $$ | $$ /$$| $$  | $$| $$  | $$| $$_____/| $$  | $$  | $$ /$$\\____  $$"      "\n"
-    "|  $$$$$$/ |  $$$$/|  $$$$$$/|  $$$$$$$|  $$$$$$$| $$  | $$  |  $$$$//$$$$$$$/"        "\n"
-    " \\______/   \\___/   \\______/  \\_______/ \\_______/|__/  |__/   \\___/ |_______/"   "\n"
-    "\n"
-    MAG
-    "-------------------------------------------------------------------------------"       "\n"
-    RESET
+            MAG
+            "-------------------------------------------------------------------------------"       "\n"
+            RESET
+            "\n"
+            " /$$   /$$                       /$$               /$$       /$$"                      "\n"
+            "| $$  | $$                      | $$              | $$      | $$"                      "\n"
+            "| $$  | $$ /$$$$$$$   /$$$$$$$ /$$$$$$    /$$$$$$ | $$$$$$$ | $$  /$$$$$$"             "\n"
+            "| $$  | $$| $$__  $$ /$$_____/|_  $$_/   |____  $$| $$__  $$| $$ /$$__  $$"            "\n"
+            "| $$  | $$| $$  \\ $$|  $$$$$$   | $$      /$$$$$$$| $$  \\ $$| $$| $$$$$$$$"          "\n"
+            "| $$  | $$| $$  | $$ \\____  $$  | $$ /$$ /$$__  $$| $$  | $$| $$| $$_____/"           "\n"
+            "|  $$$$$$/| $$  | $$ /$$$$$$$/  |  $$$$/|  $$$$$$$| $$$$$$$/| $$|  $$$$$$$"            "\n"
+            " \\______/ |__/  |__/|_______/    \\___/   \\_______/|_______/ |__/ \\_______/"        "\n"
+            "\n"
+            "  /$$$$$$   /$$                     /$$                       /$$"                     "\n"
+            " /$$__  $$ | $$                    | $$                      | $$"                     "\n"
+            "| $$  \\__//$$$$$$   /$$   /$$  /$$$$$$$  /$$$$$$  /$$$$$$$  /$$$$$$   /$$$$$$$"       "\n"
+            "|  $$$$$$|_  $$_/  | $$  | $$ /$$__  $$ /$$__  $$| $$__  $$|_  $$_/  /$$_____/"        "\n"
+            " \\____  $$ | $$    | $$  | $$| $$  | $$| $$$$$$$$| $$  \\ $$  | $$   |  $$$$$$"       "\n"
+            " /$$  \\ $$ | $$ /$$| $$  | $$| $$  | $$| $$_____/| $$  | $$  | $$ /$$\\____  $$"      "\n"
+            "|  $$$$$$/ |  $$$$/|  $$$$$$/|  $$$$$$$|  $$$$$$$| $$  | $$  |  $$$$//$$$$$$$/"        "\n"
+            " \\______/   \\___/   \\______/  \\_______/ \\_______/|__/  |__/   \\___/ |_______/"   "\n"
+            "\n"
+            MAG
+            "-------------------------------------------------------------------------------"       "\n"
+            RESET
     );
 }
 
 /** Stampa una riga che segnala alcune statistiche
- * TODO: cose che ha senso mostrare
  */
 void guiHeader (int turno, int nGiocatori, char nomeGiocatore[]) {
     char *str;
@@ -45,22 +46,22 @@ void guiHeader (int turno, int nGiocatori, char nomeGiocatore[]) {
 
     pulisciSchermo();
     printf(WHTB
-        "\n"
-        RESET
-        "\t"
-        CYN
-        "Turno"
-        RESET ": "
-        "%d"
-        "\t"
-        YEL
-        "Giocatore"
-        RESET ": "
-        "%s" // Colore
-        "%s" // Nome giocatore
-        RESET
-        "\n",
-        turno, str, nomeGiocatore);
+            "\n"
+            RESET
+            "\t"
+            CYN
+            "Turno"
+            RESET ": "
+            "%d"
+            "\t"
+            YEL
+            "Giocatore"
+            RESET ": "
+            "%s" // Colore
+            "%s" // Nome giocatore
+            RESET
+            "\n",
+            turno, str, nomeGiocatore);
 }
 
 /** Dato un mazzo, stampa le carte in esso contenute con tutti i dettagli
@@ -68,15 +69,18 @@ void guiHeader (int turno, int nGiocatori, char nomeGiocatore[]) {
  * @param mazzoCarte Il mazzo di carte
  */
 void guiStampaMazzo (Carta *mazzoCarte) {
+    // Conta anche il numero di carte, e stampa il numero di ogni carta (utile per giocare la carta)
+    int i = 1;
     while (mazzoCarte != NULL) {
-        // Stringa che verrà modificata per stampare il tipo come stringa
         printf("\n"
-            "-----");
+                YELB
+                "Carta %d:"
+                RESET, i);
+        // Stringa che verrà modificata per stampare il tipo come stringa
         guiStampaCarta(mazzoCarte, true);
         mazzoCarte = mazzoCarte->next;
+        i++;
     }
-    printf("\n"
-    "-----");
 }
 
 /** Stampa una singola carta
@@ -88,26 +92,31 @@ void guiStampaCarta (Carta *carta, bool dettagli) {
     char *str = NULL;
 
     printf("\n"
-        BHBLU
-        "Nome: "
-        RESET UNDERLINE
-        "%s"
-        RESET, carta->nome);
+            BHBLU
+            "Nome"
+            RESET
+            ": "
+            UNDERLINE
+            "%s"
+            RESET, carta->nome);
 
     printf(" | "
-        BHBLU
-        "Descrizione: "
-        RESET UNDERLINE
-        "%s"
-        RESET, carta->descrizione);
+            BHBLU
+            "Descrizione"
+            RESET
+            ": "
+            UNDERLINE
+            "%s"
+            RESET, carta->descrizione);
 
     strTipologiaCarta(&str, carta->tipo);
     printf("\n"
-        BMAG
-        "Tipo: "
-        RESET
-        "%s"
-        "\n", str);
+            BYEL
+            "Tipo"
+            RESET
+            ": "
+            "%s"
+            "\n", str);
 
     if (dettagli) {
         printf("Numero di effetti: %d", carta->nEffetti);
@@ -115,25 +124,45 @@ void guiStampaCarta (Carta *carta, bool dettagli) {
         for (int i = 0; i < carta->nEffetti; i++) {
             strAzione(&str, carta->effetto[i].azione);
             printf("\n"
-                "\t-<{ Azione: %s", str);
+                    "\t-<{ "
+                    BHYEL
+                    "Azione"
+                    RESET
+                    ": "
+                    "%s", str);
 
             strTargetGiocatori(&str, carta->effetto[i].targetGiocatori);
             printf(" | "
-                "Target: %s", str);
+                    BCYN
+                    "Target"
+                    RESET
+                    ": %s", str);
 
             strTipologiaCarta(&str, carta->effetto[i].tipo);
             printf(" | "
-                "Tipo: %s }>-", str);
+                    BRED
+                    "Tipo"
+                    RESET
+                    ": "
+                    "%s"
+                    " }>-", str);
         }
 
         strQuando(&str, carta->quandoEffetto);
         printf("\n"
-            "Quando: %s", str);
+                BMAG
+                "Quando"
+                RESET
+                ": "
+                "%s", str);
 
         strPuoEssereGiocato(&str, carta->puoEssereGiocato);
         printf( " | "
-            "Puo' essere giocato: %s" // Disessere giocati
-            , str);
+                BHWHT
+                "Puo' essere giocato"
+                RESET
+                ": %s" // Disessere giocati
+                "\n", str);
     }
 }
 
@@ -142,17 +171,43 @@ void guiStampaCarta (Carta *carta, bool dettagli) {
  */
 void guiScegliAzione () {
     printf("\n"
-        "Scegli la tua prossima azione:"
-        "\n"
-        "1. Gioca una carta"
-        " | "
-        "2. Pesca una carta"
-        " | "
-        "3. Controlla le tue carte"
-        " | "
-        "4. Salva ed Esci"
-        CURSORE_INPUT);
+            "Scegli la tua prossima azione:" "\n"
+            "%d. Gioca una carta"
+            " | "
+            "%d. Pesca una carta"
+            " | "
+            "%d. Controlla le tue carte"
+            " | "
+            "%d. Salva ed Esci"
+            CURSORE_INPUT,
+            COMANDO_OPZIONE_1,
+            COMANDO_OPZIONE_2,
+            COMANDO_OPZIONE_3,
+            COMANDO_ESCI
+            );
 }
+
+/** Mostra il menù dello stato della partita.
+ *
+ */
+void guiMostraStatoPartita () {
+    printf("\n"
+       "Scegli cosa vuoi fare:"                             "\n");
+    printf("\n"
+           "%d. Mostra le mie carte giocabili"               "\n"
+           "%d. Mostra le mie carte dell'aula"               "\n"
+           "%d. Mostra le mie carte bonus/malus"             "\n"
+           "%d. Mostra le carte degli altri giocatori..."    "\n"
+           "%d. Torna indietro",
+           COMANDO_OPZIONE_1,
+           COMANDO_OPZIONE_2,
+           COMANDO_OPZIONE_3,
+           COMANDO_OPZIONE_4,
+           COMANDO_ESCI
+           );
+}
+
+/* Gestione delle stringhe */
 
 /** Modifica il parametro str con l'azione in entrata
  *
@@ -289,6 +344,11 @@ void strPuoEssereGiocato (char **str, bool puoEssereGiocato) {
     else *str = STR_FALSE;
 }
 
+/** Modifica una stringa mettendoci dentro i colori per la printf
+ *
+ * @param str La stringa da modificare con la macro colorata
+ * @param giocatore Il numero del giocatore a cui vi sarà dato un colore
+ */
 void strColoreGiocatore (char **str, int giocatore) {
     switch (giocatore) {
         case 1:
