@@ -27,9 +27,8 @@ void gestioneEffetti ();
 void pescaCarta (Carta **mazzoGiocatore, Carta **mazzoPesca);
 
 int avantiTurno(int turno, Giocatore **listaGiocatori, Carta **mazzoPesca);
-int scegliAzione ();
 void creaNuovaPartita (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesca,
                         Carta **mazzoScarti, Carta **mazzoAulaStudio);
-void mostraStatusPartita (Giocatore *listaGiocatori);
+void mostraStatusPartita (Giocatore *listaGiocatori, int nGiocatori);
 
 #endif //GIOCO_H

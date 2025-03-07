@@ -18,7 +18,13 @@ void premiInvioPerContinuare () {
     flushInputBuffer();
 }
 
-int richiediInput (int min, int max) {
+/** Una funzione che restituisce un numero inserito dall'utente, che può essere solo quello dell'intervallo scelto.
+ *
+ * @param min Il numero minimo dell'intervallo
+ * @param max Il numero massimo dell'intervallo
+ * @return Ritorna l'input del giocatore
+ */
+int inserisciNumero (int min, int max) {
     int input;
     do {
         printf(CURSORE_INPUT);

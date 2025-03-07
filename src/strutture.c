@@ -31,7 +31,7 @@ int creaGiocatori(Giocatore **listaGiocatori) {
     // Chiede quanti giocatori vuole che vengano creati
     printf("\n"
             "Quanti giocatori giocheranno? [2-4]:");
-    int nGiocatori = richiediInput(GIOCATORI_MIN, GIOCATORI_MAX);
+    int nGiocatori = inserisciNumero(GIOCATORI_MIN, GIOCATORI_MAX);
 
     // Una stringa che contiene il colore che verrà usato per mostrare i giocatori
     char *str; // Stringa che contiene il colore del giocatore

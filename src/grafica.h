@@ -15,8 +15,9 @@
 // GUI
 void guiSplashScreen ();
 void guiHeader (int turno, int nGiocatori, char nomeGiocatore[]);
-void guiStampaMazzo (Carta *mazzoCarte);
+void guiStampaMazzo (Carta *mazzoCarte, bool dettagli);
 void guiStampaCarta (Carta *carta, bool dettagli);
+void guiStampaCarteGiocatore (Giocatore *giocatore, bool mostraMano);
 void guiScegliAzione ();
 void guiMostraStatoPartita ();
 

@@ -67,8 +67,9 @@ void guiHeader (int turno, int nGiocatori, char nomeGiocatore[]) {
 /** Dato un mazzo, stampa le carte in esso contenute con tutti i dettagli
  *
  * @param mazzoCarte Il mazzo di carte
+ * @param dettagli
  */
-void guiStampaMazzo (Carta *mazzoCarte) {
+void guiStampaMazzo (Carta *mazzoCarte, bool dettagli) {
     // Conta anche il numero di carte, e stampa il numero di ogni carta (utile per giocare la carta)
     int i = 1;
     while (mazzoCarte != NULL) {
@@ -166,6 +167,33 @@ void guiStampaCarta (Carta *carta, bool dettagli) {
     }
 }
 
+void guiStampaCarteGiocatore (Giocatore *giocatore, bool mostraMano) {
+    if (mostraMano) {
+        printf("\n"
+               HYEL
+               "Carte in mano "
+               RESET
+               "al giocatore: "
+               "%s", giocatore->nome);
+        guiStampaMazzo(giocatore->carteGiocatore, false);
+    }
+    printf("\n"
+            BRED
+            "Carte in aula "
+            RESET
+            "al giocatore: "
+            "%s", giocatore->nome);
+    guiStampaMazzo(giocatore->carteAulaGiocatore, false);
+
+    printf("\n"
+            BRED
+            "Carte bonus/malus "
+            RESET
+            "del giocatore: "
+            "%s", giocatore->nome);
+    guiStampaMazzo(giocatore->carteBonusMalusGiocatore, false);
+}
+
 /** Mostra il menù di scelta delle carte.
  *
  */
@@ -178,8 +206,7 @@ void guiScegliAzione () {
             " | "
             "%d. Controlla le tue carte"
             " | "
-            "%d. Salva ed Esci"
-            CURSORE_INPUT,
+            "%d. Salva ed Esci",
             COMANDO_OPZIONE_1,
             COMANDO_OPZIONE_2,
             COMANDO_OPZIONE_3,
@@ -192,7 +219,7 @@ void guiScegliAzione () {
  */
 void guiMostraStatoPartita () {
     printf("\n"
-       "Scegli cosa vuoi fare:"                             "\n");
+       "Scegli cosa vuoi fare:"                              "\n");
     printf("\n"
            "%d. Mostra le mie carte giocabili"               "\n"
            "%d. Mostra le mie carte dell'aula"               "\n"

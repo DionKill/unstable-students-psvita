@@ -106,6 +106,7 @@ void salvataggio (int nGiocatori, Giocatore *listaGiocatori, Carta *mazzoPesca,
         length = contaCarte(listaGiocatori->carteBonusMalusGiocatore); // Int che ha la lunghezza della lista
         fwrite(&length, sizeof(int), 1, fp);
         salvataggioMazzo(listaGiocatori->carteBonusMalusGiocatore, &fp);
+        listaGiocatori = listaGiocatori->next;
     }
 
     // Scrive la grandezza di ogni altro mazzo rimanente, seguito da tutte le carte di quel mazzo

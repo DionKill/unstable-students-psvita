@@ -12,7 +12,7 @@
 #define CURSORE_INPUT "\n>: "
 
 void premiInvioPerContinuare ();
-int richiediInput (int min, int max);
+int inserisciNumero (int min, int max);
 void flushInputBuffer ();
 
 #endif //MISC_H

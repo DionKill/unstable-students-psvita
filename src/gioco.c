@@ -30,15 +30,16 @@ void gioco () {
 
     // TODO: Funzione che controlla quando vinci così la metto nella condizione del main
     // Questo loop controlla le scelte del giocatore. È abbastanza self-explanatory
-    while (turno < 5) {
+    while (turno < 50) {
         pulisciSchermo();
         guiHeader(turno, nGiocatori, listaGiocatori->nome);
 
-        int scelta = scegliAzione();
+        guiScegliAzione();
+        int scelta = inserisciNumero(COMANDO_ESCI, COMANDO_OPZIONE_4);
 
         // Controlla la scelta e richiama le funzioni necessarie
         switch (scelta) {
-            case COMANDO_GIOCA_CARTA:
+            case COMANDO_OPZIONE_1:
                 // TODO: gioca una carta
                 giocaCarta(listaGiocatori);
                 turno = avantiTurno(turno, &listaGiocatori, &mazzoPesca);
@@ -51,14 +52,14 @@ void gioco () {
                 pulisciSchermo();
                 guiHeader(turno, nGiocatori, listaGiocatori->nome);
 
-                premiInvioPerContinuare();
+                mostraStatusPartita(listaGiocatori, nGiocatori);
+
             break;
             case COMANDO_ESCI:
                 // TODO: tutta la roba del salvataggio lol
                 return;
             default: break; // Aggiunto solo perché CLion dava warning
         }
-        listaGiocatori = listaGiocatori->next;
         salvataggio(nGiocatori, listaGiocatori, mazzoPesca, mazzoScarti, mazzoAulaStudio, SALVATAGGIO);
     }
 }
@@ -99,44 +100,17 @@ int avantiTurno(int turno, Giocatore **listaGiocatori, Carta **mazzoPesca) {
     return turno + 1;
 }
 
-/** Funzione ineccepibile che fornisce una scelta di cose che può fare il giocatore e ritorna l'opzione scelta.
- *
- * @return La scelta del giocatore.
- */
-int scegliAzione () {
-    int scelta;
-    do {
-        guiScegliAzione(); // Stampa il menù di scelta
-
-        scanf("%d", &scelta);
-        flushInputBuffer();
-    } while (scelta < 0 || scelta > COMANDO_ESCI);
-
-    return scelta;
-}
-
 /** Una funzione che gioca una carta scelta del giocatore
  *
  */
 void giocaCarta (Giocatore *giocatore) {
     // Pulisce lo schermo e stampa il mazzo
     pulisciSchermo();
-    guiStampaMazzo(giocatore->carteGiocatore);
+    guiStampaMazzo(giocatore->carteGiocatore, false);
 
     // L'utente inserisce una carta
-    int scelta, nCarte = contaCarte(giocatore->carteGiocatore);
-    do {
-        printf("\n"
-               "Scegli una carta:"
-               CURSORE_INPUT);
-        scanf("%d", &scelta);
-
-        // Messaggio di errore se la carta scelta non è corretta
-        if (scelta > nCarte)
-            printf("\n"
-                    "Hai inserito un numero invalido!"
-                    CURSORE_INPUT);
-    } while (scelta <= nCarte && scelta > 0);
+    int nCarte = contaCarte(giocatore->carteGiocatore);
+    int scelta = inserisciNumero(1, nCarte);
 
     // Parte da uno nel contare
     for (int i = 0; i < scelta; ++i)
@@ -147,13 +121,39 @@ void giocaCarta (Giocatore *giocatore) {
  *
  * @param listaGiocatori La lista dei giocatori
  */
-void mostraStatusPartita (Giocatore *listaGiocatori) {
+void mostraStatusPartita (Giocatore *listaGiocatori, int nGiocatori) {
     // Pulisce lo schermo e stampa le opzioni
-    pulisciSchermo();
     guiMostraStatoPartita();
 
     // Richiesta dell'input al giocatore
-    int input = richiediInput(COMANDO_ESCI, COMANDO_OPZIONE_4);
+    int input = inserisciNumero(COMANDO_ESCI, COMANDO_OPZIONE_4);
+    switch (input) {
+        case COMANDO_OPZIONE_1:
+            pulisciSchermo();
+            guiStampaMazzo(listaGiocatori->carteGiocatore, false);
+            premiInvioPerContinuare();
+        break;
+        case COMANDO_OPZIONE_2:
+            pulisciSchermo();
+            guiStampaMazzo(listaGiocatori->carteAulaGiocatore, false);
+            premiInvioPerContinuare();
+        break;
+        case COMANDO_OPZIONE_3:
+            pulisciSchermo();
+            guiStampaMazzo(listaGiocatori->carteBonusMalusGiocatore, false);
+            premiInvioPerContinuare();
+        break;
+        case COMANDO_OPZIONE_4:
+            for (int i = 0; i < nGiocatori - 1; i++) {
+                listaGiocatori = listaGiocatori->next;
+                if (false) // TODO: se il giocatore contiene una carta che gli fa mostrare tutto o non so bene come funzioni
+                    guiStampaCarteGiocatore(listaGiocatori, true);
+                else guiStampaCarteGiocatore(listaGiocatori, false);
+            }
+            premiInvioPerContinuare();
+        break;
+        default: break;
+    }
 }
 
 /** Piccola funzione che fa pescare una carta
