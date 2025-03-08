@@ -22,13 +22,17 @@
 #define COMANDO_ANNULLA 27 // ESC
 
 void gioco ();
-void giocaCarta (Giocatore *giocatore);
-void gestioneEffetti (Giocatore *listaGiocatori, int nCarta);
 void pescaCarta (Carta **mazzoGiocatore, Carta **mazzoPesca);
-
 int avantiTurno(int turno, Giocatore **listaGiocatori, Carta **mazzoPesca);
 void creaNuovaPartita (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesca,
                         Carta **mazzoScarti, Carta **mazzoAulaStudio);
+
+void giocaCarta (Giocatore *giocatore);
+void gestioneEffetti (Giocatore *listaGiocatori, int nCarta, int nGiocatori);
+void effettoAzioneCarta (Giocatore *giocatore, int nGiocatori, Azione azione);
+
+int effettoTargetGiocatori(Giocatore **giocatore, int nGiocatori, const Effetto *effetto);
+
 void mostraStatusPartita (Giocatore *listaGiocatori, int nGiocatori);
 
 #endif //GIOCO_H

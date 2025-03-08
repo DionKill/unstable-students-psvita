@@ -112,27 +112,32 @@ void giocaCarta (Giocatore *giocatore) {
     int nCarte = contaCarte(giocatore->carteGiocatore);
     int scelta = inserisciNumero(1, nCarte);
 
-    gestioneEffetti(giocatore, scelta);
+    gestioneEffetti(giocatore, scelta, nGiocatori);
 }
 
 /** Gestisce gli effetti delle carte.
  * @param listaGiocatori Il giocatore attuale
  * @param nCarta Il numero della carta da utilizzare (per non passare la carta direttamente)
+ * @param nGiocatori
 */
-void gestioneEffetti (Giocatore *listaGiocatori, int nCarta) {
+void gestioneEffetti (Giocatore *listaGiocatori, int nCarta, int nGiocatori) {
     // Puntatore temporaneo alle carte giocabili
     Carta *tmp = listaGiocatori->carteGiocatore;
+
     // Parte da uno nel contare la carta da selezionare
     for (int i = 0; i < nCarta; ++i) {
         tmp = tmp->next;
     }
 
-    // Una variabile che contiene il contenuto di nEffetti, perché l'accesso è troppo frequente per lasciarlo a tmp
-    int nEffetti = tmp->nEffetti;
+    // Ciclo che va avanti nEffetti volte
+    for (int i = 0; i < tmp->nEffetti; i++) {
+        // Crea un puntatore temporaneo ai giocatori a cui andranno gli effetti delle carte
+        Giocatore *giocatoriTarget = listaGiocatori;
+        // Intero che è la lunghezza della lista dei giocatori affetti
+        int nTarget;
 
-    for (int i = 0; i < nEffetti; i++) {
-        // Gestione azioni
-
+        // nTarget si aggiorna come lunghezza della lista, e modifica la lista dei giocatori affetti
+        nTarget = effettoTargetGiocatori(&listaGiocatori, nGiocatori, &tmp->effetto[i]);
     }
 }
 
@@ -173,36 +178,45 @@ void effettoAzioneCarta (Giocatore *giocatore, int nGiocatori, Azione azione) {
         case INGEGNERE:
         break;
     }
-    while (giocatoreTmp != NULL);
 }
 
-/** Chiama l'effetto della
+/** Restituisce la lista di giocatori a cui vanno applicati gli effetti.
+ * Perché fare questo al posto di creare una nuova lista?
+ * Perché per farlo va allocata memoria, e non ha senso dato che alla fine si lavora sempre sugli stessi puntatori
+ * di mazzi di carte dei giocatori (in breve: sarebbe più complicato del necessario).
  *
- * @param target Il o i giocatori a cui verranno applicati gli effetti
+ * @param listaGiocatori La lista dei giocatori originale, modificata in base al target
+ * @param nGiocatori Il numero dei giocatori totali della partita
+ * @param target L'effetto
  */
-void effettoTargetCarta(Giocatore *giocatore, int nGiocatori, Carta *carta, Effetto *effetto) {
-    // Il target dei giocatori
-    switch (effetto->targetGiocatori) {
+int effettoTargetGiocatori(Giocatore **listaGiocatori, int nGiocatori, TargetGiocatori target) {
+    // La lunghezza della lista
+    int nTarget = nGiocatori;
+
+    // Questo switch controlla i target, e modifica la variabile di ritorno, insieme alla lista
+    switch (target) {
         case IO:
-            effettoAzioneCarta(giocatore, nGiocatori, effetto->azione);
+            nTarget = 1;
         break;
         case TU:
             // Scorre in avanti la lista e nGiocatori - 1 per far scegliere tutti tranne se stessi
-            giocatore = giocatore->next;
+            *listaGiocatori = (*listaGiocatori)->next;
             int scelta = inserisciNumero(1, nGiocatori - 1);
 
             // Scorre fino al giocatore scelto
             for (int i = 0; i < scelta; i++)
-                giocatore = giocatore->next;
-            effettoAzioneCarta(giocatore, nGiocatori, effetto->azione);
+                *listaGiocatori = (*listaGiocatori)->next;
+
+            nTarget = nGiocatori - 1;
         break;
         case VOI:
-            giocatore = giocatore->next;
-            effettoAzioneCarta(giocatore, nGiocatori - 1, effetto->azione);
+            *listaGiocatori = (*listaGiocatori)->next;
+            nTarget = nGiocatori - 1;
         break;
         case TUTTI:
-            effettoAzioneCarta(giocatore, nGiocatori, effetto->azione);
+            nTarget = nGiocatori;
     }
+    return nTarget;
 }
 
 /** Un menù che chiede al giocatore che cosa vuole vedere riguardo la partita corrente
