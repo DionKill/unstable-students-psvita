@@ -90,6 +90,7 @@ typedef struct effetto {
 // Gestione giocatori (alcune di queste includono inserimento di testo, ma era inevitabile)
 void rendiListaGiocatoriCircolare(Giocatore *listaGiocatori);
 int creaGiocatori(Giocatore **listaGiocatori);
+
 // Gestione carte
 Carta *allocaCarta ();
 int contaCarte (Carta *mazzo);
@@ -98,7 +99,7 @@ Carta *dividiMazzoMatricola (Carta **mazzo);
 void shuffleCarte (Carta **mazzoOriginale);
 void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput);
 void spostaCartaNelMazzoGiocatoreGiusto (Giocatore *giocatore, Carta **carta);
-void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPesca);
+
 // Miscellanee
 void liberaMemoria (Carta *testaMazzo);
 

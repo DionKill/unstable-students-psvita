@@ -263,34 +263,6 @@ void spostaCartaNelMazzoGiocatoreGiusto (Giocatore *giocatore, Carta **carta) {
     else spostaCarta(carta, *carta, &giocatore->carteGiocatore);
 }
 
-/** Distribuisce le carte ai giocatori, prendendole dal mazzo già mescolato da pesca.
- * TODO: serve a qualcosa?????
- * @param cntCarte Il numero di giocatori
- * @param listaGiocatori La lista di giocatori a cui dare le carte
- * @param mazzoPesca Il mazzo da cui attingere le carte
- */
-void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPesca) {
-    // Un ciclo che continua finché ci sono carte da pescare (scorre nella lista circolare dei giocatori)
-    for (int i = 0; i < cntCarte; i++) {
-        // Copia della testa per non perdere il next del mazzoPesca quando scorrerà (lo vediamo immediatamente)
-        Carta *tmpMazzoPesca = (*mazzoPesca)->next;
-
-        // Mette come next della carta in testa al mazzo da pesca, la testa del mazzo del giocatore
-        // La nuova carta (con tutte le carte già presenti al next) viene messa come nuova testa del mazzo
-        if ((*mazzoPesca)->tipo == MATRICOLA) {
-            (*mazzoPesca)->next = listaGiocatori->carteAulaGiocatore;
-            listaGiocatori->carteAulaGiocatore = *mazzoPesca;
-        } else {
-            (*mazzoPesca)->next = listaGiocatori->carteGiocatore;
-            listaGiocatori->carteGiocatore = *mazzoPesca;
-        }
-
-        // Scorre avanti le due liste
-        *mazzoPesca = tmpMazzoPesca;
-        listaGiocatori = listaGiocatori->next;
-    }
-}
-
 /** Libera la memoria usata dal programma prima dell'uscita
  * Spoiler: le dipendenze circolari mi costringono a mettere la funzione qui, perciò così sarà.
  * TODO: completare la funzione
