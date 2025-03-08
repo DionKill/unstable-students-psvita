@@ -8,18 +8,6 @@
 
 /*--- Gestione dei giocatori ---*/
 
-/** Inserisce la testa come prossimo nodo in coda, per poter ciclare all'infinito, creando una lista circolare
- *
- * @param listaGiocatori La lista dei giocatori
- * @return La lista dei giocatori ma che ha, come ultimo nodo, il primo della lista
- */
-void rendiListaGiocatoriCircolare(Giocatore *listaGiocatori) {
-    Giocatore *tmp = listaGiocatori; // Variabile temporanea
-    while (listaGiocatori->next != NULL)
-        listaGiocatori = listaGiocatori->next;
-    listaGiocatori->next = tmp;
-}
-
 /** Funzione che crea la lista di giocatori
  *
  * @return Ritorna la nuova lista di giocatori
@@ -40,11 +28,7 @@ int creaGiocatori(Giocatore **listaGiocatori) {
     int i = 0;
     // Chiede all'utente il nome finché non è valido
     while (i < nGiocatori) {
-        // Alloca il giocatore, altrimenti esce, e imposta il prossimo nodo a NULL per evitare errori
-        *tmp = (Giocatore *) malloc(sizeof(Giocatore));
-        if (*tmp == NULL) exit(EXIT_FAILURE);
-        (*tmp)->next == NULL;
-
+        *tmp = allocaGiocatore();
         printf ("\n"
                 "Inserisci il nome del giocatore %s%d:"
                 RESET
@@ -68,6 +52,34 @@ int creaGiocatori(Giocatore **listaGiocatori) {
     rendiListaGiocatoriCircolare(*listaGiocatori); // Rende la lista dei giocatori circolare
 
     return nGiocatori;
+}
+
+/** Alloca lo spazio in memoria per un giocatore
+ *
+ * @return Ritorna un nuovo giocatore allocato
+ */
+Giocatore *allocaGiocatore () {
+    // Alloca il giocatore, altrimenti esce, e imposta il prossimo nodo a NULL per evitare errori
+    Giocatore *giocatore = NULL;
+    giocatore = (Giocatore *) malloc(sizeof(Giocatore));
+
+    if (giocatore == NULL) exit(EXIT_FAILURE);
+
+    giocatore->next = NULL;
+
+    return giocatore;
+}
+
+/** Inserisce la testa come prossimo nodo in coda, per poter ciclare all'infinito, creando una lista circolare
+ *
+ * @param listaGiocatori La lista dei giocatori
+ * @return La lista dei giocatori ma che ha, come ultimo nodo, il primo della lista
+ */
+void rendiListaGiocatoriCircolare(Giocatore *listaGiocatori) {
+    Giocatore *tmp = listaGiocatori; // Variabile temporanea
+    while (listaGiocatori->next != NULL)
+        listaGiocatori = listaGiocatori->next;
+    listaGiocatori->next = tmp;
 }
 
 /*--- Gestione delle carte ---*/
@@ -248,19 +260,31 @@ void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput) {
     }
 }
 
-/** Funzione che sposta la carta desiderata nel corretto mazzo del giocatore,
- * ad esempio le carte bonus nel mazzo bonusmalus... etc...
- * @param giocatore Il giocatore a cui va messa la carta nel mazzo giusto
- * @param carta La carta da spostare
+
+/** Distribuisce le carte ai giocatori, prendendole dal mazzo già mescolato da pesca.
+ * @param cntCarte Il numero di giocatori
+ * @param listaGiocatori La lista di giocatori a cui dare le carte
+ * @param mazzoPesca Il mazzo da cui attingere le carte
  */
-void spostaCartaNelMazzoGiocatoreGiusto (Giocatore *giocatore, Carta **carta) {
-    if ((*carta)->tipo == MATRICOLA || (*carta)->tipo == STUDENTE_SEMPLICE || (*carta)->tipo == LAUREANDO)
-        spostaCarta(carta, *carta, &giocatore->carteAulaGiocatore);
+void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPesca) {
+    // Un ciclo che continua finché ci sono carte da pescare (scorre nella lista circolare dei giocatori)
+    for (int i = 0; i < cntCarte; i++) {
+        // Copia della testa per non perdere il next del mazzoPesca quando scorrerà (lo vediamo immediatamente)
+        Carta *tmpMazzoPesca = (*mazzoPesca)->next;
 
-    else if ((*carta)->tipo == BONUS || (*carta)->tipo == MALUS)
-        spostaCarta(carta, *carta, &giocatore->carteBonusMalusGiocatore);
-
-    else spostaCarta(carta, *carta, &giocatore->carteGiocatore);
+        // Mette come next della carta in testa al mazzo da pesca, la testa del mazzo del giocatore
+        // La nuova carta (con tutte le carte già presenti al next) viene messa come nuova testa del mazzo
+        if ((*mazzoPesca)->tipo == MATRICOLA) {
+            (*mazzoPesca)->next = listaGiocatori->carteAulaGiocatore;
+            listaGiocatori->carteAulaGiocatore = *mazzoPesca;
+        } else {
+            (*mazzoPesca)->next = listaGiocatori->carteGiocatore;
+            listaGiocatori->carteGiocatore = *mazzoPesca;
+        }
+        // Scorre avanti le due liste
+        *mazzoPesca = tmpMazzoPesca;
+        listaGiocatori = listaGiocatori->next;
+    }
 }
 
 /** Libera la memoria usata dal programma prima dell'uscita

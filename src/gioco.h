@@ -23,7 +23,7 @@
 
 void gioco ();
 void giocaCarta (Giocatore *giocatore);
-void gestioneEffetti ();
+void gestioneEffetti (Giocatore *listaGiocatori, int nCarta);
 void pescaCarta (Carta **mazzoGiocatore, Carta **mazzoPesca);
 
 int avantiTurno(int turno, Giocatore **listaGiocatori, Carta **mazzoPesca);

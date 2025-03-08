@@ -112,19 +112,97 @@ void giocaCarta (Giocatore *giocatore) {
     int nCarte = contaCarte(giocatore->carteGiocatore);
     int scelta = inserisciNumero(1, nCarte);
 
-    Carta *tmp = giocatore->carteGiocatore;
+    gestioneEffetti(giocatore, scelta);
+}
+
+/** Gestisce gli effetti delle carte.
+ * @param listaGiocatori Il giocatore attuale
+ * @param nCarta Il numero della carta da utilizzare (per non passare la carta direttamente)
+*/
+void gestioneEffetti (Giocatore *listaGiocatori, int nCarta) {
+    // Puntatore temporaneo alle carte giocabili
+    Carta *tmp = listaGiocatori->carteGiocatore;
     // Parte da uno nel contare la carta da selezionare
-    for (int i = 0; i < scelta; ++i) {
+    for (int i = 0; i < nCarta; ++i) {
         tmp = tmp->next;
     }
 
+    // Una variabile che contiene il contenuto di nEffetti, perché l'accesso è troppo frequente per lasciarlo a tmp
+    int nEffetti = tmp->nEffetti;
+
+    for (int i = 0; i < nEffetti; i++) {
+        // Gestione azioni
+
+    }
 }
 
-/** Ci siamo...
-*
-*/
-void gestioneEffetti (Carta) {
+/** Gestisce gli eventi dell'effetto azione della carta
+ *
+ * @param giocatore Il giocatore interessato
+ * @param nGiocatori
+ * @param azione L'azione della carta
+ */
+void effettoAzioneCarta (Giocatore *giocatore, int nGiocatori, Azione azione) {
+    // Crea un giocatore temporaneo per gestire gli effetti
+    Giocatore *giocatoreTmp = NULL;
 
+    switch (azione) {
+        case GIOCA:
+            giocaCarta(giocatore);
+        break;
+        case SCARTA:
+            printf("\n" "Dovrai scartare una carta. Scegli quale.");
+        break;
+        case ELIMINA:
+
+        break;
+        case RUBA:
+        break;
+        case PESCA:
+        break;
+        case PRENDI:
+        break;
+        case BLOCCA:
+        break;
+        case SCAMBIA:
+        break;
+        case MOSTRA:
+        break;
+        case IMPEDIRE:
+        break;
+        case INGEGNERE:
+        break;
+    }
+    while (giocatoreTmp != NULL);
+}
+
+/** Chiama l'effetto della
+ *
+ * @param target Il o i giocatori a cui verranno applicati gli effetti
+ */
+void effettoTargetCarta(Giocatore *giocatore, int nGiocatori, Carta *carta, Effetto *effetto) {
+    // Il target dei giocatori
+    switch (effetto->targetGiocatori) {
+        case IO:
+            effettoAzioneCarta(giocatore, nGiocatori, effetto->azione);
+        break;
+        case TU:
+            // Scorre in avanti la lista e nGiocatori - 1 per far scegliere tutti tranne se stessi
+            giocatore = giocatore->next;
+            int scelta = inserisciNumero(1, nGiocatori - 1);
+
+            // Scorre fino al giocatore scelto
+            for (int i = 0; i < scelta; i++)
+                giocatore = giocatore->next;
+            effettoAzioneCarta(giocatore, nGiocatori, effetto->azione);
+        break;
+        case VOI:
+            giocatore = giocatore->next;
+            effettoAzioneCarta(giocatore, nGiocatori - 1, effetto->azione);
+        break;
+        case TUTTI:
+            effettoAzioneCarta(giocatore, nGiocatori, effetto->azione);
+    }
 }
 
 /** Un menù che chiede al giocatore che cosa vuole vedere riguardo la partita corrente
