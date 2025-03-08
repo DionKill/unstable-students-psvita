@@ -112,9 +112,19 @@ void giocaCarta (Giocatore *giocatore) {
     int nCarte = contaCarte(giocatore->carteGiocatore);
     int scelta = inserisciNumero(1, nCarte);
 
-    // Parte da uno nel contare
-    for (int i = 0; i < scelta; ++i)
-        giocatore = giocatore->next;
+    Carta *tmp = giocatore->carteGiocatore;
+    // Parte da uno nel contare la carta da selezionare
+    for (int i = 0; i < scelta; ++i) {
+        tmp = tmp->next;
+    }
+
+}
+
+/** Ci siamo...
+*
+*/
+void gestioneEffetti (Carta) {
+
 }
 
 /** Un menù che chiede al giocatore che cosa vuole vedere riguardo la partita corrente

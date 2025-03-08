@@ -25,9 +25,6 @@ void rendiListaGiocatoriCircolare(Giocatore *listaGiocatori) {
  * @return Ritorna la nuova lista di giocatori
  */
 int creaGiocatori(Giocatore **listaGiocatori) {
-    // Un doppio puntatore alla lista che verrà modificata
-    Giocatore **tmp = listaGiocatori;
-
     // Chiede quanti giocatori vuole che vengano creati
     printf("\n"
             "Quanti giocatori giocheranno? [2-4]:");
@@ -36,6 +33,9 @@ int creaGiocatori(Giocatore **listaGiocatori) {
     // Una stringa che contiene il colore che verrà usato per mostrare i giocatori
     char *str; // Stringa che contiene il colore del giocatore
     strColoreGiocatore(&str, nGiocatori);
+
+    // Un doppio puntatore alla lista che verrà modificata
+    Giocatore **tmp = listaGiocatori;
 
     int i = 0;
     // Chiede all'utente il nome finché non è valido

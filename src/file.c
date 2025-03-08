@@ -97,30 +97,30 @@ void salvataggio (int nGiocatori, Giocatore *listaGiocatori, Carta *mazzoPesca,
 
         int length = contaCarte(listaGiocatori->carteGiocatore); // Int che ha la lunghezza della lista
         fwrite(&length, sizeof(int), 1, fp);
-        salvataggioMazzo(listaGiocatori->carteGiocatore, &fp);
+        salvataggioMazzo(listaGiocatori->carteGiocatore, fp);
 
         length = contaCarte(listaGiocatori->carteAulaGiocatore); // Int che ha la lunghezza della lista
         fwrite(&length, sizeof(int), 1, fp);
-        salvataggioMazzo(listaGiocatori->carteAulaGiocatore, &fp);
+        salvataggioMazzo(listaGiocatori->carteAulaGiocatore, fp);
 
         length = contaCarte(listaGiocatori->carteBonusMalusGiocatore); // Int che ha la lunghezza della lista
         fwrite(&length, sizeof(int), 1, fp);
-        salvataggioMazzo(listaGiocatori->carteBonusMalusGiocatore, &fp);
+        salvataggioMazzo(listaGiocatori->carteBonusMalusGiocatore, fp);
         listaGiocatori = listaGiocatori->next;
     }
 
     // Scrive la grandezza di ogni altro mazzo rimanente, seguito da tutte le carte di quel mazzo
     int nCarte = contaCarte(mazzoPesca); // Intero che salva la lunghezza del mazzo
     fwrite(&nCarte, sizeof(int), 1, fp);
-    salvataggioMazzo(mazzoPesca, &fp);
+    salvataggioMazzo(mazzoPesca, fp);
 
     nCarte = contaCarte(mazzoScarti); // Intero che salva la lunghezza del mazzo
     fwrite(&nCarte, sizeof(int), 1, fp);
-    salvataggioMazzo(mazzoScarti, &fp);
+    salvataggioMazzo(mazzoScarti, fp);
 
     nCarte = contaCarte(mazzoAulaStudio); // Intero che salva la lunghezza del mazzo
     fwrite(&nCarte, sizeof(int), 1, fp);
-    salvataggioMazzo(mazzoAulaStudio, &fp);
+    salvataggioMazzo(mazzoAulaStudio, fp);
 
     // Chiude il file
     fclose(fp);
@@ -131,15 +131,15 @@ void salvataggio (int nGiocatori, Giocatore *listaGiocatori, Carta *mazzoPesca,
  * @param mazzo Il mazzo da salvare su file
  * @param fp Il puntatore a file, che va modificato
  */
-void salvataggioMazzo (Carta *mazzo, FILE **fp) {
+void salvataggioMazzo (Carta *mazzo, FILE *fp) {
     while (mazzo != NULL) {
-        fwrite(mazzo, sizeof(Carta), 1, *fp);
+        fwrite(mazzo, sizeof(Carta), 1, fp);
 
         // Se degli effetti sono presenti, scrive i loro attributi sul file
         for (int j = 0; j < mazzo->nEffetti; j++) {
-            fwrite(&mazzo->effetto[j].azione, sizeof(Azione), 1, *fp); // Scrive l'azione
-            fwrite(&mazzo->effetto[j].targetGiocatori, sizeof(TargetGiocatori), 1, *fp); // Scrive il target
-            fwrite(&mazzo->effetto[j].tipo, sizeof(TipologiaCarta), 1, *fp); // Scrive la tipologia
+            fwrite(&mazzo->effetto[j].azione, sizeof(Azione), 1, fp); // Scrive l'azione
+            fwrite(&mazzo->effetto[j].targetGiocatori, sizeof(TargetGiocatori), 1, fp); // Scrive il target
+            fwrite(&mazzo->effetto[j].tipo, sizeof(TipologiaCarta), 1, fp); // Scrive la tipologia
         }
 
         mazzo = mazzo->next; // Segue alla prossima carta
@@ -176,13 +176,13 @@ void caricamento (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesc
         fread(*tmpGiocatore, sizeof(Giocatore), 1, fp);
 
         fread(&length, sizeof(int), 1, fp);
-        caricamentoMazzo(length, &(*tmpGiocatore)->carteGiocatore, &fp);
+        caricamentoMazzo(length, &(*tmpGiocatore)->carteGiocatore, fp);
 
         fread(&length, sizeof(int), 1, fp);
-        caricamentoMazzo(length, &(*tmpGiocatore)->carteAulaGiocatore, &fp);
+        caricamentoMazzo(length, &(*tmpGiocatore)->carteAulaGiocatore, fp);
 
         fread(&length, sizeof(int), 1, fp);
-        caricamentoMazzo(length, &(*tmpGiocatore)->carteBonusMalusGiocatore, &fp);
+        caricamentoMazzo(length, &(*tmpGiocatore)->carteBonusMalusGiocatore, fp);
 
         (*tmpGiocatore)->next = NULL;
         tmpGiocatore = &(*tmpGiocatore)->next;
@@ -190,13 +190,13 @@ void caricamento (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesc
 
     // Legge la grandezza di ogni altro mazzo rimanente, seguito da tutte le carte di quel mazzo
     fread(&length, sizeof(int), 1, fp);
-    caricamentoMazzo(length, mazzoPesca, &fp);
+    caricamentoMazzo(length, mazzoPesca, fp);
 
     fread(&length, sizeof(int), 1, fp);
-    caricamentoMazzo(length, mazzoScarti, &fp);
+    caricamentoMazzo(length, mazzoScarti, fp);
 
     fread(&length, sizeof(int), 1, fp);
-    caricamentoMazzo(length, mazzoAulaStudio, &fp);
+    caricamentoMazzo(length, mazzoAulaStudio, fp);
 
     // Rende la lista circolare
     rendiListaGiocatoriCircolare(*listaGiocatori);
@@ -211,7 +211,7 @@ void caricamento (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesc
  * @param mazzo
  * @param fp Il puntatore a file, che va modificato
 */
-void caricamentoMazzo(int size, Carta **mazzo, FILE **fp) {
+void caricamentoMazzo(int size, Carta **mazzo, FILE *fp) {
     // Carte temporanee per scorrere il mazzo
     Carta **tmp = mazzo;
 
@@ -219,7 +219,7 @@ void caricamentoMazzo(int size, Carta **mazzo, FILE **fp) {
         *tmp = allocaCarta();
 
         // Legge il blocco della carta
-        fread(*tmp, sizeof(Carta), 1, *fp);
+        fread(*tmp, sizeof(Carta), 1, fp);
 
         // Imposta gli effetti della carta a NULL per evitare problemi
         (*tmp)->effetto = NULL;
@@ -233,9 +233,9 @@ void caricamentoMazzo(int size, Carta **mazzo, FILE **fp) {
 
         // Se degli effetti sono presenti, scrive i loro attributi sul file
         for (int j = 0; j < (*tmp)->nEffetti; j++) {
-            fread(&(*tmp)->effetto[j].azione, sizeof(Azione), 1, *fp); // Scrive l'azione
-            fread(&(*tmp)->effetto[j].targetGiocatori, sizeof(TargetGiocatori), 1, *fp); // Scrive il target
-            fread(&(*tmp)->effetto[j].tipo, sizeof(TipologiaCarta), 1, *fp); // Scrive la tipologia
+            fread(&(*tmp)->effetto[j].azione, sizeof(Azione), 1, fp); // Scrive l'azione
+            fread(&(*tmp)->effetto[j].targetGiocatori, sizeof(TargetGiocatori), 1, fp); // Scrive il target
+            fread(&(*tmp)->effetto[j].tipo, sizeof(TipologiaCarta), 1, fp); // Scrive la tipologia
         }
 
         // Il temporaneo scorre alla prossima carta
