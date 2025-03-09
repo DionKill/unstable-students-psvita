@@ -27,11 +27,11 @@ int avantiTurno(int turno, Giocatore **listaGiocatori, Carta **mazzoPesca);
 void creaNuovaPartita (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesca,
                         Carta **mazzoScarti, Carta **mazzoAulaStudio);
 
-void giocaCarta (Giocatore *giocatore);
-void gestioneEffetti (Giocatore *listaGiocatori, int nCarta, int nGiocatori);
-void effettoAzioneCarta (Giocatore *giocatore, int nGiocatori, Azione azione);
+void giocaCarta (Giocatore *listaGiocatori, int nGiocatori);
+void effettoAzioneCarta (GiocatoriAffetti
+                         giocatoriAffetti, Carta **mazzoPesca, Carta **mazzoScarti);
 
-int effettoTargetGiocatori(Giocatore **giocatore, int nGiocatori, const Effetto *effetto);
+int effettoTargetGiocatori(Giocatore **listaGiocatori, int nGiocatori, TargetGiocatori target);
 
 void mostraStatusPartita (Giocatore *listaGiocatori, int nGiocatori);
 

@@ -41,7 +41,7 @@ void gioco () {
         switch (scelta) {
             case COMANDO_OPZIONE_1:
                 // TODO: gioca una carta
-                giocaCarta(listaGiocatori);
+                giocaCarta(listaGiocatori, nGiocatori);
                 turno = avantiTurno(turno, &listaGiocatori, &mazzoPesca);
             break;
             case COMANDO_OPZIONE_2:
@@ -103,69 +103,97 @@ int avantiTurno(int turno, Giocatore **listaGiocatori, Carta **mazzoPesca) {
 /** Una funzione che gioca una carta scelta del giocatore
  *
  */
-void giocaCarta (Giocatore *giocatore) {
+void giocaCarta (Giocatore *listaGiocatori, int nGiocatori) {
     // Pulisce lo schermo e stampa il mazzo
     pulisciSchermo();
-    guiStampaMazzo(giocatore->carteGiocatore, false);
+    guiStampaMazzo(listaGiocatori->carteGiocatore, false);
 
     // L'utente inserisce una carta
-    int nCarte = contaCarte(giocatore->carteGiocatore);
+    int nCarte = contaCarte(listaGiocatori->carteGiocatore);
     int scelta = inserisciNumero(1, nCarte);
 
-    gestioneEffetti(giocatore, scelta, nGiocatori);
-}
-
-/** Gestisce gli effetti delle carte.
- * @param listaGiocatori Il giocatore attuale
- * @param nCarta Il numero della carta da utilizzare (per non passare la carta direttamente)
- * @param nGiocatori
-*/
-void gestioneEffetti (Giocatore *listaGiocatori, int nCarta, int nGiocatori) {
     // Puntatore temporaneo alle carte giocabili
-    Carta *tmp = listaGiocatori->carteGiocatore;
+    Carta *carta = listaGiocatori->carteGiocatore;
 
-    // Parte da uno nel contare la carta da selezionare
-    for (int i = 0; i < nCarta; ++i) {
-        tmp = tmp->next;
+    // Parte da uno nel contare la carta selezionata
+    for (int i = 0; i < scelta; ++i) {
+        carta = carta->next;
     }
+
+    // Struttura che contiene tutti i dati per poter effettuare la giocata
+    GiocatoriAffetti giocatoriAffetti = {
+        listaGiocatori,
+        nGiocatori,
+
+        listaGiocatori,
+        carta
+    };
 
     // Ciclo che va avanti nEffetti volte
-    for (int i = 0; i < tmp->nEffetti; i++) {
-        // Crea un puntatore temporaneo ai giocatori a cui andranno gli effetti delle carte
-        Giocatore *giocatoriTarget = listaGiocatori;
-        // Intero che è la lunghezza della lista dei giocatori affetti
-        int nTarget;
+    for (int i = 0; i < carta->nEffetti; i++) {
+        Giocatore *tmpGiocatoriAffetti = listaGiocatori;
 
-        // nTarget si aggiorna come lunghezza della lista, e modifica la lista dei giocatori affetti
-        nTarget = effettoTargetGiocatori(&listaGiocatori, nGiocatori, &tmp->effetto[i]);
+        // Questi parametri andranno sempre cambiati, perciò vengono dichiarati qua dentro.
+        giocatoriAffetti.indexEffetto = i;
+        giocatoriAffetti.giocatoriAffetti = tmpGiocatoriAffetti;
+        giocatoriAffetti.nGiocatoriAffetti = effettoTargetGiocatori(&tmpGiocatoriAffetti, nGiocatori, carta->effetto[i].targetGiocatori);
+
+        //effettoAzioneCarta
     }
+
 }
 
 /** Gestisce gli eventi dell'effetto azione della carta
  *
- * @param giocatore Il giocatore interessato
- * @param nGiocatori
- * @param azione L'azione della carta
+ * @param giocatoriAffetti Una struttura che contiene puntatori ai giocatori, carta giocata e giocatori affetti
+ * @param mazzoPesca Il mazzo dove pescare le carte
+ * @param mazzoScarti Il mazzo dove vengono scartate le carte
  */
-void effettoAzioneCarta (Giocatore *giocatore, int nGiocatori, Azione azione) {
-    // Crea un giocatore temporaneo per gestire gli effetti
-    Giocatore *giocatoreTmp = NULL;
+void effettoAzioneCarta (GiocatoriAffetti giocatoriAffetti, Carta **mazzoPesca, Carta **mazzoScarti) {
+    // Crea una variabile per... Evitare di dover scrivere tutto quello
+    Azione azione = giocatoriAffetti.cartaGiocata->effetto[giocatoriAffetti.indexEffetto].azione;
+    int nGiocatori = giocatoriAffetti.nGiocatori;
 
     switch (azione) {
         case GIOCA:
-            giocaCarta(giocatore);
+            giocaCarta(giocatoriAffetti.giocante, nGiocatori);
         break;
-        case SCARTA:
+        case SCARTA: {
             printf("\n" "Dovrai scartare una carta. Scegli quale.");
-        break;
-        case ELIMINA:
 
+            int nCarte = contaCarte(giocatoriAffetti.giocante->carteGiocatore);
+            int scelta = inserisciNumero(1, nCarte);
+
+            Carta *tmp = giocatoriAffetti.giocante->carteGiocatore;
+            for (int i = 1; i < scelta; i++) {
+                tmp = tmp->next;
+            }
+
+            spostaCarta(&giocatoriAffetti.giocante->carteGiocatore, tmp, mazzoScarti);
+        }
+        break;
+        case ELIMINA: {
+            printf("\n" "Dovrai scartare una carta. Scegli quale.");
+
+            int nCarte = contaCarte(giocatoriAffetti.giocante->carteGiocatore);
+            int scelta = inserisciNumero(1, nCarte);
+
+            Carta *tmp = giocatoriAffetti.giocante->carteGiocatore;
+            for (int i = 1; i < scelta; i++) {
+                tmp = tmp->next;
+            }
+
+            spostaCarta(&giocatoriAffetti.giocante->carteGiocatore, tmp, mazzoScarti);
+        }
         break;
         case RUBA:
+
         break;
         case PESCA:
+            pescaCarta(&giocatoriAffetti.giocante->carteGiocatore, mazzoPesca);
         break;
         case PRENDI:
+
         break;
         case BLOCCA:
         break;
@@ -187,7 +215,7 @@ void effettoAzioneCarta (Giocatore *giocatore, int nGiocatori, Azione azione) {
  *
  * @param listaGiocatori La lista dei giocatori originale, modificata in base al target
  * @param nGiocatori Il numero dei giocatori totali della partita
- * @param target L'effetto
+ * @param target L'effetto è applicato a questo/i giocatore/i
  */
 int effettoTargetGiocatori(Giocatore **listaGiocatori, int nGiocatori, TargetGiocatori target) {
     // La lunghezza della lista

@@ -87,6 +87,24 @@ typedef struct effetto {
     TargetGiocatori targetGiocatori;
 } Effetto;
 
+/* Strutture aggiuntive */
+
+// Struttura che serve per gestire gli effetti delle carte sui giocatori
+typedef struct giocatoriAffetti {
+    // La lista di tutti i giocatori, con la sua lunghezza
+    struct giocatore *listaGiocatori;
+    int nGiocatori;
+
+    // Il giocatore che sta giocando, con la sua carta e l'indice dell'effetto da applicare
+    struct giocatore *giocante;
+    struct carta *cartaGiocata;
+    int indexEffetto;
+
+    // La lista che contiene il o i giocatori che subiranno gli effetti delle carte
+    struct giocatore *giocatoriAffetti;
+    int nGiocatoriAffetti;
+} GiocatoriAffetti;
+
 // Gestione giocatori (alcune di queste includono inserimento di testo, ma era inevitabile)
 int creaGiocatori (Giocatore **listaGiocatori);
 Giocatore *allocaGiocatore ();
