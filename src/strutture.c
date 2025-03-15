@@ -148,7 +148,7 @@ Carta *copiaCarta (Carta *carta, int nCopie) {
     }
 
     tmp->quandoEffetto = carta->quandoEffetto; // Non ho ben capito come funzioni
-    tmp->puoEssereGiocato = carta->puoEssereGiocato; // Disessere giocati
+    tmp->opzionale = carta->opzionale; // Disessere giocati
 
     tmp->next = copiaCarta(tmp, nCopie - 1);
 
@@ -260,6 +260,19 @@ void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput) {
     }
 }
 
+/** Funzione che sposta la carta desiderata nel corretto mazzo del giocatore,
+ * ad esempio le carte bonus nel mazzo bonusmalus... etc...
+ *
+ * @param giocatore Il giocatore a cui va messa la carta nel mazzo giusto
+ * @param carta La carta da spostare
+ */
+void spostaCartaNelMazzoGiocatoreGiusto (Giocatore *giocatore, Carta *carta) {
+    if (carta->tipo == MATRICOLA || carta->tipo == STUDENTE_SEMPLICE || carta->tipo == LAUREANDO)
+        spostaCarta(&carta, carta, &giocatore->carteAulaGiocatore);
+    else if (carta->tipo == BONUS || carta->tipo == MALUS)
+        spostaCarta(&carta, carta, &giocatore->carteBonusMalusGiocatore);
+    else spostaCarta(&carta, carta, &giocatore->carteGiocatore);
+}
 
 /** Distribuisce le carte ai giocatori, prendendole dal mazzo già mescolato da pesca.
  * @param cntCarte Il numero di giocatori

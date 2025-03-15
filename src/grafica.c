@@ -157,7 +157,7 @@ void guiStampaCarta (Carta *carta, bool dettagli) {
                 ": "
                 "%s", str);
 
-        strPuoEssereGiocato(&str, carta->puoEssereGiocato);
+        strOpzionale(&str, carta->opzionale);
         printf( " | "
                 BHWHT
                 "Puo' essere giocato"
@@ -204,12 +204,15 @@ void guiScegliAzione () {
             " | "
             "%d. Pesca una carta"
             " | "
-            "%d. Controlla le tue carte"
+            "%d. Controlla le tue carte..."
+            " | "
+            "%d. Mostra le carte degli altri giocatori..."
             " | "
             "%d. Salva ed Esci",
             COMANDO_OPZIONE_1,
             COMANDO_OPZIONE_2,
             COMANDO_OPZIONE_3,
+            COMANDO_OPZIONE_4,
             COMANDO_ESCI
             );
 }
@@ -219,17 +222,15 @@ void guiScegliAzione () {
  */
 void guiMostraStatoPartita () {
     printf("\n"
-       "Scegli cosa vuoi fare:"                              "\n");
+       "Scegli cosa vuoi fare:"                          "\n");
     printf("\n"
-           "%d. Mostra le mie carte giocabili"               "\n"
-           "%d. Mostra le mie carte dell'aula"               "\n"
-           "%d. Mostra le mie carte bonus/malus"             "\n"
-           "%d. Mostra le carte degli altri giocatori..."    "\n"
+           "%d. Mostra le carte giocabili"               "\n"
+           "%d. Mostra le carte dell'aula"               "\n"
+           "%d. Mostra le carte bonus/malus"             "\n"
            "%d. Torna indietro",
            COMANDO_OPZIONE_1,
            COMANDO_OPZIONE_2,
            COMANDO_OPZIONE_3,
-           COMANDO_OPZIONE_4,
            COMANDO_ESCI
            );
 }
@@ -364,10 +365,10 @@ void strQuando(char **str, Quando quando) {
 /** Funzione che restituisce una stringa che indica se la carta è o non è giocabile
  *
  * @param str La stringa che conterrà VERO o FALSO
- * @param puoEssereGiocato Bool che contiene se la carta può disessere giocata o no
+ * @param opzionale Bool che contiene se la carta può disessere giocata o no
  */
-void strPuoEssereGiocato (char **str, bool puoEssereGiocato) {
-    if (puoEssereGiocato) *str = STR_TRUE;
+void strOpzionale (char **str, bool opzionale) {
+    if (opzionale) *str = STR_TRUE;
     else *str = STR_FALSE;
 }
 

@@ -58,7 +58,7 @@ void leggiCarteDaFile (Carta **mazzo) {
                 fscanf(fp, "%d %d %d", &(*tmp)->effetto[i].azione, &(*tmp)->effetto[i].targetGiocatori, &(*tmp)->effetto[i].tipo);
         }
         fscanf(fp, "%d", &(*tmp)->quandoEffetto);
-        fscanf(fp, "%d", &(*tmp)->puoEssereGiocato); // Disessere giocati
+        fscanf(fp, "%d", &(*tmp)->opzionale); // Disessere giocati
 
         // Se la quantità è maggiore di uno, copia la carta
         if (quantita > 1)

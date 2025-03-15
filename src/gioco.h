@@ -21,18 +21,24 @@
 #define COMANDO_CONFERMA 13 // Invio
 #define COMANDO_ANNULLA 27 // ESC
 
-void gioco ();
-void pescaCarta (Carta **mazzoGiocatore, Carta **mazzoPesca);
-int avantiTurno(int turno, Giocatore **listaGiocatori, Carta **mazzoPesca);
+// Gioco e menù
+int gioco();
+void pescaCarta (Carta **mazzoGiocatore, Carta **mazzoPesca, Carta **mazzoScarti);
+int avantiTurno(int turno, Giocatore **listaGiocatori, Carta **mazzoPesca, Carta **mazzoScarti);
 void creaNuovaPartita (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesca,
                         Carta **mazzoScarti, Carta **mazzoAulaStudio);
 
+// Carte ed effetti
 void giocaCarta (Giocatore *listaGiocatori, int nGiocatori);
-void effettoAzioneCarta (GiocatoriAffetti
-                         giocatoriAffetti, Carta **mazzoPesca, Carta **mazzoScarti);
-
+void azioneCarta (Giocatore *listaGiocatori, int nGiocatori,
+                  Giocatore *giocante, Carta *cartaGiocata, Effetto effetto,
+                  Giocatore *giocatoriAffetti, int nAffetti,
+                  Carta **mazzoPesca, Carta **mazzoScarti);
+bool effettoTipoCarta (TipologiaCarta cartaGiocata, TipologiaCarta cartaAffetta);
 int effettoTargetGiocatori(Giocatore **listaGiocatori, int nGiocatori, TargetGiocatori target);
+void scartaEliminaCarta (Giocatore *giocatore, Carta *cartaGiocatore, Carta **mazzoScarti);
 
-void mostraStatusPartita (Giocatore *listaGiocatori, int nGiocatori);
+// Misc
+void mostraStatusPartita (Giocatore *listaGiocatori, int nGiocatori, bool dettagli);
 
 #endif //GIOCO_H
