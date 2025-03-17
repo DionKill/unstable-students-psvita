@@ -53,10 +53,11 @@ int gioco() {
                 pulisciSchermo();
                 guiHeader(turno, nGiocatori, listaGiocatori->nome);
                 mostraStatusPartita(listaGiocatori, nGiocatori, false);
+            break;
             case COMANDO_OPZIONE_4:
                 pulisciSchermo();
                 guiHeader(turno, nGiocatori, listaGiocatori->nome);
-                mostraStatusPartita(listaGiocatori, nGiocatori, false);
+                mostraStatusPartita(listaGiocatori->next, nGiocatori, false);
             break;
             case COMANDO_ESCI:
                 return 0;
@@ -134,7 +135,6 @@ void giocaCarta (Giocatore *listaGiocatori, int nGiocatori) {
         Giocatore *tmpGiocatoriAffetti = listaGiocatori;
 
     }
-
 }
 
 /** Una funzione che gestisce gli effetti della carta
@@ -262,25 +262,13 @@ int effettoTargetGiocatori(Giocatore **listaGiocatori, int nGiocatori, TargetGio
     return nTarget;
 }
 
-void scartaEliminaCarta (Giocatore *giocatore, Carta *cartaGiocatore, Carta **mazzoScarti) {
+void scartaEliminaCarta (Giocatore *giocatore, Carta *cartaGiocata, Carta **mazzoScarti) {
     printf("\n"
            "Scegli la carta da scartare dal tuo mazzo %s"
            "\n");
 
     // Il mazzo di appoggio da cui dovrà essere rimossa la carta scelta dal giocatore
-    Carta *mazzoDestinazione = NULL;
-    switch (cartaGiocatore->tipo) {
-        case BONUS:
-        case MALUS:
-            mazzoDestinazione = giocatore->carteBonusMalusGiocatore;
-        break;
-        case MATRICOLA:
-        case STUDENTE_SEMPLICE:
-        case LAUREANDO:
-            mazzoDestinazione = giocatore->carteAulaGiocatore;
-        break;
-        default: mazzoDestinazione = giocatore->carteGiocatore;
-    }
+    Carta *mazzoDestinazione = mazzoDelGiocatoreGiustoInBaseAlTipoDellaCarta(cartaGiocata, giocatore);
 
     int nCarte = contaCarte(mazzoDestinazione);
     Carta *tmp;
@@ -294,14 +282,33 @@ void scartaEliminaCarta (Giocatore *giocatore, Carta *cartaGiocatore, Carta **ma
         for (int i = 1; i < scelta; i++) {
             tmp = tmp->next;
         }
-    } while ( ! effettoTipoCarta(cartaGiocatore->tipo, tmp->tipo) ); // Quando da true, esce
+    } while ( ! effettoTipoCarta(cartaGiocata->tipo, tmp->tipo) ); // Quando da true, esce
 
-    spostaCarta(&giocatore->carteGiocatore, cartaGiocatore, &mazzoDestinazione);
+    spostaCarta(&giocatore->carteGiocatore, cartaGiocata, &mazzoDestinazione);
 }
 
 void rubaPrendiCarta (Giocatore *giocante, Carta *cartaGiocata,
-    Giocatore *giocatoriAffetti, int nGiocatoriAffetti) {
+                      Giocatore *giocatoriAffetti, int nGiocatoriAffetti) {
+    printf("\n"
+           "Ruba una carta dall'avversario!"
+           "\n");
 
+    Carta *tmp;
+
+    for (int i = 0; i < nGiocatoriAffetti; i++) {
+        Carta *mazzoDestinazione = mazzoDelGiocatoreGiustoInBaseAlTipoDellaCarta(cartaGiocata, giocatoriAffetti);
+        int nCarte = contaCarte(mazzoDestinazione);
+
+        do {
+            int scelta = inserisciNumero(1, nCarte);
+
+            // Temporaneo per scorrere il mazzo fino al punto necessario
+            tmp = mazzoDestinazione;
+            for (int j = 1; j < scelta; j++) {
+                tmp = tmp->next;
+            }
+        } while ( ! effettoTipoCarta(cartaGiocata->tipo, tmp->tipo) ); // Quando da true, esce
+    }
 }
 
 /** Funzione che fa pescare una carta dal mazzo della pesca, altrimenti usa quello degli scarti
@@ -342,19 +349,28 @@ void mostraStatusPartita (Giocatore *listaGiocatori, int nGiocatori, bool dettag
     int input = inserisciNumero(COMANDO_ESCI, COMANDO_OPZIONE_4);
     switch (input) {
         case COMANDO_OPZIONE_1:
-            pulisciSchermo();
-            guiStampaMazzo(listaGiocatori->carteGiocatore, dettagli);
-            premiInvioPerContinuare();
+            for (int i = 0; i < nGiocatori; i++) {
+                pulisciSchermo();
+                guiStampaMazzo(listaGiocatori->carteGiocatore, dettagli);
+                premiInvioPerContinuare();
+                listaGiocatori = listaGiocatori->next;
+            }
         break;
         case COMANDO_OPZIONE_2:
-            pulisciSchermo();
-            guiStampaMazzo(listaGiocatori->carteAulaGiocatore, dettagli);
-            premiInvioPerContinuare();
+            for (int i = 0; i < nGiocatori; i++) {
+                pulisciSchermo();
+                guiStampaMazzo(listaGiocatori->carteAulaGiocatore, dettagli);
+                premiInvioPerContinuare();
+                listaGiocatori = listaGiocatori->next;
+            }
         break;
         case COMANDO_OPZIONE_3:
-            pulisciSchermo();
-            guiStampaMazzo(listaGiocatori->carteBonusMalusGiocatore, dettagli);
-            premiInvioPerContinuare();
+            for (int i = 0; i < nGiocatori; i++) {
+                pulisciSchermo();
+                guiStampaMazzo(listaGiocatori->carteBonusMalusGiocatore, dettagli);
+                premiInvioPerContinuare();
+                listaGiocatori = listaGiocatori->next;
+            }
         break;
         default: break;
     }

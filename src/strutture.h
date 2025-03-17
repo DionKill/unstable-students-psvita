@@ -62,6 +62,7 @@ Carta *dividiMazzoMatricola (Carta **mazzo);
 void shuffleCarte (Carta **mazzoOriginale);
 void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput);
 //void spostaCartaNelMazzoGiocatoreGiusto (Giocatore *giocatore, Carta *carta);
+Carta *mazzoDelGiocatoreGiustoInBaseAlTipoDellaCarta (Carta *cartaGiocata, Giocatore *giocatoriAffetti);
 void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPesca);
 
 // Miscellanee

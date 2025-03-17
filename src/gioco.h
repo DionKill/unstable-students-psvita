@@ -36,7 +36,7 @@ void azioneCarta (Giocatore *listaGiocatori, int nGiocatori,
                   Carta **mazzoPesca, Carta **mazzoScarti);
 bool effettoTipoCarta (TipologiaCarta cartaGiocata, TipologiaCarta cartaAffetta);
 int effettoTargetGiocatori(Giocatore **listaGiocatori, int nGiocatori, TargetGiocatori target);
-void scartaEliminaCarta (Giocatore *giocatore, Carta *cartaGiocatore, Carta **mazzoScarti);
+void scartaEliminaCarta (Giocatore *giocatore, Carta *cartaGiocata, Carta **mazzoScarti);
 
 // Misc
 void mostraStatusPartita (Giocatore *listaGiocatori, int nGiocatori, bool dettagli);

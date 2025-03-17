@@ -274,6 +274,24 @@ void spostaCartaNelMazzoGiocatoreGiusto (Giocatore *giocatore, Carta *carta) {
     else spostaCarta(&carta, carta, &giocatore->carteGiocatore);
 }
 
+Carta *mazzoDelGiocatoreGiustoInBaseAlTipoDellaCarta (Carta *cartaGiocata, Giocatore *giocatoriAffetti) {
+    // Il mazzo in cui verranno applicati gli effetti
+    Carta *mazzoDestinazione = NULL;
+    switch (cartaGiocata->tipo) {
+        case BONUS:
+        case MALUS:
+            mazzoDestinazione = giocatoriAffetti->carteBonusMalusGiocatore;
+        break;
+        case MATRICOLA:
+        case STUDENTE_SEMPLICE:
+        case LAUREANDO:
+            mazzoDestinazione = giocatoriAffetti->carteAulaGiocatore;
+        break;
+        default: mazzoDestinazione = giocatoriAffetti->carteGiocatore;
+    }
+    return mazzoDestinazione;
+}
+
 /** Distribuisce le carte ai giocatori, prendendole dal mazzo già mescolato da pesca.
  * @param cntCarte Il numero di giocatori
  * @param listaGiocatori La lista di giocatori a cui dare le carte
