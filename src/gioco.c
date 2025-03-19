@@ -389,12 +389,27 @@ Carta *scegliCarta (Carta *mazzoScelta, TipologiaCarta tipoCartaGiocata) {
  *
  * @param listaGiocatori La lista di tutti i giocatori
  * @param nGiocatori Il numero totale dei giocatori
- * @param giocatoreScelto Il giocatore scelto a cui verranno applicati gli effetti
  * @param target Il target dei giocatori
  */
-void scegliGiocatore (Giocatore *listaGiocatori, int nGiocatori, Giocatore **giocatoreScelto) {
+Giocatore *scegliGiocatore(Giocatore *listaGiocatori, int nGiocatori) {
+    Giocatore *giocatoreScelto = listaGiocatori;
+
     printf("\n"
-           "Scegli il giocatore:"
-           "\n");
-    printf("");
+        "Scegli il giocatore:"
+        "\n");
+    for (int i = 0; i < nGiocatori; i++) {
+        printf("%d: %s", i + 1, giocatoreScelto->nome);
+        giocatoreScelto = giocatoreScelto->next;
+    }
+
+    giocatoreScelto = listaGiocatori;
+    int scelta = inserisciNumero(1, nGiocatori);
+
+    for (int i = 0; i < scelta; i++)
+        giocatoreScelto = giocatoreScelto->next;
+
+    printf("\n"
+        "Hai scelto %s", giocatoreScelto->nome);
+
+    return giocatoreScelto;
 }

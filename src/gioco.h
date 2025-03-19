@@ -7,10 +7,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "strutture.h"
 #include "file.h"
 #include "grafica.h"
 #include "misc.h"
+#include "effetti.h"
 
 // Macro rappresentanti gli input da tastiera che vengono usati nel gioco, come per giocare una carta, pescare etc.
 #define COMANDO_OPZIONE_1 1 // Gioca una carta, ...
