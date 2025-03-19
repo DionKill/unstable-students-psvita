@@ -27,6 +27,8 @@ void premiInvioPerContinuare () {
 int inserisciNumero (int min, int max) {
     int input;
     do {
+        printf("\n"
+               "Inserisci un valore tra [%d, %d]", min, max);
         printf(CURSORE_INPUT);
 
         // Inserisce l'opzione da tastiera

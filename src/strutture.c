@@ -161,14 +161,17 @@ Carta *copiaCarta (Carta *carta, int nCopie) {
  * @param mazzo Il mazzo da cui vengono estratte le carte matricola. Viene anch'esso modificato.
  * @return Ritorna un nuovo mazzo contenente solo matricole.
  */
-Carta *dividiMazzoMatricola (Carta **mazzo) {
+Carta *dividiMazzoMatricole (Carta **mazzo) {
     if (*mazzo == NULL) return NULL;
 
     Carta *mazzoMatricole = NULL;
 
     // Finché ci sono matricole scorre avanti e le sposta in un nuovo mazzo
-    while ((*mazzo)->tipo == MATRICOLA)
-        spostaCarta(mazzo, *mazzo, &mazzoMatricole);
+    while (*mazzo != NULL) {
+        if ((*mazzo)->tipo == MATRICOLA)
+            spostaCarta(mazzo, *mazzo, &mazzoMatricole);
+        else *mazzo = (*mazzo)->next;
+    }
 
     return mazzoMatricole;
 }

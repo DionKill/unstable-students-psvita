@@ -58,7 +58,7 @@ void rendiListaGiocatoriCircolare (Giocatore *listaGiocatori);
 Carta *allocaCarta ();
 int contaCarte (Carta *mazzo);
 Carta *copiaCarta (Carta *carta, int nCopie);
-Carta *dividiMazzoMatricola (Carta **mazzo);
+Carta *dividiMazzoMatricole (Carta **mazzo);
 void shuffleCarte (Carta **mazzoOriginale);
 void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput);
 //void spostaCartaNelMazzoGiocatoreGiusto (Giocatore *giocatore, Carta *carta);

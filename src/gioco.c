@@ -7,7 +7,7 @@
 /** La funzione principale del gioco. Da qui viene gestito tutto.
  *
  */
-int gioco() {
+void gioco (char *path) {
     // Crea la lista dei giocatori e li popola
     Giocatore *listaGiocatori = NULL;
     int nGiocatori;
@@ -19,25 +19,22 @@ int gioco() {
     Carta *mazzoScarti = NULL; // Sacrate (per pochi)
     Carta *mazzoAulaStudio = NULL;
 
-    // Mazzo che contiene le matricole che verranno distribuite a tutti i giocatori
-    Carta *mazzoMatricole = NULL;
-
     //creaNuovaPartita(&nGiocatori, &listaGiocatori, &mazzoPesca, &mazzoScarti, &mazzoAulaStudio);
-    caricamento(&nGiocatori, &listaGiocatori, &mazzoPesca, &mazzoScarti, &mazzoAulaStudio, SALVATAGGIO);
+    caricamento(&nGiocatori, &listaGiocatori, &mazzoPesca, &mazzoScarti, &mazzoAulaStudio, path);
 
-    // Gestione dei turni
-    int turno = 1;
+    // Gestione dei turni, e l'input scelto dal giocatore
+    int turno = 1, scelta = 0;
 
     // TODO: Funzione che controlla quando vinci così la metto nella condizione del main
     // Questo loop controlla le scelte del giocatore. È abbastanza self-explanatory
-    while (turno < 50) {
-        salvataggio(nGiocatori, listaGiocatori, mazzoPesca, mazzoScarti, mazzoAulaStudio, SALVATAGGIO);
+    do {
+        salvataggio(nGiocatori, listaGiocatori, mazzoPesca, mazzoScarti, mazzoAulaStudio, path);
 
         pulisciSchermo();
         guiHeader(turno, nGiocatori, listaGiocatori->nome);
 
         guiScegliAzione();
-        int scelta = inserisciNumero(COMANDO_ESCI, COMANDO_OPZIONE_4);
+        scelta = inserisciNumero(COMANDO_ESCI, COMANDO_OPZIONE_4);
 
         // Controlla la scelta e richiama le funzioni necessarie
         switch (scelta) {
@@ -59,12 +56,9 @@ int gioco() {
                 guiHeader(turno, nGiocatori, listaGiocatori->nome);
                 mostraStatusPartita(listaGiocatori->next, nGiocatori, false);
             break;
-            case COMANDO_ESCI:
-                return 0;
             default: break; // Aggiunto solo perché CLion dava warning
         }
-    }
-    return turno;
+    } while (turno < 50 && scelta != COMANDO_ESCI);
 }
 
 /** Crea una nuova partita, allocando ogni cosa e caricando dal file
@@ -82,7 +76,7 @@ void creaNuovaPartita (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazz
 
     // Crea il mazzo di carte, e lo popola usando il file mazzo.txt
     leggiCarteDaFile(mazzoPesca);
-    Carta *mazzoMatricole = dividiMazzoMatricola(mazzoPesca); // Crea il mazzo matricola partendo dal mazzo da pesca
+    Carta *mazzoMatricole = dividiMazzoMatricole(mazzoPesca); // Crea il mazzo matricola partendo dal mazzo da pesca
 
     // Mischia i due mazzi appena creati
     shuffleCarte(mazzoPesca);
@@ -168,15 +162,23 @@ void azioneCarta (Giocatore *listaGiocatori, int nGiocatori,
                   Giocatore *giocante, Carta *cartaGiocata, Effetto effetto,
                   Giocatore *giocatoriAffetti, int nAffetti,
                   Carta **mazzoPesca, Carta **mazzoScarti) {
+    // Carta che verrà usata dentro lo switch case per diverse ragioni
+    Carta *tmp = NULL;
+
     // Switch che gestisce tutte le azioni che ha l'effetto della carta
     switch (effetto.azione) {
         case GIOCA:
             giocaCarta(giocante, nGiocatori);
         break;
-        case SCARTA:
+        case SCARTA: // Sacrtare le carte (per pochi)
+            tmp = listaGiocatori->carteGiocatore;
         case ELIMINA:
+            if (cartaGiocata->tipo == BONUS || cartaGiocata->tipo == MALUS)
+                tmp = listaGiocatori->carteBonusMalusGiocatore;
+            else tmp = listaGiocatori->carteAulaGiocatore;
+
             // Sono uguali, cambia solo il mazzo che usano
-            scartaEliminaCarta(giocante, cartaGiocata, mazzoScarti);
+            //scartaEliminaCarta(&TODO, TODO, &TODO);
         break;
         case RUBA:
         case PRENDI:
@@ -186,6 +188,7 @@ void azioneCarta (Giocatore *listaGiocatori, int nGiocatori,
             pescaCarta(&giocante->carteGiocatore, mazzoPesca, mazzoScarti);
         break;
         case SCAMBIA:
+
         break;
         // Qua sotto sono effetti che non possono essere trovati nelle carte giocabili
         default:
@@ -232,7 +235,7 @@ bool effettoTipoCarta (TipologiaCarta cartaGiocata, TipologiaCarta cartaAffetta)
  * @param nGiocatori Il numero dei giocatori totali della partita
  * @param target L'effetto è applicato a questo/i giocatore/i
  */
-int effettoTargetGiocatori(Giocatore **listaGiocatori, int nGiocatori, TargetGiocatori target) {
+int effettoTargetGiocatori (Giocatore **listaGiocatori, int nGiocatori, TargetGiocatori target) {
     // La lunghezza della lista
     int nTarget = nGiocatori;
 
@@ -244,6 +247,7 @@ int effettoTargetGiocatori(Giocatore **listaGiocatori, int nGiocatori, TargetGio
         case TU:
             // Scorre in avanti la lista e nGiocatori - 1 per far scegliere tutti tranne se stessi
             *listaGiocatori = (*listaGiocatori)->next;
+            printf("Scegli giocatore:");
             int scelta = inserisciNumero(1, nGiocatori - 1);
 
             // Scorre fino al giocatore scelto
@@ -262,53 +266,34 @@ int effettoTargetGiocatori(Giocatore **listaGiocatori, int nGiocatori, TargetGio
     return nTarget;
 }
 
-void scartaEliminaCarta (Giocatore *giocatore, Carta *cartaGiocata, Carta **mazzoScarti) {
+/** Funzione che gestisce gli effetti di SCARTA ed ELIMINA
+ *
+ */
+void scartaEliminaCarta (Carta **mazzoOrigine, Carta *cartaGiocata, Carta **mazzoScarti) {
     printf("\n"
            "Scegli la carta da scartare dal tuo mazzo %s"
            "\n");
 
-    // Il mazzo di appoggio da cui dovrà essere rimossa la carta scelta dal giocatore
-    Carta *mazzoDestinazione = mazzoDelGiocatoreGiustoInBaseAlTipoDellaCarta(cartaGiocata, giocatore);
-
-    int nCarte = contaCarte(mazzoDestinazione);
-    Carta *tmp;
-
-    // Ciclo che continua se la carta da scartare è di un tipo compatibile con la carta scelta
-    do {
-        int scelta = inserisciNumero(1, nCarte);
-
-        // Temporaneo per scorrere il mazzo fino al punto necessario
-        tmp = mazzoDestinazione;
-        for (int i = 1; i < scelta; i++) {
-            tmp = tmp->next;
-        }
-    } while ( ! effettoTipoCarta(cartaGiocata->tipo, tmp->tipo) ); // Quando da true, esce
-
-    spostaCarta(&giocatore->carteGiocatore, cartaGiocata, &mazzoDestinazione);
+    // TODO: se il mazzo è vuoto, la carta viene giocata ma non c'è nulla da scartare
+    Carta *cartaDaRimuovere = scegliCarta(*mazzoOrigine, cartaGiocata->tipo);
+    spostaCarta(mazzoOrigine, cartaDaRimuovere, mazzoScarti);
 }
 
-void rubaPrendiCarta (Giocatore *giocante, Carta *cartaGiocata,
-                      Giocatore *giocatoriAffetti, int nGiocatoriAffetti) {
+/** Gestione degli effetti RUBA e PRENDI
+ *
+ * @param mazzoInput Il mazzo da cui andrà presa la carta
+ * @param cartaGiocata La carta giocata dal giocatore
+ * @param mazzoDestinazione Il mazzo dove andrà spostata la nuova carta
+ */
+void rubaPrendiCarta (Carta **mazzoInput, Carta *cartaGiocata, Carta **mazzoDestinazione) {
     printf("\n"
            "Ruba una carta dall'avversario!"
            "\n");
 
-    Carta *tmp;
+    guiStampaMazzo(*mazzoDestinazione, false);
+    Carta *cartaSelezionata = scegliCarta(*mazzoInput, cartaGiocata->tipo);
 
-    for (int i = 0; i < nGiocatoriAffetti; i++) {
-        Carta *mazzoDestinazione = mazzoDelGiocatoreGiustoInBaseAlTipoDellaCarta(cartaGiocata, giocatoriAffetti);
-        int nCarte = contaCarte(mazzoDestinazione);
-
-        do {
-            int scelta = inserisciNumero(1, nCarte);
-
-            // Temporaneo per scorrere il mazzo fino al punto necessario
-            tmp = mazzoDestinazione;
-            for (int j = 1; j < scelta; j++) {
-                tmp = tmp->next;
-            }
-        } while ( ! effettoTipoCarta(cartaGiocata->tipo, tmp->tipo) ); // Quando da true, esce
-    }
+    spostaCarta(mazzoInput, cartaSelezionata, mazzoDestinazione);
 }
 
 /** Funzione che fa pescare una carta dal mazzo della pesca, altrimenti usa quello degli scarti
@@ -374,4 +359,42 @@ void mostraStatusPartita (Giocatore *listaGiocatori, int nGiocatori, bool dettag
         break;
         default: break;
     }
+}
+
+/** Il giocatore sceglie una carta dal mazzo in base al tipo necessario
+ *
+ * @param mazzoScelta Il mazzo da cui va scelta la tipologia della carta
+ * @param tipoCartaGiocata Il filtro del tipo della carta
+ */
+Carta *scegliCarta (Carta *mazzoScelta, TipologiaCarta tipoCartaGiocata) {
+    int size = contaCarte(mazzoScelta);
+
+    Carta *cartaScelta = mazzoScelta;
+
+    // Un while che continua finché il giocatore non sceglie una carta valida
+    do {
+        int scelta = inserisciNumero(1, size);
+
+        // Scorre fino alla carta
+        for (int i = 0; i < scelta; i++) {
+            cartaScelta = cartaScelta->next;
+        }
+        // Controlla se la carta inserita è valida, se si continua il ciclo
+    } while (! effettoTipoCarta(tipoCartaGiocata, cartaScelta->tipo));
+
+    return cartaScelta;
+}
+
+/** Sceglie un giocatore tra tutti i giocatori (anche se stessi)
+ *
+ * @param listaGiocatori La lista di tutti i giocatori
+ * @param nGiocatori Il numero totale dei giocatori
+ * @param giocatoreScelto Il giocatore scelto a cui verranno applicati gli effetti
+ * @param target Il target dei giocatori
+ */
+void scegliGiocatore (Giocatore *listaGiocatori, int nGiocatori, Giocatore **giocatoreScelto) {
+    printf("\n"
+           "Scegli il giocatore:"
+           "\n");
+    printf("");
 }

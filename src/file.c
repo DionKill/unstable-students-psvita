@@ -14,11 +14,13 @@ FILE *apriFile (char *path, char *mode) {
     // Apre il file
     FILE *fp = NULL;
     fp = fopen(path, mode);
+
     if (fp == NULL) {
         printf("\n"
-            RED "Il file non è stato trovato!");
+           RED "Il file %s non è stato trovato!", path);
         exit(EXIT_FAILURE);
     }
+
     return fp;
 }
 

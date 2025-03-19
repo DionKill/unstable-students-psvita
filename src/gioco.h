@@ -22,7 +22,7 @@
 #define COMANDO_ANNULLA 27 // ESC
 
 // Gioco e menù
-int gioco();
+void gioco(char *path);
 void pescaCarta (Carta **mazzoGiocatore, Carta **mazzoPesca, Carta **mazzoScarti);
 int avantiTurno(int turno, Giocatore **listaGiocatori, Carta **mazzoPesca, Carta **mazzoScarti);
 void creaNuovaPartita (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesca,
@@ -36,9 +36,12 @@ void azioneCarta (Giocatore *listaGiocatori, int nGiocatori,
                   Carta **mazzoPesca, Carta **mazzoScarti);
 bool effettoTipoCarta (TipologiaCarta cartaGiocata, TipologiaCarta cartaAffetta);
 int effettoTargetGiocatori(Giocatore **listaGiocatori, int nGiocatori, TargetGiocatori target);
-void scartaEliminaCarta (Giocatore *giocatore, Carta *cartaGiocata, Carta **mazzoScarti);
+void scartaEliminaCarta (Carta **mazzoOrigine, Carta *cartaGiocata, Carta **mazzoScarti);
+void rubaPrendiCarta (Carta **mazzoInput,
+                      Carta *cartaGiocata, Carta **mazzoDestinazione);
 
 // Misc
 void mostraStatusPartita (Giocatore *listaGiocatori, int nGiocatori, bool dettagli);
+Carta *scegliCarta (Carta *mazzoScelta, TipologiaCarta tipoCartaGiocata);
 
 #endif //GIOCO_H

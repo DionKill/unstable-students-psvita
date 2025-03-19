@@ -15,14 +15,18 @@
  * @return Esce dal programma.
  */
 int main(int argc, char **argv) {
+
     srand(time(NULL));
 
-    guiSplashScreen();
     // Chiede di continuare dopo aver mostrato il menù
+    guiSplashScreen();
     premiInvioPerContinuare();
     pulisciSchermo();
 
-    gioco();
+    if (argc > 1)
+        gioco(argv[argc]);
+    else gioco(SALVATAGGIO);
+
 
     return 0;
 }
