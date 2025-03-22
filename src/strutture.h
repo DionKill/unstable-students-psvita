@@ -64,6 +64,7 @@ void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput);
 //void spostaCartaNelMazzoGiocatoreGiusto (Giocatore *giocatore, Carta *carta);
 Carta *mazzoDelGiocatoreGiustoInBaseAlTipoDellaCarta (Carta *cartaGiocata, Giocatore *giocatoriAffetti);
 void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPesca);
+bool esisteAzioneNelMazzo (Carta *mazzo, Azione azione);
 
 // Miscellanee
 void liberaMemoria (Carta *testaMazzo);

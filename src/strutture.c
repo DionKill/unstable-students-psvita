@@ -15,12 +15,8 @@
 int creaGiocatori(Giocatore **listaGiocatori) {
     // Chiede quanti giocatori vuole che vengano creati
     printf("\n"
-            "Quanti giocatori giocheranno? [2-4]:");
+            "Quanti " BBLU "giocatori" RESET " giocheranno? [2-4]:");
     int nGiocatori = inserisciNumero(GIOCATORI_MIN, GIOCATORI_MAX);
-
-    // Una stringa che contiene il colore che verrà usato per mostrare i giocatori
-    char *str; // Stringa che contiene il colore del giocatore
-    strColoreGiocatore(&str, nGiocatori);
 
     // Un doppio puntatore alla lista che verrà modificata
     Giocatore **tmp = listaGiocatori;
@@ -28,12 +24,15 @@ int creaGiocatori(Giocatore **listaGiocatori) {
     int i = 0;
     // Chiede all'utente il nome finché non è valido
     while (i < nGiocatori) {
+        // Una stringa che contiene il colore che verrà usato per mostrare i giocatori
+        char *strColore; // Stringa che contiene il colore del giocatore
+        strColoreGiocatore(&strColore, i + 1);
+
         *tmp = allocaGiocatore();
         printf ("\n"
-                "Inserisci il nome del giocatore %s%d:"
-                RESET
+                "Inserisci il nome del giocatore %s%d" RESET ":"
                 CURSORE_INPUT
-                "%s", str, i + 1, str); // Colora il nome del giocatore
+                "%s", strColore, i + 1, strColore); // Colora il nome del giocatore
 
         scanf(" %" NOME_LENGTH_STR "[^\n]s", (*tmp)->nome);
 
@@ -162,15 +161,14 @@ Carta *copiaCarta (Carta *carta, int nCopie) {
  * @return Ritorna un nuovo mazzo contenente solo matricole.
  */
 Carta *dividiMazzoMatricole (Carta **mazzo) {
-    if (*mazzo == NULL) return NULL;
-
     Carta *mazzoMatricole = NULL;
+    Carta **tmp = mazzo;
 
     // Finché ci sono matricole scorre avanti e le sposta in un nuovo mazzo
-    while (*mazzo != NULL) {
-        if ((*mazzo)->tipo == MATRICOLA)
-            spostaCarta(mazzo, *mazzo, &mazzoMatricole);
-        else *mazzo = (*mazzo)->next;
+    while (*tmp != NULL) {
+        if ((*tmp)->tipo == MATRICOLA)
+            spostaCarta(mazzo, *tmp, &mazzoMatricole);
+        else tmp = &(*tmp)->next;
     }
 
     return mazzoMatricole;
@@ -319,6 +317,30 @@ void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPe
         *mazzoPesca = tmpMazzoPesca;
         listaGiocatori = listaGiocatori->next;
     }
+}
+
+/** Controlla se esiste un tipo di azione nel mazzo
+ * Utile ad esempio per controllare se c'è una carta con effetto INGEGNERIZZAZIONE
+ *
+ * @param mazzo Il mazzo in cui controllare
+ * @param azione Il tipo di carta da controllare
+ * @return Ritorna true se esiste una carta di quel tipo, altrimenti false
+ */
+bool esisteAzioneNelMazzo (Carta *mazzo, Azione azione) {
+    // Crea un puntatore temporaneo al mazzo per scorrere
+    Carta *tmp = mazzo;
+
+    // Cicla finché non arriva alla fine del mazzo oppure trova una carta con quell'azione
+    while (tmp != NULL) {
+        for (int i = 0; i < tmp->nEffetti; i++)
+            if (tmp->effetto[i].azione == azione)
+                return true;
+
+        tmp = tmp->next;
+    }
+
+    // Se non trova niente o il mazzo è vuoto, ritorna vero
+    return false;
 }
 
 /** Libera la memoria usata dal programma prima dell'uscita

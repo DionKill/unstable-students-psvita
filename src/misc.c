@@ -27,15 +27,13 @@ void premiInvioPerContinuare () {
 int inserisciNumero (int min, int max) {
     int input;
     do {
-        printf("\n"
-               "Inserisci un valore tra [%d, %d]", min, max);
         printf(CURSORE_INPUT);
-
         // Inserisce l'opzione da tastiera
         scanf("%d", &input);
         flushInputBuffer();
         if (input < min || input > max)
-            printf("Non hai inserito un opzione corretta!");
+            printf("\n"
+                   RED "Non hai inserito un opzione corretta!" RESET);
     } while (input < min || input > max);
     return input;
 }

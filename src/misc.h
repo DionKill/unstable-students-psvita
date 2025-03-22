@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include "colori-ansi.h"
 
-#define CURSORE_INPUT "\n>: "
+#define CURSORE_INPUT "\n" BYEL ">" RESET ": "
 
 void premiInvioPerContinuare ();
 int inserisciNumero (int min, int max);

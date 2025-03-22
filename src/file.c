@@ -63,7 +63,7 @@ void leggiCarteDaFile (Carta **mazzo) {
         fscanf(fp, "%d", &(*tmp)->opzionale); // Disessere giocati
 
         // Se la quantità è maggiore di uno, copia la carta
-        if (quantita > 1)
+        if (quantita > MIN)
             (*tmp)->next = copiaCarta(*tmp, quantita - 1); // -1 perché una c'è già (quando è stata letta dal file)
 
         // Scorre la lista in avanti

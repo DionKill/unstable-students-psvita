@@ -9,6 +9,7 @@
 // Genera un menu fantastico: https://patorjk.com/software/taag/#p=display&f=Big%20Money-ne&t=Unstable%0AStudents
 // Ovviamente ho dovuto copiare una riga alla volta, aggiungere le virgole, i \, e i \n, tutto a mano...
 void guiSplashScreen () {
+    pulisciSchermo();
     printf ("\n"
             MAG
             "-------------------------------------------------------------------------------"       "\n"
@@ -41,27 +42,15 @@ void guiSplashScreen () {
 /** Stampa una riga che segnala alcune statistiche
  */
 void guiHeader (int turno, int nGiocatori, char nomeGiocatore[]) {
-    char *str;
-    strColoreGiocatore(&str, turno % nGiocatori);
+    char *strColore;
+    strColoreGiocatore(&strColore, turno % nGiocatori);
 
     pulisciSchermo();
-    printf(WHTB
-            "\n"
-            RESET
-            "\t"
-            CYN
-            "Turno"
-            RESET ": "
-            "%d"
-            "\t"
-            YEL
-            "Giocatore"
-            RESET ": "
-            "%s" // Colore
-            "%s" // Nome giocatore
-            RESET
-            "\n",
-            turno, str, nomeGiocatore);
+    printf(WHTB "\t\t\t\t\t\t\t\t\t\t" "\n" RESET
+            "\t" CYN "Turno" RESET ": %d"
+            "\t\t" YEL "Giocatore" RESET ": %s%s"
+            RESET "\n",
+            turno, strColore, nomeGiocatore);
 }
 
 /** Dato un mazzo, stampa le carte in esso contenute con tutti i dettagli
@@ -90,107 +79,80 @@ void guiStampaMazzo (Carta *mazzoCarte, bool dettagli) {
  * @param dettagli Booleano che, se vero, mostra più dettagli sulla carta
  */
 void guiStampaCarta (Carta *carta, bool dettagli) {
-    char *str = NULL;
+    char *strColore = NULL;
 
     printf("\n"
-            BHBLU
-            "Nome"
-            RESET
-            ": "
-            UNDERLINE
-            "%s"
-            RESET, carta->nome);
+            BHBLU "Nome" RESET ": "
+            UNDERLINE "%s" RESET,
+            carta->nome);
 
     printf(" | "
-            BHBLU
-            "Descrizione"
-            RESET
-            ": "
-            UNDERLINE
-            "%s"
-            RESET, carta->descrizione);
+            BHBLU "Descrizione"
+            RESET ": %s",
+            carta->descrizione);
 
-    strTipologiaCarta(&str, carta->tipo);
+    strTipologiaCarta(&strColore, carta->tipo);
     printf("\n"
-            BYEL
-            "Tipo"
-            RESET
-            ": "
-            "%s"
-            "\n", str);
+            BYEL "Tipo"
+            RESET ": %s"
+            "\n", strColore);
 
     if (dettagli) {
         printf("Numero di effetti: %d", carta->nEffetti);
 
         for (int i = 0; i < carta->nEffetti; i++) {
-            strAzione(&str, carta->effetto[i].azione);
+            strAzione(&strColore, carta->effetto[i].azione);
             printf("\n"
                     "\t-<{ "
-                    BHYEL
-                    "Azione"
-                    RESET
-                    ": "
-                    "%s", str);
+                    BHYEL "Azione"
+                    RESET ": %s",
+                    strColore);
 
-            strTargetGiocatori(&str, carta->effetto[i].targetGiocatori);
+            strTargetGiocatori(&strColore, carta->effetto[i].targetGiocatori);
             printf(" | "
-                    BCYN
-                    "Target"
-                    RESET
-                    ": %s", str);
+                    BCYN "Target"
+                    RESET ": %s",
+                    strColore);
 
-            strTipologiaCarta(&str, carta->effetto[i].tipo);
+            strTipologiaCarta(&strColore, carta->effetto[i].tipo);
             printf(" | "
-                    BRED
-                    "Tipo"
-                    RESET
-                    ": "
-                    "%s"
-                    " }>-", str);
+                    BRED "Tipo"
+                    RESET ": %s"
+                    " }>-", strColore);
         }
 
-        strQuando(&str, carta->quandoEffetto);
+        strQuando(&strColore, carta->quandoEffetto);
         printf("\n"
-                BMAG
-                "Quando"
-                RESET
-                ": "
-                "%s", str);
+                BMAG "Quando"
+                RESET ": %s",
+                strColore);
 
-        strOpzionale(&str, carta->opzionale);
+        strOpzionale(&strColore, carta->opzionale);
         printf( " | "
-                BHWHT
-                "Puo' essere giocato"
-                RESET
-                ": %s" // Disessere giocati
-                "\n", str);
+                BHWHT "Puo' essere giocato"
+                RESET ": %s" // Disessere giocati
+                "\n", strColore);
     }
 }
 
 void guiStampaCarteGiocatore (Giocatore *giocatore, bool mostraMano) {
     if (mostraMano) {
         printf("\n"
-               HYEL
-               "Carte in mano "
-               RESET
-               "al giocatore: "
+               HYEL "Carte in mano "
+               RESET "al giocatore: "
                "%s", giocatore->nome);
         guiStampaMazzo(giocatore->carteGiocatore, false);
     }
     printf("\n"
-            BRED
-            "Carte in aula "
-            RESET
-            "al giocatore: "
+            BRED "Carte in aula "
+            RESET "al giocatore: "
             "%s", giocatore->nome);
     guiStampaMazzo(giocatore->carteAulaGiocatore, false);
 
     printf("\n"
-            BRED
-            "Carte bonus/malus "
-            RESET
-            "del giocatore: "
-            "%s", giocatore->nome);
+            BRED "Carte bonus/malus "
+            RESET "del giocatore: %s",
+            giocatore->nome);
     guiStampaMazzo(giocatore->carteBonusMalusGiocatore, false);
 }
 
@@ -199,16 +161,14 @@ void guiStampaCarteGiocatore (Giocatore *giocatore, bool mostraMano) {
  */
 void guiScegliAzione () {
     printf("\n"
-            "Scegli la tua prossima azione:" "\n"
-            "%d. Gioca una carta"
-            " | "
-            "%d. Pesca una carta"
-            " | "
-            "%d. Controlla le tue carte..."
-            " | "
-            "%d. Mostra le carte degli altri giocatori..."
-            " | "
-            "%d. Salva ed Esci",
+            BOLD
+            "Scegli la tua prossima azione:"
+            RESET "\n\t"
+            "%d. " BBLU "Gioca" RESET " una carta"                           "\n\t"
+            "%d. " BMAG "Pesca" RESET " una carta"                           "\n\t"
+            "%d. " BGRN "Controlla" RESET " le tue carte..."                 "\n\t"
+            "%d. " BGRN "Mostra le carte" RESET " degli altri giocatori..."  "\n\t"
+            "%d. " BOLD "Salva ed Esci" RESET,
             COMANDO_OPZIONE_1,
             COMANDO_OPZIONE_2,
             COMANDO_OPZIONE_3,
@@ -221,13 +181,12 @@ void guiScegliAzione () {
  *
  */
 void guiMostraStatoPartita () {
-    printf("\n"
-       "Scegli cosa vuoi fare:"                          "\n");
-    printf("\n"
-           "%d. Mostra le carte giocabili"               "\n"
-           "%d. Mostra le carte dell'aula"               "\n"
-           "%d. Mostra le carte bonus/malus"             "\n"
-           "%d. Torna indietro",
+    printf("\n" "Scegli cosa vuoi fare:");
+    printf("\n\t"
+           "%d. Mostra le carte " BBLU "giocabili" RESET               "\n\t"
+           "%d. Mostra le carte " BCYN "dell'aula" RESET               "\n\t"
+           "%d. Mostra le carte " BRED "bonus/malus" RESET             "\n\t"
+           "%d. " BOLD "Torna indietro" RESET,
            COMANDO_OPZIONE_1,
            COMANDO_OPZIONE_2,
            COMANDO_OPZIONE_3,
