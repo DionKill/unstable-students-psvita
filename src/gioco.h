@@ -20,7 +20,8 @@
 #define COMANDO_ESCI 0 // Serve per uscire dal programma o tornare indietro
 #define COMANDO_CONFERMA 13 // Invio
 #define COMANDO_ANNULLA 27 // ESC
-#define MIN 1 // Il minimo per diverse cose: numero di turni, il minimo da cercare...
+#define MIN_1 1 // Il minimo per diverse cose: numero di turni, il minimo da cercare...
+#define MIN_0 0 // Il minimo per diverse cose: numero di turni, il minimo da cercare...
 
 #define MAX_CARTE_MAZZO_GIOCATORE 5
 
@@ -33,7 +34,7 @@ Carta *scegliCarta (Carta *mazzoScelta, TipologiaCarta tipoCartaGiocata);
 Giocatore *scegliGiocatore(Giocatore *listaGiocatori, int nGiocatori);
 
 // Effetti
-void giocaCarta (Giocatore *listaGiocatori, int nGiocatori, Carta **mazzoPesca, Carta **mazzoScarti, Quando quando);
+bool giocaCarta(Giocatore *listaGiocatori, int nGiocatori, Carta **mazzoPesca, Carta **mazzoScarti, Quando quando);
 void gestisciEffettiCarta (Giocatore *listaGiocatori, int nGiocatori,
                            Carta *cartaGiocata,
                            Carta **mazzoPesca, Carta **mazzoScarti, Quando quando);

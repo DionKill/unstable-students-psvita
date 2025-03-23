@@ -15,7 +15,6 @@
  * @return Esce dal programma.
  */
 int main(int argc, char **argv) {
-
     srand(time(NULL));
 
     // Chiede di continuare dopo aver mostrato il menù
@@ -26,7 +25,6 @@ int main(int argc, char **argv) {
     if (argc > 1)
         gioco(argv[argc]);
     else gioco(SALVATAGGIO);
-
 
     return 0;
 }
