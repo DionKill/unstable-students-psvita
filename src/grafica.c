@@ -40,8 +40,12 @@ void guiSplashScreen () {
 }
 
 /** Stampa una riga che segnala alcune statistiche
+ * @param turno Il turno della partita
+ * @param nGiocatori Il numero totale dei giocatori (serve per il colore)
+ * @param nomeGiocatore Il nome del giocatore
  */
-void guiHeader (int turno, int nGiocatori, char nomeGiocatore[]) {
+void guiHeader (int turno, int nGiocatori, char *nomeGiocatore) {
+    // Ottiene il colore
     char *strColore;
     strColoreGiocatore(&strColore, turno % nGiocatori);
 
@@ -273,7 +277,8 @@ void strTipologiaCarta(char **str, TipologiaCarta tipologia) {
         case ISTANTANEA:
             *str = STR_ISTANTANEA;
         break;
-    }}
+    }
+}
 
 /** Da target a stringa
  *
@@ -294,7 +299,8 @@ void strTargetGiocatori(char **str, TargetGiocatori target) {
         case TUTTI:
             *str = STR_TUTTI;
         break;
-    }}
+    }
+}
 
 /** Non ho più voglia di scrivere
  *
