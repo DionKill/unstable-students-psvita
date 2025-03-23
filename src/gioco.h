@@ -12,7 +12,7 @@
 #include "grafica.h"
 #include "misc.h"
 
-// Macro rappresentanti gli input da tastiera che vengono usati nel gioco, come per giocare una carta, pescare etc.
+// Macro rappresentanti gli input da tastiera che vengono usati nel gioco e altro
 #define COMANDO_OPZIONE_1 1 // Gioca una carta, ...
 #define COMANDO_OPZIONE_2 2 // Pesca una carta, ...
 #define COMANDO_OPZIONE_3 3 // Mostra le carte, ...
@@ -26,30 +26,27 @@
 
 // Gioco e menù
 void gioco(char *path);
-void pescaCarta (Carta **mazzoGiocatore, Carta **mazzoPesca, Carta **mazzoScarti);
-
+void creaNuovaPartita (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesca);
 void avantiTurno(int *turno, Giocatore **listaGiocatori, Carta **mazzoPesca, Carta **mazzoScarti);
-void creaNuovaPartita (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesca,
-                        Carta **mazzoScarti, Carta **mazzoAulaStudio);
+void mostraStatusPartita (Giocatore *listaGiocatori, int nGiocatori, bool dettagli);
+Carta *scegliCarta (Carta *mazzoScelta, TipologiaCarta tipoCartaGiocata);
+Giocatore *scegliGiocatore(Giocatore *listaGiocatori, int nGiocatori);
 
-// Carte ed effetti
+// Effetti
 void giocaCarta (Giocatore *listaGiocatori, int nGiocatori, Carta **mazzoPesca, Carta **mazzoScarti, Quando quando);
 void gestisciEffettiCarta (Giocatore *listaGiocatori, int nGiocatori,
                            Carta *cartaGiocata,
                            Carta **mazzoPesca, Carta **mazzoScarti, Quando quando);
+bool effettoTipoCarta (TipologiaCarta cartaGiocata, TipologiaCarta cartaAffetta);
+int effettoTargetGiocatori(Giocatore **listaGiocatori, int nGiocatori, TargetGiocatori target);
+// Azioni
 void azioneCarta (Giocatore *listaGiocatori, int nGiocatori,
                   Carta *cartaGiocata, Effetto *effetto,
                   Giocatore *giocatoriAffetti, int nAffetti,
                   Carta **mazzoPesca, Carta **mazzoScarti);
-bool effettoTipoCarta (TipologiaCarta cartaGiocata, TipologiaCarta cartaAffetta);
-int effettoTargetGiocatori(Giocatore **listaGiocatori, int nGiocatori, TargetGiocatori target);
+void pescaCarta (Carta **mazzoGiocatore, Carta **mazzoPesca, Carta **mazzoScarti);
 void scartaEliminaCarta (Carta **mazzoOrigine, Carta *cartaGiocata, Carta **mazzoScarti);
 void rubaPrendiCarta (Carta **mazzoInput,
                       Carta *cartaGiocata, Carta **mazzoDestinazione);
-
-// Misc
-void mostraStatusPartita (Giocatore *listaGiocatori, int nGiocatori, bool dettagli);
-Carta *scegliCarta (Carta *mazzoScelta, TipologiaCarta tipoCartaGiocata);
-Giocatore *scegliGiocatore(Giocatore *listaGiocatori, int nGiocatori);
 
 #endif //GIOCO_H

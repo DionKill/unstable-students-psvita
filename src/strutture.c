@@ -261,38 +261,6 @@ void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput) {
     }
 }
 
-/** Funzione che sposta la carta desiderata nel corretto mazzo del giocatore,
- * ad esempio le carte bonus nel mazzo bonusmalus... etc...
- *
- * @param giocatore Il giocatore a cui va messa la carta nel mazzo giusto
- * @param carta La carta da spostare
- */
-void spostaCartaNelMazzoGiocatoreGiusto (Giocatore *giocatore, Carta *carta) {
-    if (carta->tipo == MATRICOLA || carta->tipo == STUDENTE_SEMPLICE || carta->tipo == LAUREANDO)
-        spostaCarta(&carta, carta, &giocatore->carteAulaGiocatore);
-    else if (carta->tipo == BONUS || carta->tipo == MALUS)
-        spostaCarta(&carta, carta, &giocatore->carteBonusMalusGiocatore);
-    else spostaCarta(&carta, carta, &giocatore->carteGiocatore);
-}
-
-Carta *mazzoDelGiocatoreGiustoInBaseAlTipoDellaCarta (Carta *cartaGiocata, Giocatore *giocatoriAffetti) {
-    // Il mazzo in cui verranno applicati gli effetti
-    Carta *mazzoDestinazione = NULL;
-    switch (cartaGiocata->tipo) {
-        case BONUS:
-        case MALUS:
-            mazzoDestinazione = giocatoriAffetti->carteBonusMalusGiocatore;
-        break;
-        case MATRICOLA:
-        case STUDENTE_SEMPLICE:
-        case LAUREANDO:
-            mazzoDestinazione = giocatoriAffetti->carteAulaGiocatore;
-        break;
-        default: mazzoDestinazione = giocatoriAffetti->carteGiocatore;
-    }
-    return mazzoDestinazione;
-}
-
 /** Distribuisce le carte ai giocatori, prendendole dal mazzo già mescolato da pesca.
  * @param cntCarte Il numero di giocatori
  * @param listaGiocatori La lista di giocatori a cui dare le carte

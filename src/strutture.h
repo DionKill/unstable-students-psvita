@@ -56,14 +56,14 @@ void rendiListaGiocatoriCircolare (Giocatore *listaGiocatori);
 
 // Gestione carte
 Carta *allocaCarta ();
-int contaCarte (Carta *mazzo);
 Carta *copiaCarta (Carta *carta, int nCopie);
-Carta *dividiMazzoMatricole (Carta **mazzo);
-void shuffleCarte (Carta **mazzoOriginale);
 void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput);
-//void spostaCartaNelMazzoGiocatoreGiusto (Giocatore *giocatore, Carta *carta);
-Carta *mazzoDelGiocatoreGiustoInBaseAlTipoDellaCarta (Carta *cartaGiocata, Giocatore *giocatoriAffetti);
+void shuffleCarte (Carta **mazzoOriginale);
+Carta *dividiMazzoMatricole (Carta **mazzo);
 void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPesca);
+int contaCarte (Carta *mazzo);
+
+// Gestione effetti
 bool esisteAzioneNelMazzo (Carta *mazzo, Azione azione);
 
 // Miscellanee
