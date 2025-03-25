@@ -173,24 +173,24 @@ Carta *dividiMazzoMatricole (Carta **mazzo) {
 
     return mazzoMatricole;
 }
-|
+
 /** Funzione che sposta la carta appena giocata nell'apposito mazzo
  *
  * @param giocatore Il giocatore a cui va messa la carta nel mazzo giusto
  * @param carta La carta da spostare
  * @param mazzoScarti
  */
-void spostaCartaGiocata (Giocatore *giocatore, Carta *carta, Carta *mazzoScarti) {
+Carta *mazzoGiocatoreGiusto(Giocatore *giocatore, Carta *carta, Carta *mazzoScarti) {
     // Se la carta è STUDENTE allora la sposta nel mazzo Aula del giocatore
     if (isStudente(carta->tipo)) // Niente matricole, già fatto a inizio gioco
-        spostaCarta(&carta, carta, &giocatore->carteAulaGiocatore);
+        return giocatore->carteAulaGiocatore;
 
     // Altrimenti, se è una carta BONUS-MALUS la sposta nel mazzo delle bonus-malus
-    else if (isBonusMalus(carta->tipo))
-        spostaCarta(&carta, carta, &giocatore->carteBonusMalusGiocatore);
+    if (isBonusMalus(carta->tipo))
+        return giocatore->carteBonusMalusGiocatore;
 
     // Altrimenti, per esclusione, è una carta giocabile, e niente finisce negli scarti
-    else spostaCarta(&carta, carta, &mazzoScarti);
+    return mazzoScarti;
 }
 
 /** Funzione che sposta tutti gli elementi della lista originale a una nuova lista, in modo casuale.

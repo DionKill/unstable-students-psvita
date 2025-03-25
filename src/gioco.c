@@ -321,7 +321,7 @@ bool giocaCarta(Giocatore *listaGiocatori, int nGiocatori,
         // L'utente inserisce il numero di una carta
         int scelta = inserisciNumero(MIN_0, nCarte);
 
-        // Se la carta scelta è "0"
+        // Se la carta scelta è diversa da ESCI
         if (scelta != MIN_0) {
             // Puntatore temporaneo alle carte giocabili
             Carta *cartaGiocata = listaGiocatori->carteGiocatore;
@@ -330,11 +330,21 @@ bool giocaCarta(Giocatore *listaGiocatori, int nGiocatori,
             for (int i = MIN_1; i < scelta; i++)
                 cartaGiocata = cartaGiocata->next;
 
+            // Sposta la carta appena giocata in un mazzo temporaneo
+            Carta *mazzoTmp = NULL;
+            spostaCarta(&listaGiocatori->carteGiocatore, cartaGiocata, &mazzoTmp);
+
             gestisciEffettiCarta(listaGiocatori, nGiocatori, cartaGiocata, mazzoPesca, mazzoScarti, mazzoAulaStudio, quando);
             // TODO: scartare la carta in automatico quando l'effetto è stato giocato (se viene giocato)
+
+            // Se ci sono troppe carte nel mazzo allora la cancella
             while (contaCarte(listaGiocatori->carteGiocatore) > MAX_CARTE_MAZZO_GIOCATORE) {
-                scartaEliminaCarta(&listaGiocatori->carteGiocatore, cartaGiocata, mazzoScarti);
+                Carta *cartaDaSpostareNelMazzoGiocatoreGiusto = mazzoGiocatoreGiusto(listaGiocatori, cartaGiocata, *mazzoScarti);
+                scartaEliminaCarta(&listaGiocatori->carteGiocatore, cartaGiocata, &cartaDaSpostareNelMazzoGiocatoreGiusto);
             }
+
+            mazzoGiocatoreGiusto(listaGiocatori, cartaGiocata, *mazzoScarti);
+
             haGiocatoCarta = true;
         }
     } else {
@@ -605,7 +615,6 @@ Carta *mazzoGiocatorePerAzione (Giocatore *giocatoreAffetto, TipologiaCarta tipo
         // Altrimenti, per esclusione, è l'aula
         else tmp = giocatoreAffetto->carteAulaGiocatore;
     }
-
     // Restituisce il temporaneo
     return tmp;
 }
