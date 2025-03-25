@@ -58,6 +58,7 @@ void rendiListaGiocatoriCircolare (Giocatore *listaGiocatori);
 Carta *allocaCarta ();
 Carta *copiaCarta (Carta *carta, int nCopie);
 void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput);
+void spostaCartaGiocata (Giocatore *giocatore, Carta *carta, Carta *mazzoScarti);
 void shuffleCarte (Carta **mazzoOriginale);
 Carta *dividiMazzoMatricole (Carta **mazzo);
 void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPesca);
@@ -65,6 +66,8 @@ int contaCarte (Carta *mazzo);
 
 // Gestione effetti
 bool esisteAzioneNelMazzo (Carta *mazzo, Azione azione);
+bool isStudente (TipologiaCarta tipo);
+bool isBonusMalus (TipologiaCarta tipo);
 
 // Miscellanee
 void liberaMemoria (Carta *testaMazzo);

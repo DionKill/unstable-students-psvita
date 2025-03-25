@@ -38,7 +38,7 @@ bool giocaCarta(Giocatore *listaGiocatori, int nGiocatori, Carta **mazzoPesca, C
 void gestisciEffettiCarta (Giocatore *listaGiocatori, int nGiocatori,
                            Carta *cartaGiocata,
                            Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio, Quando quando);
-bool effettoTipoCarta (TipologiaCarta cartaGiocata, TipologiaCarta cartaAffetta);
+bool effettoTipoCarta (TipologiaCarta tipoCartaGiocata, TipologiaCarta tipoCartaAffetta);
 int effettoTargetGiocatori(Giocatore **listaGiocatori, int nGiocatori, TargetGiocatori target);
 
 // Azioni

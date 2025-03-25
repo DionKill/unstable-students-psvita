@@ -173,6 +173,25 @@ Carta *dividiMazzoMatricole (Carta **mazzo) {
 
     return mazzoMatricole;
 }
+|
+/** Funzione che sposta la carta appena giocata nell'apposito mazzo
+ *
+ * @param giocatore Il giocatore a cui va messa la carta nel mazzo giusto
+ * @param carta La carta da spostare
+ * @param mazzoScarti
+ */
+void spostaCartaGiocata (Giocatore *giocatore, Carta *carta, Carta *mazzoScarti) {
+    // Se la carta è STUDENTE allora la sposta nel mazzo Aula del giocatore
+    if (isStudente(carta->tipo)) // Niente matricole, già fatto a inizio gioco
+        spostaCarta(&carta, carta, &giocatore->carteAulaGiocatore);
+
+    // Altrimenti, se è una carta BONUS-MALUS la sposta nel mazzo delle bonus-malus
+    else if (isBonusMalus(carta->tipo))
+        spostaCarta(&carta, carta, &giocatore->carteBonusMalusGiocatore);
+
+    // Altrimenti, per esclusione, è una carta giocabile, e niente finisce negli scarti
+    else spostaCarta(&carta, carta, &mazzoScarti);
+}
 
 /** Funzione che sposta tutti gli elementi della lista originale a una nuova lista, in modo casuale.
  *
@@ -287,6 +306,8 @@ void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPe
     }
 }
 
+/* Gestione degli effetti */
+
 /** Controlla se esiste un tipo di azione nel mazzo
  * Utile ad esempio per controllare se c'è una carta con effetto INGEGNERIZZAZIONE
  *
@@ -310,6 +331,18 @@ bool esisteAzioneNelMazzo (Carta *mazzo, Azione azione) {
     // Se non trova niente o il mazzo è vuoto, ritorna vero
     return false;
 }
+
+// Restituisce true se la carta è uno studente
+bool isStudente (TipologiaCarta tipo) {
+    return tipo == MATRICOLA || tipo == STUDENTE_SEMPLICE || tipo == LAUREANDO;
+}
+
+// Restituisce true se la carta è una bonus o malus
+bool isBonusMalus (TipologiaCarta tipo) {
+    return tipo == BONUS || tipo == MALUS;
+}
+
+/* Miscellanee */
 
 /** Libera la memoria usata dal programma prima dell'uscita
  * Spoiler: le dipendenze circolari mi costringono a mettere la funzione qui, perciò così sarà.

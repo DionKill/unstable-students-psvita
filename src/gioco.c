@@ -34,8 +34,10 @@ void gioco (char *path) {
 
         // Si pesca la carta all'inizio del turno
         pulisciSchermo();
-        printf("Inizio del turno %d"
+        printf("\n"
+            BOLD "INIZIO DEL TURNO %d" RESET
             "\n", turno);
+
         pescaCarta(&listaGiocatori->carteGiocatore, &mazzoPesca, &mazzoScarti);
 
         pulisciSchermo();
@@ -135,9 +137,24 @@ void creaNuovaPartita (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazz
  * @param mazzoScarti Il mazzo degli scarti
  */
 void avantiTurno(int turno, Giocatore **listaGiocatori, Carta **mazzoPesca, Carta **mazzoScarti) {
+    pulisciSchermo();
+    printf("\n"
+           BOLD "FINE DEL TURNO %d per %s" RESET, turno, (*listaGiocatori)->nome);
+
     // Se il giocatore ha più di 5 carte giocabili, dovrà scartare (sacrtare) una carta o più carte
-    while (contaCarte((*listaGiocatori)->carteGiocatore) > MAX_CARTE_MAZZO_GIOCATORE)
-        scartaEliminaCarta(&(*listaGiocatori)->carteGiocatore, NULL, mazzoScarti);
+    while (contaCarte((*listaGiocatori)->carteGiocatore) > MAX_CARTE_MAZZO_GIOCATORE) {
+        printf("\n"
+               "Hai troppe " BBLU "carte in mano" RESET "! Devi scartarne qualcuna!");
+
+        // Crea una carta temporanea al mazzo, che verrà anche usata per scartare le carte se ne ha troppe
+        Carta *tmp = (*listaGiocatori)->carteGiocatore;
+        int scelta = inserisciNumero(MIN_1, contaCarte(tmp));
+
+        for (int i = 0; i < scelta; i++)
+            tmp = tmp->next;
+
+        scartaEliminaCarta(&(*listaGiocatori)->carteGiocatore, tmp, mazzoScarti);
+    }
 
     pulisciSchermo();
     printf("\n"
@@ -145,7 +162,7 @@ void avantiTurno(int turno, Giocatore **listaGiocatori, Carta **mazzoPesca, Cart
            "\n", turno, (*listaGiocatori)->nome);
     premiInvioPerContinuare();
 
-    *listaGiocatori = (*listaGiocatori)->next; // Scorre la lista al prossimo giocatore
+    //*listaGiocatori = (*listaGiocatori)->next; // Scorre la lista al prossimo giocatore
 }
 
 /** Un menù che chiede al giocatore che cosa vuole vedere riguardo la partita corrente
@@ -372,29 +389,26 @@ void gestisciEffettiCarta (Giocatore *listaGiocatori, int nGiocatori,
 
 /** Restituisce vero se la tipologia della carta come parametro è uguale a quella della carta
  *
- * @param cartaGiocata Il tipo della carta che viene giocata in questo momento
- * @param cartaAffetta Il tipo della carta che può essere affetta
+ * @param tipoCartaGiocata Il tipo della carta che viene giocata in questo momento
+ * @param tipoCartaAffetta Il tipo della carta che può essere affetta
  * @return Ritorna true le tipologie combaciano, altrimenti false
  */
-bool effettoTipoCarta (TipologiaCarta cartaGiocata, TipologiaCarta cartaAffetta) {
+bool effettoTipoCarta (TipologiaCarta tipoCartaGiocata, TipologiaCarta tipoCartaAffetta) {
     bool ris = false;
 
-    switch (cartaGiocata) {
+    switch (tipoCartaGiocata) {
         case ALL:
             ris = true;
         break;
         case STUDENTE:
-            if (cartaAffetta == MATRICOLA || cartaAffetta == STUDENTE_SEMPLICE || cartaAffetta == LAUREANDO)
-                ris = true;
+            ris = isStudente(tipoCartaAffetta);
         break;
         case BONUS:
         case MALUS:
-            if (cartaAffetta == BONUS || cartaAffetta == MALUS)
-                ris = true;
+            ris = isBonusMalus(tipoCartaAffetta);
         break;
         default:
-            if (cartaGiocata == cartaAffetta)
-                ris = true;
+            ris = tipoCartaGiocata == tipoCartaAffetta;
         break;
     }
     return ris;
@@ -527,7 +541,6 @@ void pescaCarta (Carta **mazzoGiocatore, Carta **mazzoPesca, Carta **mazzoScarti
     spostaCarta(mazzoPesca, *mazzoPesca, mazzoGiocatore);
 
     premiInvioPerContinuare();
-    pulisciSchermo();
 }
 
 /** Funzione che gestisce gli effetti di SCARTA ed ELIMINA
