@@ -74,6 +74,31 @@ void leggiCarteDaFile (Carta **mazzo) {
     fclose(fp);
 }
 
+/** Funzione per il caricamento della partita
+ * @return Se ritorna true, il salvataggio è caricabile, altrimenti va creato
+ */
+void iniziaPartita(Giocatore **listaGiocatori, int *nGiocatori, Carta **mazzoPesca,
+                   Carta **mazzoScarti, Carta **mazzoAulaStudio, int *turno, char *path) {
+    FILE *fp = NULL;
+    fp = fopen(path, "rb");
+
+    // Se il salvataggio non esiste, esce dal programma
+    if (fp == NULL) {
+        // Se non esiste, ma è il salvataggio normale, lo crea
+        if (strcmp(path, SALVATAGGIO) == 0) {
+            creaNuovaPartita(listaGiocatori, nGiocatori, mazzoPesca, turno);
+        }
+        // Il salvataggio passato come parametro non esiste, perciò esce dal programma
+        else exit(EXIT_FAILURE);
+    }
+
+    // Se il salvataggio esiste, carica la partita
+    else {
+        caricamento(listaGiocatori, nGiocatori, mazzoPesca, mazzoScarti, mazzoAulaStudio, turno, path);
+        fclose(fp);
+    }
+}
+
 /** Funzione responsabile del salvataggio dei dati su file.
  * Fin troppi parametri comunque
  *
@@ -83,9 +108,10 @@ void leggiCarteDaFile (Carta **mazzo) {
  * @param mazzoScarti Il mazzo delle carte che vengono giocate
  * @param mazzoAulaStudio Il mazzo delle carte laureando / studente che vengono giocate (credo)
  * @param salvataggio Il file da aprire (può essere savegame.sav oppure un file dato all'apertura del programma)
+ * @param turno
  */
 void salvataggio (int nGiocatori, Giocatore *listaGiocatori, Carta *mazzoPesca,
-                  Carta *mazzoScarti, Carta *mazzoAulaStudio, char *salvataggio) {
+                  Carta *mazzoScarti, Carta *mazzoAulaStudio, char *salvataggio, int *turno) {
 
     // Apertura del file
     FILE *fp = apriFile(salvataggio, "wb");
@@ -124,6 +150,12 @@ void salvataggio (int nGiocatori, Giocatore *listaGiocatori, Carta *mazzoPesca,
     fwrite(&nCarte, sizeof(int), 1, fp);
     salvataggioMazzo(mazzoAulaStudio, fp);
 
+    /* Salvataggio di dettagli extra */
+    // Segnalatore
+    int extra = 0; // False perché in C ogni valore diverso 0 è vero
+    fwrite(&extra, sizeof(int), 1, fp);
+    fwrite(turno, sizeof(int), 1, fp);
+
     // Chiude il file
     fclose(fp);
 }
@@ -150,15 +182,16 @@ void salvataggioMazzo (Carta *mazzo, FILE *fp) {
 
 /** Funzione responsabile del caricamento dei dati da file.
  *
- * @param nGiocatori Il numero di giocatori
  * @param listaGiocatori La lista dei giocatori da salvare
+ * @param nGiocatori Il numero di giocatori
  * @param mazzoPesca Il mazzo da pesca
  * @param mazzoScarti Il mazzo delle carte che vengono giocate
  * @param mazzoAulaStudio Il mazzo delle carte laureando / studente che vengono giocate (credo)
+ * @param turno
  * @param salvataggio Il file da aprire (può essere savegame.sav oppure un file dato all'apertura del programma)
  */
-void caricamento (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesca,
-                  Carta **mazzoScarti, Carta **mazzoAulaStudio, char *salvataggio) {
+void caricamento (Giocatore **listaGiocatori, int *nGiocatori, Carta **mazzoPesca,
+                  Carta **mazzoScarti, Carta **mazzoAulaStudio, int *turno, char *salvataggio) {
     // Apertura del file
     FILE *fp = apriFile(salvataggio, "rb");
     int length; // Int che ha contiene lunghezza della lista da leggere
@@ -199,6 +232,19 @@ void caricamento (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesc
 
     fread(&length, sizeof(int), 1, fp);
     caricamentoMazzo(length, mazzoAulaStudio, fp);
+
+    /* Robe extra dei salvataggi */
+    // Intero che verrà salvato dentro il file per segnalare l'utilizzo di cose extra
+    int extra;
+    fread(&extra, sizeof(int), 1, fp);
+
+    // Se extra è diverso da End Of File
+    if (extra == 0) {
+        fread(turno, sizeof(int), 1, fp);
+    }
+    else {
+        *turno = 1;
+    }
 
     // Rende la lista circolare
     rendiListaGiocatoriCircolare(*listaGiocatori);

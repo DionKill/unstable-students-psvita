@@ -27,7 +27,7 @@
 
 // Gioco e menù
 void gioco(char *path);
-void creaNuovaPartita (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesca);
+void creaNuovaPartita (Giocatore **listaGiocatori, int *nGiocatori, Carta **mazzoPesca, int *turno);
 void avantiTurno(int turno, Giocatore **listaGiocatori, Carta **mazzoPesca, Carta **mazzoScarti);
 void mostraStatusPartita (Giocatore *listaGiocatori, int nGiocatori, bool dettagli);
 Carta *scegliCarta (Carta *mazzoScelta, TipologiaCarta tipoCartaGiocata);

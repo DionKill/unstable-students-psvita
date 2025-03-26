@@ -13,6 +13,8 @@ void gioco (char *path) {
     // Crea la lista dei giocatori e li popola
     Giocatore *listaGiocatori = NULL;
     int nGiocatori;
+    // Gestione dei turni, e l'input scelto dal giocatore
+    int turno, scelta;
 
     // Crea il mazzo di carte, popolato usando il file mazzo.txt
     Carta *mazzoPesca = NULL;
@@ -21,16 +23,12 @@ void gioco (char *path) {
     Carta *mazzoScarti = NULL; // Sacrate (per pochi)
     Carta *mazzoAulaStudio = NULL;
 
-    //creaNuovaPartita(&nGiocatori, &listaGiocatori, &mazzoPesca);
-    caricamento(&nGiocatori, &listaGiocatori, &mazzoPesca, &mazzoScarti, &mazzoAulaStudio, path);
-
-    // Gestione dei turni, e l'input scelto dal giocatore
-    int turno = MIN_1, scelta;
+    iniziaPartita(&listaGiocatori, &nGiocatori, &mazzoPesca, &mazzoScarti, &mazzoAulaStudio, &turno, path);
 
     // TODO: Funzione che controlla quando vinci così la metto nella condizione del loop
     do {
         // Si salva sempre all'inizio del turno, prima di ogni cosa
-        salvataggio(nGiocatori, listaGiocatori, mazzoPesca, mazzoScarti, mazzoAulaStudio, path);
+        salvataggio(nGiocatori, listaGiocatori, mazzoPesca, mazzoScarti, mazzoAulaStudio, path, &turno);
 
         // Si pesca la carta all'inizio del turno
         pulisciSchermo();
@@ -88,20 +86,14 @@ void gioco (char *path) {
     } while (scelta != COMANDO_ESCI);
 }
 
-/** Funzione per il caricamento della partita
- *
- */
-void iniziaPartita () {
-
-}
-
 /** Crea una nuova partita, allocando ogni cosa e caricando dal file
  *
- * @param nGiocatori Numero di giocatori per la partita
  * @param listaGiocatori La lista dinamica che contiene tutti i giocatori
+ * @param nGiocatori Numero di giocatori per la partita
  * @param mazzoPesca Il mazzo delle carte che vanno pescate
+ * @param turno
  */
-void creaNuovaPartita (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesca) {
+void creaNuovaPartita (Giocatore **listaGiocatori, int *nGiocatori, Carta **mazzoPesca, int *turno) {
     printf("\n"
            BYEL "Nessun salvataggio trovato/selezionato"
            RESET ", creazione di una nuova partita..."
@@ -127,6 +119,9 @@ void creaNuovaPartita (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazz
         mazzoMatricole = mazzoMatricole->next;
         free(tmpMatricole);
     }
+
+    // Inizializza il turno
+    *turno = MIN_1;
 }
 
 /** Funzione che gestisce tutte le cose per andare avanti di un turno
@@ -162,7 +157,7 @@ void avantiTurno(int turno, Giocatore **listaGiocatori, Carta **mazzoPesca, Cart
            "\n", turno, (*listaGiocatori)->nome);
     premiInvioPerContinuare();
 
-    //*listaGiocatori = (*listaGiocatori)->next; // Scorre la lista al prossimo giocatore
+    *listaGiocatori = (*listaGiocatori)->next; // Scorre la lista al prossimo giocatore
 }
 
 /** Un menù che chiede al giocatore che cosa vuole vedere riguardo la partita corrente
@@ -238,18 +233,23 @@ void mostraStatusPartita (Giocatore *listaGiocatori, int nGiocatori, bool dettag
 Carta *scegliCarta (Carta *mazzoScelta, TipologiaCarta tipoCartaGiocata) {
     int size = contaCarte(mazzoScelta);
 
-    Carta *cartaScelta = mazzoScelta;
+    Carta *cartaScelta;
 
     // Un while che continua finché il giocatore non sceglie una carta valida
     do {
+        cartaScelta = mazzoScelta;
         int scelta = inserisciNumero(MIN_1, size);
 
         // Scorre fino alla carta
-        for (int i = 0; i < scelta; i++) {
+        for (int i = 1; i < scelta; i++)
             cartaScelta = cartaScelta->next;
-        }
+
         // Controlla se la carta inserita è valida, se si continua il ciclo
-    } while (! effettoTipoCarta(tipoCartaGiocata, cartaScelta->tipo));
+    } while (effettoTipoCarta(tipoCartaGiocata, cartaScelta->tipo));
+
+    printf("\n"
+           YEL "Hai scelto la carta: " BOLD "%s" RESET
+           "\n", cartaScelta->nome);
 
     return cartaScelta;
 }
@@ -562,13 +562,14 @@ void scartaEliminaCarta (Carta **mazzoOrigine, Carta *cartaGiocata, Carta **mazz
     if (contaCarte(*mazzoOrigine) >= MIN_1) {
         int nCarte = contaCarte(*mazzoOrigine);
 
-        pulisciSchermo();
         guiStampaMazzo(*mazzoOrigine, false);
         printf("\n"
                "-----------------------------------------------------" "\n"
-               "Scegli una " BLU "carta" RESET " da scartare [%d-%d] (%d torna indietro):", MIN_1, nCarte, MIN_0);
+               "Scegli una " BLU "carta" RESET " da " BRED "scartare" RESET " [%d-%d]",
+               MIN_1, nCarte);
 
         Carta *cartaDaRimuovere = scegliCarta(*mazzoOrigine, cartaGiocata->tipo);
+
         spostaCarta(mazzoOrigine, cartaDaRimuovere, mazzoScarti);
     } else {
         printf("\n"
@@ -584,11 +585,11 @@ void scartaEliminaCarta (Carta **mazzoOrigine, Carta *cartaGiocata, Carta **mazz
  * @param mazzoDestinazione Il mazzo dove andrà spostata la nuova carta
  */
 void rubaPrendiCarta (Carta **mazzoInput, Carta *cartaGiocata, Carta **mazzoDestinazione) {
+    guiStampaMazzo(*mazzoDestinazione, false);
     printf("\n"
            "Ruba una carta all'avversario!"
            "\n");
 
-    guiStampaMazzo(*mazzoDestinazione, false);
     Carta *cartaSelezionata = scegliCarta(*mazzoInput, cartaGiocata->tipo);
 
     spostaCarta(mazzoInput, cartaSelezionata, mazzoDestinazione);

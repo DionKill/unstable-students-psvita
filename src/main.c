@@ -14,16 +14,16 @@
  * @param argv La matrice che contiene i parametri passati come stringa.
  * @return Esce dal programma.
  */
-int main(int argc, char **argv) {
+int main(int argc, char *argv[]) {
     srand(time(NULL));
 
-    // Chiede di continuare dopo aver mostrato il menù
+    // Menù di avvio
     guiSplashScreen();
     premiInvioPerContinuare();
     pulisciSchermo();
 
-    if (argc > 1)
-        gioco(argv[argc]);
+    // Caricamento della partita
+    if (argc > 1) gioco(argv[argc]);
     else gioco(SALVATAGGIO);
 
     return 0;

@@ -3,7 +3,6 @@
 //
 
 #include "strutture.h"
-
 #include "grafica.h"
 
 /*--- Gestione dei giocatori ---*/
@@ -38,7 +37,7 @@ int creaGiocatori(Giocatore **listaGiocatori) {
 
         printf(RESET);
         if (strlen((*tmp)->nome) == 0)
-            printf("\n"
+            printf(RESET "\n"
                    "Inserire un valore corretto!");
         else {
             tmp = &(*tmp)->next; // Scorre nella lista

@@ -14,11 +14,13 @@
 
 FILE *apriFile (char *path, char *mode);
 void leggiCarteDaFile (Carta **mazzo);
+void iniziaPartita(Giocatore **listaGiocatori, int *nGiocatori, Carta **mazzoPesca,
+                   Carta **mazzoScarti, Carta **mazzoAulaStudio, int *turno, char *path);
 void salvataggio (int nGiocatori, Giocatore *listaGiocatori, Carta *mazzoPesca,
-                  Carta *mazzoScarti, Carta *mazzoAulaStudio, char *salvataggio);
+                  Carta *mazzoScarti, Carta *mazzoAulaStudio, char *salvataggio, int *turno);
 void salvataggioMazzo (Carta *mazzo, FILE *fp);
-void caricamento (int *nGiocatori, Giocatore **listaGiocatori, Carta **mazzoPesca,
-                  Carta **mazzoScarti, Carta **mazzoAulaStudio, char *salvataggio);
+void caricamento (Giocatore **listaGiocatori, int *nGiocatori, Carta **mazzoPesca,
+                  Carta **mazzoScarti, Carta **mazzoAulaStudio, int *turno, char *salvataggio);
 void caricamentoMazzo(int size, Carta **mazzo, FILE *fp);
 
 #endif //FILE_H
