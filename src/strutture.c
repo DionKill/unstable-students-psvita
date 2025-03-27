@@ -179,7 +179,7 @@ Carta *dividiMazzoMatricole (Carta **mazzo) {
  * @param carta La carta da spostare
  * @param mazzoScarti
  */
-Carta *mazzoGiocatoreGiusto(Giocatore *giocatore, Carta *carta, Carta *mazzoScarti) {
+Carta *mazzoGiocatoreGiusto (Giocatore *giocatore, Carta *carta, Carta *mazzoScarti) {
     // Se la carta è STUDENTE allora la sposta nel mazzo Aula del giocatore
     if (isStudente(carta->tipo)) // Niente matricole, già fatto a inizio gioco
         return giocatore->carteAulaGiocatore;

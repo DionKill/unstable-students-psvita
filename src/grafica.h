@@ -57,13 +57,14 @@ void guiStampaCarta (Carta *carta, bool dettagli);
 void guiStampaCarteGiocatore (Giocatore *giocatore, bool mostraMano);
 void guiScegliAzione ();
 void guiMostraStatoPartita ();
+void guiMostraGiocatori (Giocatore *listaGiocatori, int nGiocatori);
 
 // Stringhe
-void strAzione(char **str, Azione azione);
-void strTipologiaCarta(char **str, TipologiaCarta tipologia);
-void strTargetGiocatori(char **str, TargetGiocatori target);
-void strQuando(char **str, Quando quando);
-void strOpzionale (char **str, bool opzionale); // Disessere giocati
+void strAzione (Azione azione);
+void strTipologiaCarta (TipologiaCarta tipologia);
+void strTargetGiocatori (TargetGiocatori target);
+void strQuando (Quando quando);
+void strOpzionale (bool opzionale); // Disessere giocati
 void strColoreGiocatore (char **str, int giocatore);
 
 // Misc

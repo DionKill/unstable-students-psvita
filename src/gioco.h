@@ -26,21 +26,23 @@
 #define MAX_CARTE_MAZZO_GIOCATORE 5
 
 // Gioco e menù
-void gioco(char *path);
+void gioco (char *path);
 void creaNuovaPartita (Giocatore **listaGiocatori, int *nGiocatori, Carta **mazzoPesca, int *turno);
-void avantiTurno(int turno, Giocatore **listaGiocatori, Carta **mazzoPesca, Carta **mazzoScarti);
+void avantiTurno (int turno, Giocatore **listaGiocatori, Carta **mazzoScarti);
 void mostraStatusPartita (Giocatore *listaGiocatori, int nGiocatori, bool dettagli);
 Carta *scegliCarta (Carta *mazzoScelta, TipologiaCarta tipoCartaGiocata);
-Giocatore *scegliGiocatore(Giocatore *listaGiocatori, int nGiocatori);
+Giocatore *scegliGiocatore (Giocatore *listaGiocatori, int nGiocatori);
 
 // Effetti
-bool giocaCarta(Giocatore *listaGiocatori, int nGiocatori, Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio, Quando quando);
+bool giocaCarta (Giocatore *listaGiocatori, int nGiocatori, Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio);
 void gestisciEffettiCarta (Giocatore *listaGiocatori, int nGiocatori,
                            Carta *cartaGiocata,
-                           Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio, Quando quando);
+                           Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio, Effetto *effetto);
 bool effettoTipoCarta (TipologiaCarta tipoCartaGiocata, TipologiaCarta tipoCartaAffetta);
-int effettoTargetGiocatori(Giocatore **listaGiocatori, int nGiocatori, TargetGiocatori target);
-
+int effettoTargetGiocatori (Giocatore **listaGiocatori, int nGiocatori, TargetGiocatori target);
+void effettoQuando (Giocatore *listaGiocatori, int nGiocatori,
+                    Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio,
+                    Quando quando);
 // Azioni
 void azioneCarta (Giocatore *listaGiocatori, int nGiocatori,
                   Carta *cartaGiocata, Effetto *effetto,
