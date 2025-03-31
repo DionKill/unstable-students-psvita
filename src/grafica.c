@@ -64,8 +64,8 @@ void guiStampaMazzo (Carta *mazzoCarte, bool dettagli) {
     // Conta anche il numero di carte, e stampa il numero di ogni carta (utile per giocare la carta)
     int i = 1;
     while (mazzoCarte != NULL) {
-        printf(BHGRN "Carta %d" RESET ":" RESET
-                "\n", i);
+        printf("\n"
+                BHGRN "Carta %d" RESET ":" RESET, i);
         // Stringa che verrà modificata per stampare il tipo come stringa
         guiStampaCarta(mazzoCarte, true);
         mazzoCarte = mazzoCarte->next;
@@ -92,10 +92,11 @@ void guiStampaCarta (Carta *carta, bool dettagli) {
            BHBLU "Descrizione" RESET ": %s",
            carta->descrizione);
 
+    printf("\n"
+           "Numero di effetti: %d", carta->nEffetti);
+
     if (dettagli) {
         for (int i = 0; i < carta->nEffetti; i++) {
-            printf("\n"
-                   "Numero di effetti: %d", carta->nEffetti);
 
             printf("\n"
                     "\t-<{ "

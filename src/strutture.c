@@ -83,6 +83,7 @@ void rendiListaGiocatoriCircolare(Giocatore *listaGiocatori) {
 /*--- Gestione delle carte ---*/
 
 /** Alloca spazio in memoria per una singola carta, altrimenti esce
+ *
  * @return Ritorna la carta allocata
  */
 Carta *allocaCarta () {
@@ -280,6 +281,7 @@ void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput) {
 }
 
 /** Distribuisce le carte ai giocatori, prendendole dal mazzo già mescolato da pesca.
+ *
  * @param cntCarte Il numero di giocatori
  * @param listaGiocatori La lista di giocatori a cui dare le carte
  * @param mazzoPesca Il mazzo da cui attingere le carte

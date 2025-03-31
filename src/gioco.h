@@ -31,6 +31,7 @@ void creaNuovaPartita (Giocatore **listaGiocatori, int *nGiocatori, Carta **mazz
 void avantiTurno (int turno, Giocatore **listaGiocatori, Carta **mazzoScarti);
 void mostraStatusPartita (Giocatore *listaGiocatori, int nGiocatori, bool dettagli);
 Carta *scegliCarta (Carta *mazzoScelta, TipologiaCarta tipoCartaGiocata);
+Carta *scegliCartaDaPiuMazzi (Carta *mazzoAulaStudio, Carta *mazzoBonusMalus);
 Giocatore *scegliGiocatore (Giocatore *listaGiocatori, int nGiocatori);
 
 // Effetti
@@ -38,20 +39,20 @@ bool giocaCarta (Giocatore *listaGiocatori, int nGiocatori, Carta **mazzoPesca, 
 void gestisciEffettiCarta (Giocatore *listaGiocatori, int nGiocatori,
                            Carta *cartaGiocata,
                            Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio, Effetto *effetto);
+
+void effettiMazzo (Giocatore *listaGiocatori, int nGiocatori,
+                   Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio,
+                   Quando quando);
 bool effettoTipoCarta (TipologiaCarta tipoCartaGiocata, TipologiaCarta tipoCartaAffetta);
 int effettoTargetGiocatori (Giocatore **listaGiocatori, int nGiocatori, TargetGiocatori target);
-void effettoQuando (Giocatore *listaGiocatori, int nGiocatori,
-                    Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio,
-                    Quando quando);
+
 // Azioni
 void azioneCarta (Giocatore *listaGiocatori, int nGiocatori,
                   Carta *cartaGiocata, Effetto *effetto,
                   Giocatore *giocatoriAffetti, int nAffetti,
                   Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio);
+void azioneScartaElimina (Giocatore *giocatoreAffetto, Effetto *effettoCartaGiocata, Carta **mazzoScarti, Carta **mazzoAulaStudio);
+void azioneRubaPrendi (Giocatore *giocante, Giocatore *giocatoreAffetto, Effetto *effettoCartaGiocata);
 void pescaCarta (Carta **mazzoGiocatore, Carta **mazzoPesca, Carta **mazzoScarti);
-void scartaEliminaCarta (Carta **mazzoOrigine, Carta *cartaGiocata, Carta **mazzoScarti);
-void rubaPrendiCarta (Carta **mazzoInput,
-                      Carta *cartaGiocata, Carta **mazzoDestinazione);
-Carta *mazzoGiocatorePerAzione (Giocatore *giocatoreAffetto, TipologiaCarta tipoCartaGiocata, Azione azione);
 
 #endif //GIOCO_H
