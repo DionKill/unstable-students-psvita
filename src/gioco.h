@@ -20,9 +20,10 @@
 #define COMANDO_ESCI 0 // Serve per uscire dal programma o tornare indietro
 #define COMANDO_CONFERMA 13 // Invio
 #define COMANDO_ANNULLA 27 // ESC
-#define MIN_1 1 // Il minimo per diverse cose: numero di turni, il minimo da cercare...
 #define MIN_0 0 // Il minimo per diverse cose: numero di turni, il minimo da cercare...
+#define MIN_1 1 // Il minimo per diverse cose: numero di turni, il minimo da cercare...
 
+#define MAX_MAZZI 2
 #define MAX_CARTE_MAZZO_GIOCATORE 5
 
 // Gioco e menù
@@ -30,13 +31,13 @@ void gioco (char *path);
 void creaNuovaPartita (Giocatore **listaGiocatori, int *nGiocatori, Carta **mazzoPesca, int *turno);
 void avantiTurno (int turno, Giocatore **listaGiocatori, Carta **mazzoScarti);
 void mostraStatusPartita (Giocatore *listaGiocatori, int nGiocatori, bool dettagli);
-Carta *scegliCarta (Carta *mazzoScelta, TipologiaCarta tipoCartaGiocata);
-Carta *scegliCartaDaPiuMazzi (Carta *mazzoAulaStudio, Carta *mazzoBonusMalus);
+Carta *scegliCarta (Carta *mazzoScelto, TipologiaCarta tipoCartaGiocata);
+Carta *scegliMazzo (Carta *mazzoAulaStudio, Carta *mazzoBonusMalus);
 Giocatore *scegliGiocatore (Giocatore *listaGiocatori, int nGiocatori);
 
 // Effetti
 bool giocaCarta (Giocatore *listaGiocatori, int nGiocatori, Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio);
-void gestisciEffettiCarta (Giocatore *listaGiocatori, int nGiocatori,
+void gestisciEffettoCarta (Giocatore *listaGiocatori, int nGiocatori,
                            Carta *cartaGiocata,
                            Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio, Effetto *effetto);
 

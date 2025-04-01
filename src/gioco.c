@@ -33,8 +33,8 @@ void gioco (char *path) {
         // Si pesca la carta all'inizio del turno
         pulisciSchermo();
         printf(LINEA_BIANCA
-            BOLD "INIZIO DEL TURNO %d" RESET
-            "\n", turno);
+            BOLD "INIZIO DEL TURNO %d PER %s" RESET
+            "\n", turno, listaGiocatori->nome);
 
         // Pesca la carta all'inizio del turno
         pescaCarta(&listaGiocatori->carteGiocatore, &mazzoPesca, &mazzoScarti);
@@ -223,17 +223,17 @@ void mostraStatusPartita (Giocatore *listaGiocatori, int nGiocatori, bool dettag
 
 /** Il giocatore sceglie una carta dal mazzo in base al tipo necessario
  *
- * @param mazzoScelta Il mazzo da cui va scelta la tipologia della carta
+ * @param mazzoScelto Il mazzo da cui va scelta la tipologia della carta
  * @param tipoCartaGiocata Il filtro del tipo della carta
  */
-Carta *scegliCarta (Carta *mazzoScelta, TipologiaCarta tipoCartaGiocata) {
-    int size = contaCarte(mazzoScelta);
+Carta *scegliCarta (Carta *mazzoScelto, TipologiaCarta tipoCartaGiocata) {
+    int size = contaCarte(mazzoScelto);
 
     Carta *cartaScelta;
 
     // Un while che continua finché il giocatore non sceglie una carta valida
     do {
-        cartaScelta = mazzoScelta;
+        cartaScelta = mazzoScelto;
         int scelta = inserisciNumero(MIN_1, size);
 
         // Scorre fino alla carta
@@ -241,7 +241,7 @@ Carta *scegliCarta (Carta *mazzoScelta, TipologiaCarta tipoCartaGiocata) {
             cartaScelta = cartaScelta->next;
 
         // Controlla se la carta inserita è valida, se si continua il ciclo
-    } while (effettoTipoCarta(tipoCartaGiocata, cartaScelta->tipo));
+    } while (!effettoTipoCarta(tipoCartaGiocata, cartaScelta->tipo));
 
     printf("\n"
            YEL "Hai scelto la carta: " RESET BOLD "%s" RESET
@@ -251,45 +251,24 @@ Carta *scegliCarta (Carta *mazzoScelta, TipologiaCarta tipoCartaGiocata) {
     return cartaScelta;
 }
 
-/** Sceglie una carta da più di un mazzo, usata per il tipo ALL come target carta degli effetti
+/** Sceglie un mazzo a cui applicare gli effetti
  *
  * @param mazzoAulaStudio Mazzo dell'aula studio
  * @param mazzoBonusMalus Mazzo delle carte bonus e malus
  * @return Ritorna la carta scelta
  */
-Carta *scegliCartaDaPiuMazzi (Carta *mazzoAulaStudio, Carta *mazzoBonusMalus) {
-    int mazzoScelto;
-    Carta *carta = NULL;
+Carta *scegliMazzo (Carta *mazzoAulaStudio, Carta *mazzoBonusMalus) {
+    printf("\n"
+           BOLD"SCEGLI IL MAZZO (non puoi cambiarlo dopo)" RESET    "\n"
+           "1. Mazzo Aula Studio"                                   "\n"
+           "2. Mazzo Bonus-Malus");
 
-    do {
-        printf("\n"
-            "SCEGLI UN MAZZO:"
-            "1. Mazzo Aula Studio"
-            "2. Mazzo Bonus Malus"
-            "\n");
+    // Intero che permette di scegliere uno dei due mazzi
+    int scelta = inserisciNumero(MIN_1, MAX_MAZZI);
 
-        mazzoScelto = inserisciNumero(MIN_1, 2);
-        Carta *tmp;
-
-        if (mazzoScelto == 1)
-            tmp = mazzoAulaStudio;
-        else tmp = mazzoBonusMalus;
-
-        int nCarte = contaCarte(tmp);
-
-        printf("\n"
-               "Scegli la carta: [%d,%d]", MIN_1, nCarte);
-        int nCartaScelta = inserisciNumero(MIN_0, nCarte);
-
-        if (nCartaScelta != MIN_0) {
-            Carta *cartaScelta = tmp;
-            for (int i = 0; i < nCartaScelta; i++)
-                cartaScelta= cartaScelta->next;
-            carta = cartaScelta;
-        }
-    } while (mazzoScelto != MIN_0);
-
-    return carta;
+    if (scelta == 1)
+        return mazzoAulaStudio;
+    return mazzoBonusMalus;
 }
 
 /** Sceglie un giocatore tra tutti i giocatori (anche se stessi)
@@ -372,8 +351,9 @@ bool giocaCarta (Giocatore *listaGiocatori, int nGiocatori,
             spostaCarta(&listaGiocatori->carteGiocatore, cartaGiocata, &mazzoTmp);
 
             // Gestisce tutti gli effetti di una carta
-            gestisciEffettiCarta(listaGiocatori, nGiocatori, cartaGiocata, mazzoPesca, mazzoScarti, mazzoAulaStudio,
-                                 cartaGiocata->effetto);
+            for (int i = 0; i < cartaGiocata->nEffetti; i++)
+                gestisciEffettoCarta(listaGiocatori, nGiocatori, cartaGiocata, mazzoPesca, mazzoScarti, mazzoAulaStudio,
+                                     &cartaGiocata->effetto[i]);
 
             // Sposta la carta giocata nel mazzo giusto, es: negli scarti
             mazzoGiocatoreGiusto(listaGiocatori, cartaGiocata, *mazzoScarti);
@@ -407,7 +387,7 @@ bool giocaCarta (Giocatore *listaGiocatori, int nGiocatori,
  * @param mazzoAulaStudio Il mazzo dove vanno scartate le matricole
  * @param effetto L'effetto della carta
  */
-void gestisciEffettiCarta (Giocatore *listaGiocatori, int nGiocatori, Carta *cartaGiocata,
+void gestisciEffettoCarta (Giocatore *listaGiocatori, int nGiocatori, Carta *cartaGiocata,
                            Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio, Effetto *effetto) {
     /* QUANDO */
     // Se i QUANDO combaciano, allora la carta è di un tipo giocabile in questo momento
@@ -426,12 +406,10 @@ void gestisciEffettiCarta (Giocatore *listaGiocatori, int nGiocatori, Carta *car
         int nGiocatoriAffetti = effettoTargetGiocatori(&giocatoriAffetti, nGiocatori, effetto->targetGiocatori);
 
         /* AZIONE */
-        // Continua finché gli effetti non sono finiti
-        for (int i = 0; i < cartaGiocata->nEffetti; i++) {
-            azioneCarta(listaGiocatori, nGiocatori, cartaGiocata, &cartaGiocata->effetto[i], giocatoriAffetti,
-                        nGiocatoriAffetti, mazzoPesca,
-                        mazzoScarti, mazzoAulaStudio);
-        }
+        // Gestisce un effetto di una carta
+        azioneCarta(listaGiocatori, nGiocatori, cartaGiocata, effetto, giocatoriAffetti,
+                    nGiocatoriAffetti, mazzoPesca,
+                    mazzoScarti, mazzoAulaStudio);
     }
 }
 
@@ -451,7 +429,7 @@ void effettiMazzo (Giocatore *listaGiocatori, int nGiocatori,
     while (tmp != NULL) {
         for (int i = 0; i < tmp->nEffetti; i++)
             if (tmp->quandoEffetto == quando)
-                gestisciEffettiCarta(listaGiocatori, nGiocatori, tmp,
+                gestisciEffettoCarta(listaGiocatori, nGiocatori, tmp,
                                      mazzoPesca, mazzoScarti, mazzoAulaStudio,
                                      &tmp->effetto[i]);
         tmp = tmp->next;
@@ -461,7 +439,7 @@ void effettiMazzo (Giocatore *listaGiocatori, int nGiocatori,
     while (tmp != NULL) {
         for (int i = 0; i < tmp->nEffetti; i++)
             if (tmp->quandoEffetto == quando)
-                gestisciEffettiCarta(listaGiocatori, nGiocatori, tmp,
+                gestisciEffettoCarta(listaGiocatori, nGiocatori, tmp,
                                      mazzoPesca, mazzoScarti, mazzoAulaStudio,
                                      &tmp->effetto[i]);
         tmp = tmp->next;
@@ -602,40 +580,42 @@ void azioneCarta (Giocatore *listaGiocatori, int nGiocatori,
  * @param mazzoAulaStudio Qui vanno scartate solo le matricole (se la carta è una matricola)
  */
 void azioneScartaElimina (Giocatore *giocatoreAffetto, Effetto *effettoCartaGiocata, Carta **mazzoScarti, Carta **mazzoAulaStudio) {
+
     // Crea un puntatore temporaneo al mazzo da cui verrà scartata la carta
-    Carta *mazzoInput = NULL;
+    Carta *mazzoGiocatoreInput = NULL;
     if (effettoCartaGiocata->azione == SCARTA)
         giocatoreAffetto->carteGiocatore;
     else if (effettoCartaGiocata->azione == ELIMINA) {
         if (isStudente(effettoCartaGiocata->tipo))
-            mazzoInput = giocatoreAffetto->carteAulaGiocatore;
+            mazzoGiocatoreInput = giocatoreAffetto->carteAulaGiocatore;
         else if (isBonusMalus(effettoCartaGiocata->tipo))
-            mazzoInput = giocatoreAffetto->carteBonusMalusGiocatore;
-        else if (effettoCartaGiocata->tipo == ALL);
+            mazzoGiocatoreInput = giocatoreAffetto->carteBonusMalusGiocatore;
+        else mazzoGiocatoreInput = scegliMazzo(giocatoreAffetto->carteAulaGiocatore,
+                                               giocatoreAffetto->carteBonusMalusGiocatore);
     }
 
     // Se il mazzo ha almeno una carta, allora può procedere
-    int nCarta = contaCarte(mazzoInput);
+    int nCarta = contaCarte(mazzoGiocatoreInput);
+
     if (nCarta > 0) {
         // Stampe per il giocatore
-        guiStampaMazzo(mazzoInput, false);
+        guiStampaMazzo(mazzoGiocatoreInput, false);
         printf("\n" LINEA_BIANCA
             "Scegli una " BLU "carta" RESET " da " BRED "scartare" RESET " [%d-%d]",
             MIN_1, nCarta);
 
         // Puntatore alla carta da scartare
-        Carta *cartaScelta = scegliCarta(mazzoInput, effettoCartaGiocata->tipo);
+        Carta *cartaScelta = scegliCarta(mazzoGiocatoreInput, effettoCartaGiocata->tipo);
 
         // Puntatore al mazzo dove verrà buttata la carta
         Carta *mazzoOutput = NULL;
 
         // Se la carta è una matricola, per forza va scartata nell'aula studio, perché non può essere recuperata
-        if (cartaScelta->tipo == MATRICOLA)
-            mazzoOutput = *mazzoAulaStudio;
+        if (cartaScelta->tipo == MATRICOLA) mazzoOutput = *mazzoAulaStudio;
         else mazzoOutput = *mazzoScarti;
 
         // Scarta la carta
-        spostaCarta(&mazzoInput, cartaScelta, &mazzoOutput);
+        spostaCarta(&mazzoGiocatoreInput, cartaScelta, &mazzoOutput);
     } else {
         // Se non c'è nessuna carta, stampa un messaggio di avviso ma va avanti comunque, affari di chi butta la carta
         printf("\n"
@@ -660,7 +640,10 @@ void azioneRubaPrendi (Giocatore *giocante, Giocatore *giocatoreAffetto, Effetto
     else if (effettoCartaGiocata->azione == RUBA) {
         if (isStudente(effettoCartaGiocata->tipo))
             mazzoGiocatoreInput = giocatoreAffetto->carteAulaGiocatore;
-        else mazzoGiocatoreInput = giocatoreAffetto->carteBonusMalusGiocatore;
+        else if (isBonusMalus(effettoCartaGiocata->tipo))
+            mazzoGiocatoreInput = giocatoreAffetto->carteBonusMalusGiocatore;
+        else mazzoGiocatoreInput = scegliMazzo(giocatoreAffetto->carteAulaGiocatore,
+                                               giocatoreAffetto->carteBonusMalusGiocatore);
     }
 
     int nCarte = contaCarte(mazzoGiocatoreInput);
