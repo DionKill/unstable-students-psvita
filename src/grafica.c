@@ -65,9 +65,9 @@ void guiStampaMazzo (Carta *mazzoCarte, bool dettagli) {
     int i = 1;
     while (mazzoCarte != NULL) {
         printf("\n"
-                BHGRN "Carta %d" RESET ":" RESET, i);
+               BHGRN "Carta %d" RESET ":" RESET, i);
         // Stringa che verrà modificata per stampare il tipo come stringa
-        guiStampaCarta(mazzoCarte, true);
+        guiStampaCarta(mazzoCarte, dettagli);
         mazzoCarte = mazzoCarte->next;
         i++;
     }
@@ -92,12 +92,13 @@ void guiStampaCarta (Carta *carta, bool dettagli) {
            BHBLU "Descrizione" RESET ": %s",
            carta->descrizione);
 
-    printf("\n"
-           "Numero di effetti: %d", carta->nEffetti);
-
     if (dettagli) {
         for (int i = 0; i < carta->nEffetti; i++) {
-
+            // Lo stampa solo la prima volta
+            if (i == MIN_0)
+                printf("\n"
+                      BRED "Numero di effetti: " RESET
+                           "%d", carta->nEffetti);
             printf("\n"
                     "\t-<{ "
                     BHYEL "Azione" RESET ": ");
@@ -112,37 +113,17 @@ void guiStampaCarta (Carta *carta, bool dettagli) {
             strTipologiaCarta(carta->effetto[i].tipo);
             printf(" }>-");
         }
-        printf("\n"
-                BMAG "Quando" RESET ": ");
-        strQuando(carta->quandoEffetto);
-
-        // Disessere giocati
-        printf( " | "
-                BHWHT "Puo' essere giocato" RESET ": ");
-        strOpzionale(carta->opzionale);
-        printf("\n");
-    }
-}
-
-void guiStampaCarteGiocatore (Giocatore *giocatore, bool mostraMano) {
-    if (mostraMano) {
-        printf("\n"
-               HYEL "Carte in mano "
-               RESET "al giocatore: "
-               "%s", giocatore->nome);
-        guiStampaMazzo(giocatore->carteGiocatore, false);
     }
     printf("\n"
-            BRED "Carte in aula "
-            RESET "al giocatore: "
-            "%s", giocatore->nome);
-    guiStampaMazzo(giocatore->carteAulaGiocatore, false);
+        BMAG "Quando" RESET ": ");
+    strQuando(carta->quandoEffetto);
 
-    printf("\n"
-            BRED "Carte bonus/malus "
-            RESET "del giocatore: %s",
-            giocatore->nome);
-    guiStampaMazzo(giocatore->carteBonusMalusGiocatore, false);
+    // Disessere giocati
+    printf( " | "
+            BCYN "Opzionale" RESET ": ");
+    strOpzionale(carta->opzionale);
+
+    printf("\n");
 }
 
 /** Mostra il menù di scelta delle carte.
@@ -153,12 +134,12 @@ void guiScegliAzione () {
             BOLD
             "Scegli la tua prossima azione:"
             RESET "\n\t"
-            HRED "[%d]" RESET ". " BBLU "Gioca" RESET " una carta"                           "\n\t"
-            HRED "[%d]" RESET ". " BMAG "Pesca" RESET " una carta"                           "\n\t"
-            "[%d]. " BGRN "Controlla" RESET " le tue carte..."                              "\n\t"
-            "[%d]. " BGRN "Mostra le carte" RESET " degli altri giocatori..."               "\n\t"
-            "[%d]. " BOLD "Salva ed Esci" RESET                                             "\n\n"
-            BHRED "NB: rosso" RESET HYEL " va avanti di un turno." RESET                          "\n",
+            HRED "[%d]" RESET ". " BBLU "Gioca" RESET " una carta"              "\n\t"
+            HRED "[%d]" RESET ". " BMAG "Pesca" RESET " una carta"              "\n\t"
+            "[%d]. " BGRN "Controlla" RESET " le tue carte..."                  "\n\t"
+            "[%d]. " BGRN "Mostra le carte" RESET " degli altri giocatori..."   "\n\t"
+            "[%d]. " BOLD "Salva ed Esci" RESET                                 "\n\n"
+            BHRED "NB: rosso" RESET HYEL " va avanti di un turno." RESET        "\n",
             COMANDO_OPZIONE_1,
             COMANDO_OPZIONE_2,
             COMANDO_OPZIONE_3,
@@ -182,6 +163,15 @@ void guiMostraStatoPartita () {
            COMANDO_OPZIONE_3,
            COMANDO_ESCI
            );
+}
+
+void guiGiocaOpzionale (char *nomeCarta) {
+    printf("\n" LINEA_BIANCA
+       "La carta " BLU "%s" RESET " ha effetti " BCYN "opzionali" RESET "." "\n\n"
+       BOLD "Vuoi abilitarli?" RESET                                        "\n"
+       "[%d] " GRN "Si" RESET                                               "\n"
+       "[%d] " RED "No" RESET,
+      nomeCarta,  COMANDO_OPZIONE_1, COMANDO_OPZIONE_2);
 }
 
 /** Funzione che viene chiamata per mostrare i giocatori affetti da una carta

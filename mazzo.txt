@@ -193,7 +193,7 @@ Se questa carta e' nella tua aula all'inizio del tuo turno, puoi scartare 2 cart
 1
 1
 3
-Macchinetta inceppata 
+Macchinetta inceppata
 Se questa carta e' nella tua aula all'inizio del tuo turno, puoi scartare una carta e poi pesca una carta.
 5
 2

@@ -32,15 +32,16 @@ void creaNuovaPartita (Giocatore **listaGiocatori, int *nGiocatori, Carta **mazz
 void avantiTurno (int turno, Giocatore **listaGiocatori, Carta **mazzoScarti);
 void mostraStatusPartita (Giocatore *listaGiocatori, int nGiocatori, bool dettagli);
 Carta *scegliCarta (Carta *mazzoScelto, TipologiaCarta tipoCartaGiocata);
-Carta *scegliMazzo (Carta *mazzoAulaStudio, Carta *mazzoBonusMalus);
+
+Carta **scegliMazzo(Carta **mazzoAulaStudio, Carta **mazzoBonusMalus);
 Giocatore *scegliGiocatore (Giocatore *listaGiocatori, int nGiocatori);
 
 // Effetti
-bool giocaCarta (Giocatore *listaGiocatori, int nGiocatori, Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio);
-void gestisciEffettoCarta (Giocatore *listaGiocatori, int nGiocatori,
+bool giocaCarta (Giocatore *listaGiocatori, int nGiocatori,
+                 Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio);
+void gestisciEffettiCarta (Giocatore *listaGiocatori, int nGiocatori,
                            Carta *cartaGiocata,
-                           Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio, Effetto *effetto);
-
+                           Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio, Quando quando);
 void effettiMazzo (Giocatore *listaGiocatori, int nGiocatori,
                    Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio,
                    Quando quando);
@@ -52,8 +53,8 @@ void azioneCarta (Giocatore *listaGiocatori, int nGiocatori,
                   Carta *cartaGiocata, Effetto *effetto,
                   Giocatore *giocatoriAffetti, int nAffetti,
                   Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio);
-void azioneScartaElimina (Giocatore *giocatoreAffetto, Effetto *effettoCartaGiocata, Carta **mazzoScarti, Carta **mazzoAulaStudio);
-void azioneRubaPrendi (Giocatore *giocante, Giocatore *giocatoreAffetto, Effetto *effettoCartaGiocata);
+void azioneScartaElimina (Giocatore *giocatoreAffetto, Effetto *effetto, Carta **mazzoScarti, Carta **mazzoAulaStudio);
+void azioneRubaPrendi (Giocatore *giocante, Giocatore *giocatoreAffetto, Effetto *effetto);
 void pescaCarta (Carta **mazzoGiocatore, Carta **mazzoPesca, Carta **mazzoScarti);
-
+bool isGiocabile (Carta *carta);
 #endif //GIOCO_H

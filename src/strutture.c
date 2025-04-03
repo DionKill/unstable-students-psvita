@@ -180,14 +180,14 @@ Carta *dividiMazzoMatricole (Carta **mazzo) {
  * @param carta La carta da spostare
  * @param mazzoScarti
  */
-Carta *mazzoGiocatoreGiusto (Giocatore *giocatore, Carta *carta, Carta *mazzoScarti) {
+Carta **mazzoGiocatoreGiusto(Giocatore *giocatore, Carta *carta, Carta **mazzoScarti) {
     // Se la carta è STUDENTE allora la sposta nel mazzo Aula del giocatore
     if (isStudente(carta->tipo)) // Niente matricole, già fatto a inizio gioco
-        return giocatore->carteAulaGiocatore;
+        return &giocatore->carteAulaGiocatore;
 
     // Altrimenti, se è una carta BONUS-MALUS la sposta nel mazzo delle bonus-malus
     if (isBonusMalus(carta->tipo))
-        return giocatore->carteBonusMalusGiocatore;
+        return &giocatore->carteBonusMalusGiocatore;
 
     // Altrimenti, per esclusione, è una carta giocabile, e niente finisce negli scarti
     return mazzoScarti;
@@ -333,12 +333,20 @@ bool esisteAzioneNelMazzo (Carta *mazzo, Azione azione) {
     return false;
 }
 
-// Restituisce true se la carta è uno studente
+/** Restituisce se la carta è uno studente
+ *
+ * @param tipo Il tipo della carta giocata
+ * @return Ritorna true se è uno studente, false altrimenti
+ */
 bool isStudente (TipologiaCarta tipo) {
-    return tipo == MATRICOLA || tipo == STUDENTE_SEMPLICE || tipo == LAUREANDO;
+    return tipo == STUDENTE || tipo == MATRICOLA || tipo == STUDENTE_SEMPLICE || tipo == LAUREANDO;
 }
 
-// Restituisce true se la carta è una bonus o malus
+/** Restituisce se la carta è una bonus o malus o no
+ *
+ * @param tipo Il tipo della carta
+ * @return Ritorna true se è bonus o malus, altrimenti false
+ */
 bool isBonusMalus (TipologiaCarta tipo) {
     return tipo == BONUS || tipo == MALUS;
 }

@@ -59,7 +59,7 @@ Carta *allocaCarta ();
 Carta *copiaCarta (Carta *carta, int nCopie);
 void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput);
 
-Carta *mazzoGiocatoreGiusto (Giocatore *giocatore, Carta *carta, Carta *mazzoScarti);
+Carta **mazzoGiocatoreGiusto(Giocatore *giocatore, Carta *carta, Carta **mazzoScarti);
 void shuffleCarte (Carta **mazzoOriginale);
 Carta *dividiMazzoMatricole (Carta **mazzo);
 void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPesca);
