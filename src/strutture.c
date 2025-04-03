@@ -14,7 +14,7 @@
 int creaGiocatori(Giocatore **listaGiocatori) {
     // Chiede quanti giocatori vuole che vengano creati
     printf("\n"
-            "Quanti " BBLU "giocatori" RESET " giocheranno? [2-4]:");
+            "Quanti " BBLU "giocatori" RESET " giocheranno? [%d-%d]:", GIOCATORI_MIN, GIOCATORI_MAX);
     int nGiocatori = inserisciNumero(GIOCATORI_MIN, GIOCATORI_MAX);
 
     // Un doppio puntatore alla lista che verrà modificata
@@ -23,15 +23,12 @@ int creaGiocatori(Giocatore **listaGiocatori) {
     int i = 0;
     // Chiede all'utente il nome finché non è valido
     while (i < nGiocatori) {
-        // Una stringa che contiene il colore che verrà usato per mostrare i giocatori
-        char *strColore; // Stringa che contiene il colore del giocatore
-        strColoreGiocatore(&strColore, i + 1);
 
         *tmp = allocaGiocatore();
         printf ("\n"
                 "Inserisci il nome del giocatore %s%d" RESET ":"
                 CURSORE_INPUT
-                "%s", strColore, i + 1, strColore); // Colora il nome del giocatore
+                "%s", strColoreGiocatore(i + 1), i + 1, strColoreGiocatore(i + 1)); // Colora il nome del giocatore
 
         scanf(" %" NOME_LENGTH_STR "[^\n]s", (*tmp)->nome);
 
@@ -97,22 +94,6 @@ Carta *allocaCarta () {
     return carta;
 }
 
-/** Cicla il mazzo e conta quante carte ci sono
- *
- * @param mazzo Il mazzo di cui bisogna contare le carte
- * @return Ritorna il numero di carte nel mazzo
- */
-int contaCarte (Carta *mazzo) {
-    int i = 0; // Contatore
-
-    // Scorre finché il mazzo non è NULL e aumenta di uno il contatore
-    while (mazzo != NULL) {
-        mazzo = mazzo->next;
-        i++;
-    }
-    return i; // Restituisce il valore
-}
-
 /** Funzione ricorsiva che prende in ingresso un nodo Carta, alloca la successiva, e copia i contenuti nella successiva.
  *
  * @param carta Il nodo carta da copiare
@@ -174,6 +155,35 @@ Carta *dividiMazzoMatricole (Carta **mazzo) {
     return mazzoMatricole;
 }
 
+/** Cerca una carta in base al "filtro" dato in parametro
+ *
+ * @param mazzo Il mazzo in cui verrà cercata la carta
+ * @param azione L'azione da cercare
+ * @param quando Il quando della carta da cercare
+ * @param target Il target giocatori della carta da cercare
+ * @return Ritorna la carta se trovata, altrimenti NULL
+ */
+Carta *cercaCarta(Carta *mazzo, Azione azione, Quando quando, TargetGiocatori target) {
+    // Se il mazzo è vuoto, esce subito
+    if (mazzo == NULL) return mazzo;
+
+    // Puntatore temporaneo al mazzo (non necessario, ma usato per leggibilità)
+    Carta *cartaDaCercare = mazzo;
+
+    // Controlla tutto il mazzo e se trova una carta con quelle specifiche la ritorna
+    while (cartaDaCercare != NULL) {
+        if (cartaDaCercare->quandoEffetto == quando)
+            for (int i = 0; i < cartaDaCercare->nEffetti; i++) {
+                if (cartaDaCercare->effetto[i].azione == azione && cartaDaCercare->effetto[i].targetGiocatori == target)
+                    return cartaDaCercare;
+            }
+        cartaDaCercare = cartaDaCercare->next;
+    }
+
+    // Ritorna NULL se non la trova
+    return cartaDaCercare;
+}
+
 /** Funzione che sposta la carta appena giocata nell'apposito mazzo
  *
  * @param giocatore Il giocatore a cui va messa la carta nel mazzo giusto
@@ -191,6 +201,64 @@ Carta **mazzoGiocatoreGiusto(Giocatore *giocatore, Carta *carta, Carta **mazzoSc
 
     // Altrimenti, per esclusione, è una carta giocabile, e niente finisce negli scarti
     return mazzoScarti;
+}
+
+/** Cicla il mazzo e conta quante carte ci sono
+ *
+ * @param mazzo Il mazzo di cui bisogna contare le carte
+ * @return Ritorna il numero di carte nel mazzo
+ */
+int contaCarte (Carta *mazzo) {
+    int i = 0; // Contatore
+
+    // Scorre finché il mazzo non è NULL e aumenta di uno il contatore
+    while (mazzo != NULL) {
+        mazzo = mazzo->next;
+        i++;
+    }
+    return i; // Restituisce il valore
+}
+
+/** Dati i due mazzi, sposta una carta da un mazzo e la mette in testa all'altro.
+ *
+ * @param mazzoInput Il mazzo da cui dovrà essere spostata la carta.
+ * @param cartaInput La carta da spostare (può anche essere il mazzoInput).
+ * @param mazzoOutput Il mazzo in cui testa verrà posta la nuova carta.
+ */
+void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput) {
+    // Se una di queste due carte è nulla, non c'è niente da spostare, perciò esce
+    if (*mazzoInput != NULL && cartaInput != NULL) {
+        // Una carta che scorre fino a quella precedente di quella che serve spostare
+        Carta *scorriLista = *mazzoInput;
+
+        // Se il mazzo di input e la carta da spostare sono diversi, allora scorre fino quella precedente che va spostata
+        if (cartaInput != *mazzoInput) {
+            while (scorriLista->next != cartaInput)
+                scorriLista = scorriLista->next;
+
+            // Unisce la carta prima e dopo quella che va spostata (sostanzialmente la rimuove dal mazzoInput)
+            scorriLista->next = scorriLista->next->next;
+
+            // Crea una carta temporanea al mazzo di output corrente
+            Carta *tmp = *mazzoOutput;
+            *mazzoOutput = cartaInput;
+            cartaInput->next = tmp;
+        }
+
+        // Entra qui solo se mazzoInput e cartaInput sono identiche
+        else {
+            // Usa scorriLista come temporaneo per contenere il valore attuale del mazzoInput
+            // Il mazzoInput scorre in avanti di uno, dato che la sua carta è contenuta in scorriLista
+            *mazzoInput = (*mazzoInput)->next;
+
+            // Il prossimo elemento di scorriLista viene impostato al mazzoOutput
+            scorriLista->next = *mazzoOutput;
+
+            /* Il mazzoOutput viene impostato a scorriLista, che contiene la carta che è stata appena aggiunta seguita
+             * dalle precedenti contenute nel mazzoOutput */
+            *mazzoOutput = scorriLista;
+        }
+    }
 }
 
 /** Funzione che sposta tutti gli elementi della lista originale a una nuova lista, in modo casuale.
@@ -235,49 +303,6 @@ void shuffleCarte (Carta **mazzoOriginale) {
         lunghezza--;
     }
     *mazzoOriginale = mazzoRandomizzato;
-}
-
-/** Dati i due mazzi, sposta una carta da un mazzo e la mette in testa all'altro.
- *
- * @param mazzoInput Il mazzo da cui dovrà essere spostata la carta.
- * @param cartaInput La carta da spostare (può anche essere il mazzoInput).
- * @param mazzoOutput Il mazzo in cui testa verrà posta la nuova carta.
- */
-void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput) {
-    // Se una di queste due carte è nulla, non c'è niente da spostare, perciò esce
-    if (*mazzoInput == NULL || cartaInput == NULL)
-        return;
-
-    // Una carta che scorre fino a quella precedente di quella che serve spostare
-    Carta *scorriLista = *mazzoInput;
-
-    // Se il mazzo di input e la carta da spostare sono diversi, allora scorre fino quella precedente che va spostata
-    if (cartaInput != *mazzoInput) {
-        while (scorriLista->next != cartaInput)
-            scorriLista = scorriLista->next;
-
-        // Unisce la carta prima e dopo quella che va spostata (sostanzialmente la rimuove dal mazzoInput)
-        scorriLista->next = scorriLista->next->next;
-
-        // Crea una carta temporanea al mazzo di output corrente
-        Carta *tmp = *mazzoOutput;
-        *mazzoOutput = cartaInput;
-        cartaInput->next = tmp;
-    }
-
-    // Entra qui solo se mazzoInput e cartaInput sono identiche
-    else {
-        // Usa scorriLista come temporaneo per contenere il valore attuale del mazzoInput
-        // Il mazzoInput scorre in avanti di uno, dato che la sua carta è contenuta in scorriLista
-        *mazzoInput = (*mazzoInput)->next;
-
-        // Il prossimo elemento di scorriLista viene impostato al mazzoOutput
-        scorriLista->next = *mazzoOutput;
-
-        /* Il mazzoOutput viene impostato a scorriLista, che contiene la carta che è stata appena aggiunta seguita
-         * dalle precedenti contenute nel mazzoOutput */
-        *mazzoOutput = scorriLista;
-    }
 }
 
 /** Distribuisce le carte ai giocatori, prendendole dal mazzo già mescolato da pesca.
@@ -325,10 +350,8 @@ bool esisteAzioneNelMazzo (Carta *mazzo, Azione azione) {
         for (int i = 0; i < tmp->nEffetti; i++)
             if (tmp->effetto[i].azione == azione)
                 return true;
-
         tmp = tmp->next;
     }
-
     // Se non trova niente o il mazzo è vuoto, ritorna vero
     return false;
 }

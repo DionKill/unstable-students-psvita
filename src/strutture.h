@@ -50,20 +50,20 @@ typedef struct effetto {
 } Effetto;
 
 // Gestione giocatori (alcune di queste includono inserimento di testo, ma era inevitabile)
-int creaGiocatori (Giocatore **listaGiocatori);
 Giocatore *allocaGiocatore ();
+int creaGiocatori (Giocatore **listaGiocatori);
 void rendiListaGiocatoriCircolare (Giocatore *listaGiocatori);
 
 // Gestione carte
 Carta *allocaCarta ();
 Carta *copiaCarta (Carta *carta, int nCopie);
-void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput);
-
-Carta **mazzoGiocatoreGiusto(Giocatore *giocatore, Carta *carta, Carta **mazzoScarti);
-void shuffleCarte (Carta **mazzoOriginale);
 Carta *dividiMazzoMatricole (Carta **mazzo);
-void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPesca);
+Carta *cercaCarta(Carta *mazzo, Azione azione, Quando quando, TargetGiocatori target);
+Carta **mazzoGiocatoreGiusto(Giocatore *giocatore, Carta *carta, Carta **mazzoScarti);
 int contaCarte (Carta *mazzo);
+void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput);
+void shuffleCarte (Carta **mazzoOriginale);
+void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPesca);
 
 // Gestione effetti
 bool esisteAzioneNelMazzo (Carta *mazzo, Azione azione);

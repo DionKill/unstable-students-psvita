@@ -4,20 +4,6 @@
 
 #include "misc.h"
 
-/** Una semplice funzione che chiede di premere invio per continuare.
- * Utile per fare in modo che l'utente possa leggere su schermo prima di andare avanti.
- */
-void premiInvioPerContinuare () {
-    printf("\n"
-           "Premi "
-           BGRN
-           "INVIO"
-           RESET
-           " per continuare"
-           CURSORE_INPUT);
-    flushInputBuffer();
-}
-
 /** Una funzione che restituisce un numero inserito dall'utente, che può essere solo quello dell'intervallo scelto.
  *
  * @param min Il numero minimo dell'intervallo
@@ -33,9 +19,23 @@ int inserisciNumero (int min, int max) {
         flushInputBuffer();
         if (input < min || input > max)
             printf("\n"
-                   RED "Non hai inserito un opzione corretta!" RESET);
+                RED "Non hai inserito un opzione corretta!" RESET);
     } while (input < min || input > max);
     return input;
+}
+
+/** Una semplice funzione che chiede di premere invio per continuare.
+ * Utile per fare in modo che l'utente possa leggere su schermo prima di andare avanti.
+ */
+void premiInvioPerContinuare () {
+    printf("\n"
+           "Premi "
+           BGRN
+           "INVIO"
+           RESET
+           " per continuare"
+           CURSORE_INPUT);
+    flushInputBuffer();
 }
 
 /** Funzione che libera l'input buffer.
