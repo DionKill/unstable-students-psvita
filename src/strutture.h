@@ -95,6 +95,8 @@ Carta *scegliCarta (Carta *mazzoScelto, TipologiaCarta tipoCartaGiocata);
 Carta **scegliMazzo (Carta **mazzoAulaStudio, Carta **mazzoBonusMalus);
 
 // Miscellanee
-void liberaMemoria (Carta *testaMazzo);
+void liberaMemoria (Giocatore *listaGiocatori, int nGiocatori, Carta *mazzoPesca,
+                    Carta *mazzoScarti, Carta *mazzoAulaStudio);
+void liberaMemoriaMazzo (Carta *mazzo);
 
 #endif //STRUTTURE_H

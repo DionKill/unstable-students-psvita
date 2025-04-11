@@ -84,6 +84,9 @@ void gioco(char *path) {
             turno++;
         }
     } while (scelta != COMANDO_ESCI && !areYaWinningSon(listaGiocatori));
+
+    // Libera la memoria prima di uscire dal programma
+    liberaMemoria(listaGiocatori, nGiocatori, mazzoPesca, mazzoScarti, mazzoAulaStudio);
 }
 
 /** Crea una nuova partita, allocando ogni cosa e caricando dal file

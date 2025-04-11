@@ -556,18 +556,55 @@ Carta **scegliMazzo(Carta **mazzoAulaStudio, Carta **mazzoBonusMalus) {
 
 /* Miscellanee */
 
-/** Libera la memoria usata dal programma prima dell'uscita
- * Spoiler: le dipendenze circolari mi costringono a mettere la funzione qui, perciò così sarà.
- * TODO: completare la funzione
+/** Libera la memoria usata dal programma prima dell'uscita.
+ * Non influisce sul salvataggio.
  *
- * @param testaMazzo Il mazzo da liberare
+ * @param listaGiocatori La lista di tutti i giocatori
+ * @param nGiocatori Il numero dei giocatori
+ * @param mazzoPesca Il mazzo da dove vengono pescate le carte
+ * @param mazzoScarti Il mazzo dove vengono scartate le carte
+ * @param mazzoAulaStudio Il mazzo dove vanno le matricole
  */
-void liberaMemoria (Carta *testaMazzo) {
-    while (testaMazzo != NULL) {
-        Carta *tmp = testaMazzo;
-        testaMazzo = testaMazzo->next;
+void liberaMemoria (Giocatore *listaGiocatori, int nGiocatori, Carta *mazzoPesca,
+                    Carta *mazzoScarti, Carta *mazzoAulaStudio) {
+    // Crea un doppio puntatore temporaneo che andrà a liberare la memoria di ogni giocatore
+    for (int i = 0; i < nGiocatori; i++) {
+        // Crea un giocatore temporaneo per pulire la memoria
+        Giocatore *spazzino = listaGiocatori->next;
 
-        free(tmp->effetto);
-        free(tmp);
+        // Libera tutti i mazzi
+        liberaMemoriaMazzo(listaGiocatori->carteGiocatore);
+        liberaMemoriaMazzo(listaGiocatori->carteAulaGiocatore);
+        liberaMemoriaMazzo(listaGiocatori->carteBonusMalusGiocatore);
+
+        // Libera il resto della struttura
+        free(listaGiocatori);
+
+        // Va al prossimo giocatore
+        listaGiocatori = spazzino;
+    }
+
+    // Libera la memoria degli altri mazzi
+    liberaMemoriaMazzo(mazzoPesca);
+    liberaMemoriaMazzo(mazzoScarti);
+    liberaMemoriaMazzo(mazzoAulaStudio);
+}
+
+/** Libera memoria per un mazzo
+ *
+ * @param mazzo Il mazzo da liberare
+ */
+void liberaMemoriaMazzo (Carta *mazzo) {
+    int nCarte = contaCarte(mazzo);
+
+    for (int i = 0; i < nCarte; i++) {
+        Carta *tmp = mazzo->next;
+
+        // Dealloca tutti gli effetti
+        if (mazzo->effetto != NULL)
+            free(mazzo->effetto);
+
+        free(mazzo);
+        mazzo = tmp;
     }
 }
