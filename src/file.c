@@ -83,14 +83,9 @@ void iniziaPartita(Giocatore **listaGiocatori, int *nGiocatori, Carta **mazzoPes
     fp = fopen(path, "rb");
 
     // Se il salvataggio non esiste, esce dal programma
-    if (fp == NULL) {
-        // Se non esiste, ma è il salvataggio normale, lo crea
-        if (strcmp(path, SALVATAGGIO) == 0) {
-            creaNuovaPartita(listaGiocatori, nGiocatori, mazzoPesca, turno);
-        }
-        // Il salvataggio passato come parametro non esiste, perciò esce dal programma
-        else exit(EXIT_FAILURE);
-    }
+    if (fp == NULL)
+        // Se non esiste, lo crea
+        creaNuovaPartita(listaGiocatori, nGiocatori, mazzoPesca, turno);
 
     // Se il salvataggio esiste, carica la partita
     else {
@@ -289,4 +284,60 @@ void caricamentoMazzo(int size, Carta **mazzo, FILE *fp) {
         // Il temporaneo scorre alla prossima carta
         tmp = &(*tmp)->next;
     }
+}
+
+/** Scrive in un file di log la cronologia della partita.
+ *
+ * @param giocante Il giocatore che gioca la carta
+ * @param giocatoreAffetto Il giocatore affetto dalla carta
+ * @param carta La carta giocata
+ * @param azione L'azione compiuta dalla carta
+ */
+void fileLog (char *giocante, char *giocatoreAffetto, char *carta, Azione azione) {
+    // Crea il puntatore a file che verrà usato per scrivere nel log
+    FILE *fp = apriFile(LOG, "a");
+
+    // Stampa l'azione
+    const char *strAz = strAzione(azione);
+
+    // In base all'azione scrive nel file
+    switch (azione) {
+        // Li metto tutti per renderlo verboso, anche se non necessario
+        case GIOCA:
+        case SCARTA:
+        case ELIMINA:
+        case RUBA:
+        case PRENDI:
+        case SCAMBIA:
+        case BLOCCA:
+        case IMPEDIRE:
+            fprintf(fp, "\n\t"
+                    "%s usa l'effetto %s della carta '%s'", giocante, strAz, carta);
+            if (giocante != giocatoreAffetto)
+                fprintf(fp, "da %s", giocatoreAffetto);
+        break;
+        default: break;
+    }
+    fclose(fp);
+}
+
+/** Uguale al logSalvataggio, ma questo si usa solo all'inizio e fine di un turno.
+ *
+ * @param giocatore Il nome del giocatore
+ * @param turno Il turno
+ * @param momento Il momento nel quale viene chiamata la funzione
+ */
+void fileLogTurni (char *giocatore, int turno, Quando momento) {
+    // Crea il puntatore a file che verrà usato per scrivere nel log
+    FILE *fp = apriFile(LOG, "a");
+
+    // In base al momento, sceglie cosa scrivere nel file
+    if (momento == INIZIO)
+        fprintf(fp, "INIZIO TURNO %d PER %s"
+                "\n", turno, giocatore);
+    else
+        fprintf(fp, "FINE TURNO %d PER %s"
+                "\n", turno, giocatore);
+
+    fclose(fp);
 }

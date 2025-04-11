@@ -166,8 +166,7 @@ Carta *cercaCarta (Carta *mazzo, Azione azione, TipologiaCarta tipo, Quando quan
     while (cartaDaCercare != NULL) {
         if (cartaDaCercare->quandoEffetto == quando)
             for (int i = 0; i < cartaDaCercare->nEffetti; i++)
-                if (cartaDaCercare->effetto[i].azione == azione
-                    && cartaDaCercare->tipo == tipo)
+                if (cartaDaCercare->effetto[i].azione == azione && cartaDaCercare->tipo == tipo)
                     return cartaDaCercare;
         cartaDaCercare = cartaDaCercare->next;
     }

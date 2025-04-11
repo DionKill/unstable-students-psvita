@@ -23,8 +23,10 @@ int main(int argc, char *argv[]) {
     pulisciSchermo();
 
     // Caricamento della partita
-    if (argc > 1) gioco(argv[argc]);
+    if (argc > 1) gioco(argv[N_ARG_PARAM]);
     else gioco(SALVATAGGIO);
+
+    pulisciSchermo();
 
     return 0;
 }

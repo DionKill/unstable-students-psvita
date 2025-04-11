@@ -107,13 +107,13 @@ void guiStampaCarta(Carta *carta, bool dettagli) {
             // Lo stampa solo la prima volta
             if (i == MIN_0) {
                 printf("\n"
-                       BRED "Numero di effetti: " RESET "%d", carta->nEffetti);
-                printf("\n"
                        BMAG "Quando" RESET ": %s", strQuando(carta->quandoEffetto));
 
                 // Disessere giocati
                 printf(" | "
                        BCYN "Opzionale" RESET ": %s", strOpzionale(carta->opzionale));
+                printf("\n"
+                       BRED "Numero di effetti: " RESET "%d", carta->nEffetti);
             }
 
             printf("\n"
@@ -155,7 +155,8 @@ void guiScegliAzione() {
  *
  */
 void guiMostraStatoPartita() {
-    printf("\n" BOLD "Scegli quali mazzi vuoi vedere:");
+    printf(LINEA_BIANCA
+           BOLD "Scegli quale mazzo vuoi vedere:" RESET);
     printf("\n\t"
            "[%d]. Mostra le carte " BBLU "giocabili" RESET "\n\t"
            "[%d]. Mostra le carte " BCYN "dell'aula" RESET "\n\t"
