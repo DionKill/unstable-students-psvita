@@ -18,8 +18,9 @@ void guiStampaMazzo (Carta *mazzoCarte, bool dettagli);
 void guiStampaCarta (Carta *carta, bool dettagli);
 void guiScegliAzione ();
 void guiMostraStatoPartita ();
+void guiGiocaOpzionale (char *giocatore, char *carta);
 void guiMostraGiocatori (Giocatore *listaGiocatori, int nGiocatori);
-void guiGiocaOpzionale (char *nomeCarta);
+void guiVittoria (char *nome);
 
 // Stringhe
 const char *strAzione(Azione azione);

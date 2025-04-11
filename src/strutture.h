@@ -19,6 +19,21 @@
 #define GIOCATORI_MIN 2
 #define GIOCATORI_MAX 4
 
+// Macro rappresentanti gli input da tastiera che vengono usati nel gioco e altro
+#define COMANDO_OPZIONE_1 1 // Gioca una carta, ...
+#define COMANDO_OPZIONE_2 2 // Pesca una carta, ...
+#define COMANDO_OPZIONE_3 3 // Mostra le carte, ...
+#define COMANDO_OPZIONE_4 4 // Le carte altrui, ...
+#define COMANDO_ESCI 0 // Serve per uscire dal programma o tornare indietro
+#define COMANDO_CONFERMA 13 // Invio
+#define COMANDO_ANNULLA 27 // ESC
+#define MIN_0 0 // Il minimo per diverse cose: numero di turni, il minimo da cercare...
+#define MIN_1 1 // Il minimo per diverse cose: numero di turni, il minimo da cercare...
+
+#define MAX_MAZZI 2
+#define MAX_CARTE_MAZZO_GIOCATORE 5
+#define CARTE_STUDENTE_VITTORIA 6
+
 typedef enum {GIOCA, SCARTA, ELIMINA, RUBA, PESCA, PRENDI, BLOCCA, SCAMBIA, MOSTRA, IMPEDIRE, INGEGNERE} Azione;
 typedef enum {ALL, STUDENTE, MATRICOLA, STUDENTE_SEMPLICE, LAUREANDO, BONUS, MALUS, MAGIA, ISTANTANEA} TipologiaCarta;
 typedef enum {IO, TU, VOI, TUTTI} TargetGiocatori;
@@ -58,17 +73,26 @@ void rendiListaGiocatoriCircolare (Giocatore *listaGiocatori);
 Carta *allocaCarta ();
 Carta *copiaCarta (Carta *carta, int nCopie);
 Carta *dividiMazzoMatricole (Carta **mazzo);
-Carta *cercaCarta(Carta *mazzo, Azione azione, Quando quando, TargetGiocatori target);
-Carta **mazzoGiocatoreGiusto(Giocatore *giocatore, Carta *carta, Carta **mazzoScarti);
+Carta *cercaCarta (Carta *mazzo, Azione azione, TipologiaCarta tipo, Quando quando);
+Carta **mazzoGiocatoreGiusto (Giocatore *giocatore, Carta *carta, Carta **mazzoScarti);
 int contaCarte (Carta *mazzo);
+int contaCarteFiltro (Carta *mazzo, TipologiaCarta filtro);
 void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput);
 void shuffleCarte (Carta **mazzoOriginale);
 void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPesca);
 
 // Gestione effetti
-bool esisteAzioneNelMazzo (Carta *mazzo, Azione azione);
+
 bool isStudente (TipologiaCarta tipo);
 bool isBonusMalus (TipologiaCarta tipo);
+bool isGiocabile (Giocatore *giocante, Giocatore *giocatoriAffetti, Carta *carta, Quando momento);
+bool effettiOpzionali (char *giocatore, Carta *carta);
+bool effettiContrastanti (Giocatore *giocante, Giocatore *giocatoreAffetto, TipologiaCarta tipoCartaGiocata);
+bool effettoTipoCarta (TipologiaCarta tipoCartaGiocata, TipologiaCarta tipoCartaAffetta);
+int effettoTargetGiocatori (Giocatore **listaGiocatori, int nGiocatori, TargetGiocatori target);
+Giocatore *scegliGiocatore (Giocatore *listaGiocatori, int nGiocatori);
+Carta *scegliCarta (Carta *mazzoScelto, TipologiaCarta tipoCartaGiocata);
+Carta **scegliMazzo (Carta **mazzoAulaStudio, Carta **mazzoBonusMalus);
 
 // Miscellanee
 void liberaMemoria (Carta *testaMazzo);

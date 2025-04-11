@@ -107,28 +107,19 @@ Carta *copiaCarta (Carta *carta, int nCopie) {
     // Crea un nodo temporaneo alias del prossimo nodo (il primo di nCopie dove bisogna copiare)
     Carta *tmp = allocaCarta();
 
-    // Copia i dati un parametro alla volta
-    strcpy(tmp->nome, carta->nome);
-    strcpy(tmp->descrizione, carta->descrizione);
-    tmp->tipo = carta->tipo;
-    tmp->nEffetti = carta->nEffetti;
+    // Copia per dereferenza
+    *tmp = *carta;
 
-    // Copia i parametri degli effetti
+    // Copia ogni effetto per dereferenza, allocandolo prima
     if (tmp->nEffetti > 0) {
+        // Alloca gli effetti
         tmp->effetto = (Effetto *) malloc(tmp->nEffetti * sizeof(Effetto)); // Alloca un array dinamico
-
         if (tmp->effetto == NULL) exit(EXIT_FAILURE);
 
-        // For che legge gli effetti e li mette nell'array dinamico
-        for (int i = 0; i < tmp->nEffetti; i++) {
-            tmp->effetto[i].azione = carta->effetto[i].azione;
-            tmp->effetto[i].tipo = carta->effetto[i].tipo;
-            tmp->effetto[i].targetGiocatori = carta->effetto[i].targetGiocatori;
-        }
+        // Per ogni effetto, copia per dereferenza
+        for (int i = 0; i < tmp->nEffetti; i++)
+            tmp->effetto[i] = carta->effetto[i];
     }
-
-    tmp->quandoEffetto = carta->quandoEffetto; // Non ho ben capito come funzioni
-    tmp->opzionale = carta->opzionale; // Disessere giocati
 
     tmp->next = copiaCarta(tmp, nCopie - 1);
 
@@ -156,14 +147,15 @@ Carta *dividiMazzoMatricole (Carta **mazzo) {
 }
 
 /** Cerca una carta in base al "filtro" dato in parametro
+ * Non viene cercato il target.
  *
  * @param mazzo Il mazzo in cui verrà cercata la carta
  * @param azione L'azione da cercare
+ * @param tipo Il tipo della carta
  * @param quando Il quando della carta da cercare
- * @param target Il target giocatori della carta da cercare
  * @return Ritorna la carta se trovata, altrimenti NULL
  */
-Carta *cercaCarta(Carta *mazzo, Azione azione, Quando quando, TargetGiocatori target) {
+Carta *cercaCarta (Carta *mazzo, Azione azione, TipologiaCarta tipo, Quando quando) {
     // Se il mazzo è vuoto, esce subito
     if (mazzo == NULL) return mazzo;
 
@@ -173,10 +165,10 @@ Carta *cercaCarta(Carta *mazzo, Azione azione, Quando quando, TargetGiocatori ta
     // Controlla tutto il mazzo e se trova una carta con quelle specifiche la ritorna
     while (cartaDaCercare != NULL) {
         if (cartaDaCercare->quandoEffetto == quando)
-            for (int i = 0; i < cartaDaCercare->nEffetti; i++) {
-                if (cartaDaCercare->effetto[i].azione == azione && cartaDaCercare->effetto[i].targetGiocatori == target)
+            for (int i = 0; i < cartaDaCercare->nEffetti; i++)
+                if (cartaDaCercare->effetto[i].azione == azione
+                    && cartaDaCercare->tipo == tipo)
                     return cartaDaCercare;
-            }
         cartaDaCercare = cartaDaCercare->next;
     }
 
@@ -213,10 +205,29 @@ int contaCarte (Carta *mazzo) {
 
     // Scorre finché il mazzo non è NULL e aumenta di uno il contatore
     while (mazzo != NULL) {
-        mazzo = mazzo->next;
         i++;
+        mazzo = mazzo->next;
     }
     return i; // Restituisce il valore
+}
+
+/** Conta le carte di un certo tipo in un mazzo
+ *
+ * @param mazzo Il mazzo dove vanno cercate le carte
+ * @param filtro La tipologia della carta da cercare
+ * @return Ritorna il numero delle carte di quel tipo trovate nel mazzo
+ */
+int contaCarteFiltro (Carta *mazzo, TipologiaCarta filtro) {
+    int i = 0; // Contatore
+
+    // Scorre finché il mazzo non è NULL e aumenta di uno il contatore
+    while (mazzo != NULL) {
+        if (effettoTipoCarta(mazzo->tipo, filtro))
+            i++;
+        mazzo = mazzo->next;
+    }
+    return i; // Restituisce il valore
+
 }
 
 /** Dati i due mazzi, sposta una carta da un mazzo e la mette in testa all'altro.
@@ -334,28 +345,6 @@ void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPe
 
 /* Gestione degli effetti */
 
-/** Controlla se esiste un tipo di azione nel mazzo
- * Utile ad esempio per controllare se c'è una carta con effetto INGEGNERIZZAZIONE
- *
- * @param mazzo Il mazzo in cui controllare
- * @param azione Il tipo di carta da controllare
- * @return Ritorna true se esiste una carta di quel tipo, altrimenti false
- */
-bool esisteAzioneNelMazzo (Carta *mazzo, Azione azione) {
-    // Crea un puntatore temporaneo al mazzo per scorrere
-    Carta *tmp = mazzo;
-
-    // Cicla finché non arriva alla fine del mazzo oppure trova una carta con quell'azione
-    while (tmp != NULL) {
-        for (int i = 0; i < tmp->nEffetti; i++)
-            if (tmp->effetto[i].azione == azione)
-                return true;
-        tmp = tmp->next;
-    }
-    // Se non trova niente o il mazzo è vuoto, ritorna vero
-    return false;
-}
-
 /** Restituisce se la carta è uno studente
  *
  * @param tipo Il tipo della carta giocata
@@ -372,6 +361,197 @@ bool isStudente (TipologiaCarta tipo) {
  */
 bool isBonusMalus (TipologiaCarta tipo) {
     return tipo == BONUS || tipo == MALUS;
+}
+
+/** Restituisce se la carta è giocabile oppure no in base all'opzionale
+ *
+ * @param giocante
+ * @param giocatoriAffetti
+ * @param carta La carta di cui controllare se gli effetti sono applicabili
+ * @param momento Il momento attuale di cui controllare gli effetti della partita (SUBITO, INIZIO...)
+ * @return Se il quando della carta e il momento attuale sono uguali,
+ * e la carta è opzionale (o comunque giocabile) e non è contrastata restituisce true
+ */
+bool isGiocabile (Giocatore *giocante, Giocatore *giocatoriAffetti, Carta *carta, Quando momento) {
+    // Create per leggibilità, andare a capo in un return per risparmiare due byte e nessuna riga non ha senso
+    bool contrastato = effettiContrastanti(giocante, giocatoriAffetti, carta->tipo);
+    bool opzionale = effettiOpzionali(giocante->nome, carta);
+
+    return carta->quandoEffetto == momento && opzionale && !contrastato;
+}
+
+/** Controlla se la carta contiene effetti che possono contrastare la carta giocata
+ *
+ * @param giocante Il giocatore che gioca la carta
+ * @param giocatoreAffetto Il giocatore su cui verrà giocata la carta
+ * @param tipoCartaGiocata La carta che viene giocata
+ * @return True se esistono, altrimenti false
+ */
+bool effettiContrastanti (Giocatore *giocante, Giocatore *giocatoreAffetto, TipologiaCarta tipoCartaGiocata) {
+    // BLOCCA
+    if (giocante != giocatoreAffetto) {
+        Carta *carta = cercaCarta(giocatoreAffetto->carteGiocatore, BLOCCA, ISTANTANEA, SUBITO);
+        bool ris = effettiOpzionali(giocatoreAffetto->nome, carta);
+        if (ris) {
+            if (carta != NULL) {
+                printf("\n" LINEA_BIANCA
+                      BHRED "MAI" RESET "!"      "\n"
+                      "%s ha " RED "bloccato" RESET " gli " CYN "effetti" RESET " della " BLU "carta" RESET "!",
+                      giocatoreAffetto->nome);
+                premiInvioPerContinuare();
+            }
+        }
+        return ris;
+    }
+
+    // IMPEDIRE e gestione se nessuno dei precedenti
+    Carta *carta = cercaCarta(giocante->carteBonusMalusGiocatore, IMPEDIRE, tipoCartaGiocata, SEMPRE);
+    return carta != NULL;
+}
+
+/** Gestisce se gli effetti sono opzionali.
+ * Se non sono opzionali, si attivano in automatico.
+ * Se sono opzionali, viene richiesto se si vuole attivarli.
+ *
+ * @param giocatore
+ * @param carta La carta di cui si vogliono controllare gli effetti opzionali
+ * @return Ritorna true se gli effetti possono essere giocati (a prescindere da quanti sono), altrimenti false
+ */
+bool effettiOpzionali (char *giocatore, Carta *carta) {
+    if (!carta->opzionale && carta->tipo != ISTANTANEA) return true;
+
+    guiGiocaOpzionale(giocatore, carta->nome);
+
+    return (bool) inserisciNumero(COMANDO_ESCI, COMANDO_OPZIONE_1);
+}
+
+/** Restituisce vero se la tipologia della carta come parametro è uguale a quella della carta
+ *
+ * @param tipoCartaGiocata Il tipo della carta che viene giocata in questo momento
+ * @param tipoCartaAffetta Il tipo della carta che può essere affetta
+ * @return Ritorna true le tipologie combaciano, altrimenti false
+ */
+bool effettoTipoCarta (TipologiaCarta tipoCartaGiocata, TipologiaCarta tipoCartaAffetta) {
+    bool ris = false;
+
+    switch (tipoCartaGiocata) {
+        case ALL:
+            ris = true;
+            break;
+        case STUDENTE:
+            ris = isStudente(tipoCartaAffetta);
+            break;
+        default:
+            ris = tipoCartaGiocata == tipoCartaAffetta;
+            break;
+    }
+    return ris;
+}
+
+/** Restituisce la lista di giocatori a cui vanno applicati gli effetti.
+ * Perché fare questo al posto di creare una nuova lista?
+ * Perché per farlo va allocata memoria, e non ha senso dato che alla fine si lavora sempre sugli stessi puntatori
+ * di mazzi di carte dei giocatori (in breve: sarebbe più complicato del necessario).
+ *
+ * @param listaGiocatori La lista dei giocatori originale, modificata in base al target
+ * @param nGiocatori Il numero dei giocatori totali della partita
+ * @param target L'effetto è applicato a questo/i giocatore/i
+ */
+int effettoTargetGiocatori (Giocatore **listaGiocatori, int nGiocatori, TargetGiocatori target) {
+    // La lunghezza della lista
+    int nTarget = nGiocatori;
+
+    // Questo switch controlla i target, e modifica la variabile di ritorno, insieme alla lista
+    switch (target) {
+        case IO:
+            nTarget = P1;
+        break;
+        case TU:
+            nTarget = nGiocatori - 1;
+            *listaGiocatori = scegliGiocatore((*listaGiocatori)->next, nTarget);
+        break;
+        case VOI:
+            *listaGiocatori = (*listaGiocatori)->next;
+            nTarget = nGiocatori - 1;
+        break;
+        case TUTTI:
+            nTarget = nGiocatori;
+        break;
+    }
+    return nTarget;
+}
+
+/** Sceglie un giocatore tra tutti i giocatori (anche se stessi)
+ *
+ * @param listaGiocatori La lista di tutti i giocatori
+ * @param nGiocatori Il numero totale dei giocatori
+ */
+Giocatore *scegliGiocatore (Giocatore *listaGiocatori, int nGiocatori) {
+    printf("\n"
+           BOLD "Inserisci il giocatore a cui applicare gli effetti." RESET);
+    guiMostraGiocatori(listaGiocatori, nGiocatori);
+
+    int scelta = inserisciNumero(1, nGiocatori);
+
+    // Scorre fino a quel giocatore
+    for (int i = 0; i < scelta - 1; i++)
+        listaGiocatori = listaGiocatori->next;
+
+    // Ritorna il giocatore
+    return listaGiocatori;
+}
+
+/** Il giocatore sceglie una carta dal mazzo in base al tipo necessario
+ *
+ * @param mazzoScelto Il mazzo da cui va scelta la tipologia della carta
+ * @param tipoCartaGiocata Il filtro del tipo della carta
+ */
+Carta *scegliCarta (Carta *mazzoScelto, TipologiaCarta tipoCartaGiocata) {
+    int size = contaCarte(mazzoScelto);
+    bool tipoValido; // Se i tipi combaciano (o è ALL) è valida
+    Carta *cartaScelta;
+
+    // Un while che continua finché il giocatore non sceglie una carta valida
+    do {
+        cartaScelta = mazzoScelto;
+        int scelta = inserisciNumero(MIN_1, size);
+
+        // Scorre fino alla carta
+        for (int i = 1; i < scelta; i++)
+            cartaScelta = cartaScelta->next;
+
+        tipoValido = effettoTipoCarta(tipoCartaGiocata, cartaScelta->tipo);
+
+        // Controlla se la carta inserita è valida, se si continua il ciclo
+    } while (!tipoValido);
+
+    printf("\n"
+           BHYEL "HAI SCELTO LA CARTA:" RESET);
+    guiStampaCarta(cartaScelta, false);
+    premiInvioPerContinuare();
+
+    return cartaScelta;
+}
+
+/** Sceglie un mazzo a cui applicare gli effetti
+ *
+ * @param mazzoAulaStudio Mazzo dell'aula studio
+ * @param mazzoBonusMalus Mazzo delle carte bonus e malus
+ * @return Ritorna la carta scelta
+ */
+Carta **scegliMazzo(Carta **mazzoAulaStudio, Carta **mazzoBonusMalus) {
+    printf("\n"
+           BOLD"SCEGLI IL MAZZO (non puoi cambiarlo)" RESET     "\n"
+           "[%d]. Mazzo Aula Studio"                            "\n"
+           "[%d]. Mazzo Bonus-Malus",
+           COMANDO_OPZIONE_1, COMANDO_OPZIONE_2);
+
+    // Intero che permette di scegliere uno dei due mazzi
+    int scelta = inserisciNumero(MIN_1, MAX_MAZZI);
+
+    if (scelta == 1)
+        return mazzoAulaStudio;
+    return mazzoBonusMalus;
 }
 
 /* Miscellanee */
