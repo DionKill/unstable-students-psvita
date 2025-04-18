@@ -302,7 +302,7 @@ void fileLog (char *giocante, char *giocatoreAffetto, char *carta, Azione azione
 
     // In base all'azione scrive nel file
     switch (azione) {
-        // Li metto tutti per renderlo verboso, anche se non necessario
+        // Li metto tutti per renderlo "verboso", anche se non necessario
         case GIOCA:
         case SCARTA:
         case ELIMINA:
@@ -311,10 +311,22 @@ void fileLog (char *giocante, char *giocatoreAffetto, char *carta, Azione azione
         case SCAMBIA:
         case BLOCCA:
         case IMPEDIRE:
-            fprintf(fp, "\n\t"
+            // Scrive nel file l'effetto usato dalla carta
+            fprintf(fp, "\t"
                     "%s usa l'effetto %s della carta '%s'", giocante, strAz, carta);
+
+            // Fine della riga
             if (giocante != giocatoreAffetto)
-                fprintf(fp, "da %s", giocatoreAffetto);
+                fprintf(fp, " da %s!", giocatoreAffetto);
+
+            else fprintf(fp, "!");
+
+            fprintf(fp, "\n");
+        break;
+        case PESCA:
+            // Scrive nel log cosa ha appena pescato
+            fprintf(fp, "\t"
+                    "%s ha PESCATO la carta '%s'!" "\n", giocatoreAffetto, carta);
         break;
         default: break;
     }
@@ -333,11 +345,11 @@ void fileLogTurni (char *giocatore, int turno, Quando momento) {
 
     // In base al momento, sceglie cosa scrivere nel file
     if (momento == INIZIO)
-        fprintf(fp, "INIZIO TURNO %d PER %s"
-                "\n", turno, giocatore);
-    else
-        fprintf(fp, "FINE TURNO %d PER %s"
-                "\n", turno, giocatore);
+        fprintf(fp, "INIZIO TURNO %d PER %s:", turno, giocatore);
+    else if (momento == FINE) // Viene (impropriamente) usato per la fine del turno
+        fprintf(fp, "FINE TURNO %d PER %s.", turno, giocatore);
+
+    fprintf(fp, "\n");
 
     fclose(fp);
 }

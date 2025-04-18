@@ -362,23 +362,6 @@ bool isBonusMalus (TipologiaCarta tipo) {
     return tipo == BONUS || tipo == MALUS;
 }
 
-/** Restituisce se la carta è giocabile oppure no in base all'opzionale
- *
- * @param giocante
- * @param giocatoriAffetti
- * @param carta La carta di cui controllare se gli effetti sono applicabili
- * @param momento Il momento attuale di cui controllare gli effetti della partita (SUBITO, INIZIO...)
- * @return Se il quando della carta e il momento attuale sono uguali,
- * e la carta è opzionale (o comunque giocabile) e non è contrastata restituisce true
- */
-bool isGiocabile (Giocatore *giocante, Giocatore *giocatoriAffetti, Carta *carta, Quando momento) {
-    // Create per leggibilità, andare a capo in un return per risparmiare due byte e nessuna riga non ha senso
-    bool contrastato = effettiContrastanti(giocante, giocatoriAffetti, carta->tipo);
-    bool opzionale = effettiOpzionali(giocante->nome, carta);
-
-    return carta->quandoEffetto == momento && opzionale && !contrastato;
-}
-
 /** Controlla se la carta contiene effetti che possono contrastare la carta giocata
  *
  * @param giocante Il giocatore che gioca la carta
@@ -391,6 +374,7 @@ bool effettiContrastanti (Giocatore *giocante, Giocatore *giocatoreAffetto, Tipo
     if (giocante != giocatoreAffetto) {
         Carta *carta = cercaCarta(giocatoreAffetto->carteGiocatore, BLOCCA, ISTANTANEA, SUBITO);
         bool ris = effettiOpzionali(giocatoreAffetto->nome, carta);
+
         if (ris) {
             if (carta != NULL) {
                 printf("\n" LINEA_BIANCA
@@ -417,10 +401,14 @@ bool effettiContrastanti (Giocatore *giocante, Giocatore *giocatoreAffetto, Tipo
  * @return Ritorna true se gli effetti possono essere giocati (a prescindere da quanti sono), altrimenti false
  */
 bool effettiOpzionali (char *giocatore, Carta *carta) {
+    // Se la carta è NULL ritorna subito
+    if (carta == NULL) return false;
+
+    // Se la carta non è nè opzionale nè ISTANTANEA, allora è giocabile, anche se non è opzionale
     if (!carta->opzionale && carta->tipo != ISTANTANEA) return true;
 
+    // Altrimenti significa che è opzionale, e viene gestito con un menù di scelta
     guiGiocaOpzionale(giocatore, carta->nome);
-
     return (bool) inserisciNumero(COMANDO_ESCI, COMANDO_OPZIONE_1);
 }
 
@@ -490,7 +478,7 @@ Giocatore *scegliGiocatore (Giocatore *listaGiocatori, int nGiocatori) {
            BOLD "Inserisci il giocatore a cui applicare gli effetti." RESET);
     guiMostraGiocatori(listaGiocatori, nGiocatori);
 
-    int scelta = inserisciNumero(1, nGiocatori);
+    int scelta = inserisciNumero(MIN_1, nGiocatori);
 
     // Scorre fino a quel giocatore
     for (int i = 0; i < scelta - 1; i++)

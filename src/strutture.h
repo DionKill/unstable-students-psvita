@@ -82,10 +82,8 @@ void shuffleCarte (Carta **mazzoOriginale);
 void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPesca);
 
 // Gestione effetti
-
 bool isStudente (TipologiaCarta tipo);
 bool isBonusMalus (TipologiaCarta tipo);
-bool isGiocabile (Giocatore *giocante, Giocatore *giocatoriAffetti, Carta *carta, Quando momento);
 bool effettiOpzionali (char *giocatore, Carta *carta);
 bool effettiContrastanti (Giocatore *giocante, Giocatore *giocatoreAffetto, TipologiaCarta tipoCartaGiocata);
 bool effettoTipoCarta (TipologiaCarta tipoCartaGiocata, TipologiaCarta tipoCartaAffetta);

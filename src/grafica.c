@@ -15,41 +15,25 @@
  */
 void guiSplashScreen() {
     pulisciSchermo();
-    printf(LINEA_BIANCA "\n"
-        HRED "  /$$   /$$" RED "          " YEL "          " GRN "   /$$    " CYN "          " HBLU " /$$      " BLU
-        " /$$" "\n"
-        HRED " | $$  | $$" RED "          " YEL "          " GRN "  | $$    " CYN "          " HBLU "| $$      " BLU
-        "| $$" "\n"
-        HRED " | $$  | $$" RED " /$$$$$$$ " YEL "  /$$$$$$$" GRN " /$$$$$$   " CYN " /$$$$$$ " HBLU "| $$$$$$$ " BLU
-        "| $$" MAG "  /$$$$$$" "\n"
-        HRED " | $$  | $$" RED "| $$__  $$ " YEL "/$$_____/" GRN "|_  $$_/   " CYN "|____  $$" HBLU "| $$__  $$" BLU
-        "| $$" MAG " /$$__  $$" "\n"
-        HRED " | $$  | $$" RED "| $$  \\ $$" YEL "|  $$$$$$" GRN "   | $$     " CYN " /$$$$$$$" HBLU "| $$  \\ $$" BLU
-        "| $$" MAG "| $$$$$$$$" "\n"
-        HRED " | $$  | $$" RED "| $$  | $$ " YEL "\\____  $$" GRN "  | $$ /$$ " CYN "/$$__  $$" HBLU "| $$  | $$" BLU
-        "| $$" MAG "| $$_____/" "\n"
-        HRED " |  $$$$$$/" RED "| $$  | $$ " YEL "/$$$$$$$/ " GRN " |  $$$$/ " CYN "| $$$$$$$" HBLU "| $$$$$$$/" BLU
-        "| $$" MAG "|  $$$$$$$" "\n"
-        HRED "  \\______/" RED " |__/  |__/" YEL "|_______/ " GRN "   \\___/ " CYN "  \\_______/" HBLU "|_______/ " BLU
-        "|__/" MAG " \\_______/" "\n"
-        "\n"
-        HRED "   /$$$$$$ " RED "  /$$      " YEL "          " GRN "     /$$    " CYN "         " HBLU "        " BLU
-        "/$$" "\n"
-        HRED "  /$$__  $$" RED " | $$      " YEL "          " GRN "    | $$   " CYN "         " HBLU "         " BLU
-        "| $$" "\n"
-        HRED " | $$  \\__/" RED "/$$$$$$   " YEL "/$$   /$$ " GRN " /$$$$$$$  " CYN "/$$$$$$  " HBLU "/$$$$$$$ " BLU
-        "/$$$$$$" MAG "  /$$$$$$$" "\n"
-        HRED " |  $$$$$$" RED "|_  $$_/  " YEL "| $$  | $$ " GRN "/$$__  $$ " CYN "/$$__  $$" HBLU "| $$__  $$ " BLU
-        "|_$$_/ " MAG "/$$_____/" "\n"
-        HRED "  \\____  $$" RED " | $$    " YEL "| $$  | $$" GRN " |$$  | $$ " CYN "|$$$$$$$$" HBLU "| $$  \\ $$ " BLU
-        "| $$  " MAG "|  $$$$$$|" "\n"
-        HRED "  /$$  \\ $$" RED " | $$ /$$" YEL "| $$  | $$" GRN " |$$  | $$ " CYN "|$$_____/" HBLU "| $$  | $$ " BLU
-        "| $$/$$" MAG "\\____ $$|" "\n"
-        HRED " |  $$$$$$/ " RED "|  $$$$/" YEL "|  $$$$$$/" GRN " |$$$$$$$ " CYN " |$$$$$$$" HBLU " | $$  | $$ " BLU
-        "|  $$$$" MAG "/$$$$$$$/" "\n"
-        HRED "  \\______/ " RED "  \\___/   " YEL "\\______/" GRN "  \\_______/" CYN " \\_______/" HBLU "|__/  |__/  "
-        BLU "\\___/" MAG "|_______/" "\n"
-        "\n" LINEA_BIANCA
+    printf(LINEA_BIANCA
+           HRED "  /$$   /$$"  RED "          "  YEL "          "  GRN "   /$$    "   CYN "          "   HBLU " /$$      "     BLU " /$$"                      "\n"
+           HRED " | $$  | $$"  RED "          "  YEL "          "  GRN "  | $$    "   CYN "          "   HBLU "| $$      "     BLU "| $$"                      "\n"
+           HRED " | $$  | $$"  RED " /$$$$$$$ "  YEL "  /$$$$$$$"  GRN " /$$$$$$   "  CYN " /$$$$$$ "    HBLU "| $$$$$$$ "     BLU "| $$"    MAG "  /$$$$$$"   "\n"
+           HRED " | $$  | $$"  RED "| $$__  $$ " YEL "/$$_____/"   GRN "|_  $$_/   "  CYN "|____  $$"    HBLU "| $$__  $$"     BLU "| $$"    MAG " /$$__  $$"  "\n"
+           HRED " | $$  | $$"  RED "| $$  \\ $$" YEL "|  $$$$$$"   GRN "   | $$     " CYN " /$$$$$$$"    HBLU "| $$  \\ $$"    BLU "| $$"    MAG "| $$$$$$$$"  "\n"
+           HRED " | $$  | $$"  RED "| $$  | $$ " YEL "\\____  $$"  GRN "  | $$ /$$ "  CYN "/$$__  $$"    HBLU "| $$  | $$"     BLU "| $$"    MAG "| $$_____/"  "\n"
+           HRED " |  $$$$$$/"  RED "| $$  | $$ " YEL "/$$$$$$$/ "  GRN " |  $$$$/ "   CYN "| $$$$$$$"    HBLU "| $$$$$$$/"     BLU "| $$"    MAG "|  $$$$$$$"  "\n"
+           HRED "  \\______/"  RED " |__/  |__/" YEL "|_______/ "  GRN "   \\___/ "   CYN "  \\_______/" HBLU "|_______/ "     BLU "|__/"    MAG " \\_______/" "\n"
+                                                                                                                                                               "\n"
+           HRED "   /$$$$$$ "  RED "  /$$      " YEL "          "  GRN "     /$$    " CYN "         "    HBLU "        "      BLU "/$$"                        "\n"
+           HRED "  /$$__  $$"  RED " | $$      " YEL "          "  GRN "    | $$   "  CYN "         "    HBLU "         "     BLU "| $$"                       "\n"
+           HRED " | $$  \\__/" RED "/$$$$$$   "  YEL "/$$   /$$ "  GRN " /$$$$$$$  "  CYN "/$$$$$$  "    HBLU "/$$$$$$$ "     BLU "/$$$$$$"  MAG "  /$$$$$$$"  "\n"
+           HRED " |  $$$$$$"   RED "|_  $$_/  "  YEL "| $$  | $$ " GRN "/$$__  $$ "   CYN "/$$__  $$"    HBLU "| $$__  $$ "   BLU "|_$$_/ "  MAG "/$$_____/"   "\n"
+           HRED "  \\____  $$" RED " | $$    "   YEL "| $$  | $$"  GRN " |$$  | $$ "  CYN "|$$$$$$$$"    HBLU "| $$  \\ $$ "  BLU "| $$  "   MAG "|  $$$$$$|"  "\n"
+           HRED "  /$$  \\ $$" RED " | $$ /$$"   YEL "| $$  | $$"  GRN " |$$  | $$ "  CYN "|$$_____/"    HBLU "| $$  | $$ "   BLU "| $$/$$"  MAG "\\____ $$|"  "\n"
+           HRED " |  $$$$$$/ " RED "|  $$$$/"    YEL "|  $$$$$$/"  GRN " |$$$$$$$ "   CYN " |$$$$$$$"    HBLU " | $$  | $$ "  BLU "|  $$$$"  MAG "/$$$$$$$/"   "\n"
+           HRED "  \\______/ " RED "  \\___/   " YEL "\\______/"   GRN "  \\_______/" CYN " \\_______/"  HBLU "|__/  |__/  "  BLU "\\___/"   MAG "|_______/"   "\n"
+           "\n" LINEA_BIANCA
     );
 }
 
@@ -75,9 +59,11 @@ void guiHeader(int turno, int nGiocatori, char *nomeGiocatore) {
 void guiStampaMazzo(Carta *mazzoCarte, bool dettagli) {
     // Conta anche il numero di carte, e stampa il numero di ogni carta (utile per giocare la carta)
     int i = 1;
+
+    printf(LINEA_BIANCA);
+
     while (mazzoCarte != NULL) {
-        printf("\n"
-               BHGRN "Carta %d" RESET ":" RESET, i);
+        printf(BHGRN "Carta %d" RESET ":" RESET, i);
         // Stringa che verrà modificata per stampare il tipo come stringa
         guiStampaCarta(mazzoCarte, dettagli);
         mazzoCarte = mazzoCarte->next;
@@ -126,7 +112,7 @@ void guiStampaCarta(Carta *carta, bool dettagli) {
                    BRED "Tipo" RESET ": %s }>-", strTipologiaCarta(carta->effetto[i].tipo));
         }
     }
-    printf("\n");
+    printf("\n\n");
 }
 
 /** Mostra il menù di scelta delle carte.
