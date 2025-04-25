@@ -1,14 +1,2 @@
-INIZIO TURNO 14 PER March:
-	March ha PESCATO la carta Aula dei vecchi progetti!	March usa l'effetto SCARTA della carta 'Aula dei vecchi progetti' da Nepu!
-	March usa l'effetto SCARTA della carta 'Aula dei vecchi progetti' da Nepu!
-INIZIO TURNO 14 PER March:
-	March ha PESCATO la carta Aula dei vecchi progetti!	March usa l'effetto SCARTA della carta 'Aula dei vecchi progetti' da Nepu!
-	March usa l'effetto SCARTA della carta 'Aula dei vecchi progetti' da Nepu!
-INIZIO TURNO 14 PER March:
-	March ha PESCATO la carta Aula dei vecchi progetti!	March usa l'effetto SCARTA della carta 'Aula dei vecchi progetti' da Nepu!
-	March usa l'effetto SCARTA della carta 'Aula dei vecchi progetti' da Nepu!
-	March usa l'effetto ELIMINA della carta 'Aula dei vecchi progetti'!
-	March ha PESCATO la carta CTM in ritardo!
-FINE TURNO 14 PER March.
-INIZIO TURNO 15 PER Nepu:
-	Nepu ha PESCATO la carta Copia dal turno precedente!
+INIZIO TURNO 1 PER Neptune:
+	Neptune ha PESCATO la carta 'MAI'!

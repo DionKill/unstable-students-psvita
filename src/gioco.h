@@ -22,9 +22,10 @@ void mostraMazzoGiocabile (Giocatore* giocante, Giocatore *giocatoriAffetti, int
 // Effetti
 bool giocaCarta (Giocatore *listaGiocatori, int nGiocatori,
                  Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio);
-bool areYaWinningSon (Giocatore *giocatore);
-void gestisciEffettiCarta (Giocatore *listaGiocatori, int nGiocatori, Carta *cartaGiocata,
-                           Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio, Quando momento);
+bool controlloVittoria (Giocatore *giocatore);
+
+bool gestisciEffettiCarta(Giocatore *listaGiocatori, int nGiocatori, Carta *cartaGiocata,
+                          Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio, Quando momento);
 void effettiMazzo (Giocatore *listaGiocatori, int nGiocatori,
                    Quando quando, Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio);
 

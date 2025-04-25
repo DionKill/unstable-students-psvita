@@ -17,11 +17,6 @@
 int main(int argc, char *argv[]) {
     srand(time(NULL));
 
-    // Menù di avvio
-    guiSplashScreen();
-    premiInvioPerContinuare();
-    pulisciSchermo();
-
     // Caricamento della partita
     if (argc > 1) gioco(argv[N_ARG_PARAM]);
     else gioco(SALVATAGGIO);

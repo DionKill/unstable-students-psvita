@@ -73,7 +73,7 @@ void rendiListaGiocatoriCircolare (Giocatore *listaGiocatori);
 Carta *allocaCarta ();
 Carta *copiaCarta (Carta *carta, int nCopie);
 Carta *dividiMazzoMatricole (Carta **mazzo);
-Carta *cercaCarta (Carta *mazzo, Azione azione, TipologiaCarta tipo, Quando quando);
+Carta *cercaCarta (Carta *mazzo, Azione azione, Quando quando, TipologiaCarta tipoCarta, TipologiaCarta tipoEffetto);
 Carta **mazzoGiocatoreGiusto (Giocatore *giocatore, Carta *carta, Carta **mazzoScarti);
 int contaCarte (Carta *mazzo);
 int contaCarteFiltro (Carta *mazzo, TipologiaCarta filtro);

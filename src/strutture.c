@@ -151,28 +151,26 @@ Carta *dividiMazzoMatricole (Carta **mazzo) {
  *
  * @param mazzo Il mazzo in cui verrà cercata la carta
  * @param azione L'azione da cercare
- * @param tipo Il tipo della carta
  * @param quando Il quando della carta da cercare
+ * @param tipoCarta Il tipo della carta
+ * @param tipoEffetto Il tipo dell'effetto da cercare
  * @return Ritorna la carta se trovata, altrimenti NULL
  */
-Carta *cercaCarta (Carta *mazzo, Azione azione, TipologiaCarta tipo, Quando quando) {
-    // Se il mazzo è vuoto, esce subito
-    if (mazzo == NULL) return mazzo;
-
+Carta *cercaCarta (Carta *mazzo, Azione azione, Quando quando, TipologiaCarta tipoCarta, TipologiaCarta tipoEffetto) {
     // Puntatore temporaneo al mazzo (non necessario, ma usato per leggibilità)
-    Carta *cartaDaCercare = mazzo;
+    Carta *c = mazzo;
 
     // Controlla tutto il mazzo e se trova una carta con quelle specifiche la ritorna
-    while (cartaDaCercare != NULL) {
-        if (cartaDaCercare->quandoEffetto == quando)
-            for (int i = 0; i < cartaDaCercare->nEffetti; i++)
-                if (cartaDaCercare->effetto[i].azione == azione && cartaDaCercare->tipo == tipo)
-                    return cartaDaCercare;
-        cartaDaCercare = cartaDaCercare->next;
+    while (c != NULL) {
+        if (c->quandoEffetto == quando && c->tipo == tipoCarta)
+            for (int i = 0; i < c->nEffetti; i++)
+                if (c->effetto[i].azione == azione && (c->effetto[i].tipo == tipoEffetto || c->effetto[i].tipo == ALL))
+                    return c;
+        c = c->next;
     }
 
     // Ritorna NULL se non la trova
-    return cartaDaCercare;
+    return c;
 }
 
 /** Funzione che sposta la carta appena giocata nell'apposito mazzo
@@ -372,7 +370,7 @@ bool isBonusMalus (TipologiaCarta tipo) {
 bool effettiContrastanti (Giocatore *giocante, Giocatore *giocatoreAffetto, TipologiaCarta tipoCartaGiocata) {
     // BLOCCA
     if (giocante != giocatoreAffetto) {
-        Carta *carta = cercaCarta(giocatoreAffetto->carteGiocatore, BLOCCA, ISTANTANEA, SUBITO);
+        Carta *carta = cercaCarta(giocatoreAffetto->carteGiocatore, BLOCCA, SUBITO, ISTANTANEA, ALL);
         bool ris = effettiOpzionali(giocatoreAffetto->nome, carta);
 
         if (ris) {
@@ -388,7 +386,14 @@ bool effettiContrastanti (Giocatore *giocante, Giocatore *giocatoreAffetto, Tipo
     }
 
     // IMPEDIRE e gestione se nessuno dei precedenti
-    Carta *carta = cercaCarta(giocante->carteBonusMalusGiocatore, IMPEDIRE, tipoCartaGiocata, SEMPRE);
+    Carta *carta = cercaCarta(giocante->carteBonusMalusGiocatore, IMPEDIRE, SEMPRE, MALUS, tipoCartaGiocata);
+    if (carta != NULL) {
+        printf("\n" LINEA_BIANCA
+              BHRED "OUCH" RESET "!"               "\n"
+              YEL "%s non può giocare questa carta!" RESET, giocatoreAffetto->nome);
+        premiInvioPerContinuare();
+    }
+
     return carta != NULL;
 }
 
@@ -495,7 +500,7 @@ Giocatore *scegliGiocatore (Giocatore *listaGiocatori, int nGiocatori) {
  */
 Carta *scegliCarta (Carta *mazzoScelto, TipologiaCarta tipoCartaGiocata) {
     int size = contaCarte(mazzoScelto);
-    bool tipoValido; // Se i tipi combaciano (o è ALL) è valida
+    bool tipoValido; // Se i tipi combaciano (o è di tipo ALL) è valida
     Carta *cartaScelta;
 
     // Un while che continua finché il giocatore non sceglie una carta valida
@@ -528,7 +533,7 @@ Carta *scegliCarta (Carta *mazzoScelto, TipologiaCarta tipoCartaGiocata) {
  */
 Carta **scegliMazzo(Carta **mazzoAulaStudio, Carta **mazzoBonusMalus) {
     printf("\n"
-           BOLD"SCEGLI IL MAZZO (non puoi cambiarlo)" RESET     "\n"
+           BOLD "SCEGLI IL MAZZO (non puoi cambiarlo)" RESET     "\n"
            "[%d]. Mazzo Aula Studio"                            "\n"
            "[%d]. Mazzo Bonus-Malus",
            COMANDO_OPZIONE_1, COMANDO_OPZIONE_2);
