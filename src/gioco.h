@@ -24,7 +24,7 @@ bool giocaCarta (Giocatore *listaGiocatori, int nGiocatori,
                  Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio);
 bool controlloVittoria (Giocatore *giocatore);
 
-bool gestisciEffettiCarta(Giocatore *listaGiocatori, int nGiocatori, Carta *cartaGiocata,
+bool gestisciEffettiCarta (Giocatore *listaGiocatori, int nGiocatori, Carta *cartaGiocata,
                           Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio, Quando momento);
 void effettiMazzo (Giocatore *listaGiocatori, int nGiocatori,
                    Quando quando, Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio);

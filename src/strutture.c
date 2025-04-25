@@ -239,7 +239,7 @@ void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput) {
         // Una carta che scorre fino a quella precedente di quella che serve spostare
         Carta *scorriLista = *mazzoInput;
 
-        // Se il mazzo di input e la carta da spostare sono diversi, allora scorre fino quella precedente che va spostata
+        // Sposta una carta dal mezzo del mazzo
         if (cartaInput != *mazzoInput) {
             while (scorriLista->next != cartaInput)
                 scorriLista = scorriLista->next;
@@ -253,7 +253,7 @@ void spostaCarta (Carta **mazzoInput, Carta *cartaInput, Carta **mazzoOutput) {
             cartaInput->next = tmp;
         }
 
-        // Entra qui solo se mazzoInput e cartaInput sono identiche
+        // Sposta la carta in cima (la prima) a un altro mazzo
         else {
             // Usa scorriLista come temporaneo per contenere il valore attuale del mazzoInput
             // Il mazzoInput scorre in avanti di uno, dato che la sua carta è contenuta in scorriLista
@@ -364,10 +364,11 @@ bool isBonusMalus (TipologiaCarta tipo) {
  *
  * @param giocante Il giocatore che gioca la carta
  * @param giocatoreAffetto Il giocatore su cui verrà giocata la carta
- * @param tipoCartaGiocata La carta che viene giocata
+ * @param tipo La carta che viene giocata
+ * @param mazzoScarti
  * @return True se esistono, altrimenti false
  */
-bool effettiContrastanti (Giocatore *giocante, Giocatore *giocatoreAffetto, TipologiaCarta tipoCartaGiocata) {
+bool effettiContrastanti (Giocatore *giocante, Giocatore *giocatoreAffetto, TipologiaCarta tipo, Carta **mazzoScarti) {
     // BLOCCA
     if (giocante != giocatoreAffetto) {
         Carta *carta = cercaCarta(giocatoreAffetto->carteGiocatore, BLOCCA, SUBITO, ISTANTANEA, ALL);
@@ -380,13 +381,14 @@ bool effettiContrastanti (Giocatore *giocante, Giocatore *giocatoreAffetto, Tipo
                       "%s ha " RED "bloccato" RESET " gli " CYN "effetti" RESET " della " BLU "carta" RESET "!",
                       giocatoreAffetto->nome);
                 premiInvioPerContinuare();
+                spostaCarta(&giocatoreAffetto->carteGiocatore, carta, mazzoScarti);
             }
         }
         return ris;
     }
 
     // IMPEDIRE e gestione se nessuno dei precedenti
-    Carta *carta = cercaCarta(giocante->carteBonusMalusGiocatore, IMPEDIRE, SEMPRE, MALUS, tipoCartaGiocata);
+    Carta *carta = cercaCarta(giocante->carteBonusMalusGiocatore, IMPEDIRE, SEMPRE, MALUS, tipo);
     if (carta != NULL) {
         printf("\n" LINEA_BIANCA
               BHRED "OUCH" RESET "!"               "\n"

@@ -1,2 +1,122 @@
 INIZIO TURNO 1 PER Neptune:
 	Neptune ha PESCATO la carta 'MAI'!
+	Neptune ha PESCATO la carta 'Studente Anticipatore'!
+	Noire ha PESCATO la carta 'Laureando Hipster'!
+	Neptune ha PESCATO la carta 'Ingegnerizzazione'!
+	Noire ha PESCATO la carta 'Laureando Hipster'!
+	Neptune usa l'effetto SCARTA della carta 'Laureando Hipster' da Noire!
+FINE TURNO 1 PER Neptune.INIZIO TURNO 2 PER Noire:
+	Noire ha PESCATO la carta 'Laureando Ladro'!
+INIZIO TURNO 2 PER Noire:
+	Noire ha PESCATO la carta 'Laureando Ladro'!
+INIZIO TURNO 2 PER Noire:
+	Noire ha PESCATO la carta 'Laureando Ladro'!
+INIZIO TURNO 2 PER Noire:
+	Noire ha PESCATO la carta 'Laureando Ladro'!
+INIZIO TURNO 2 PER Noire:
+	Noire ha PESCATO la carta 'Laureando Ladro'!
+INIZIO TURNO 2 PER Noire:
+	Noire ha PESCATO la carta 'Laureando Ladro'!
+INIZIO TURNO 2 PER Noire:
+	Noire ha PESCATO la carta 'Laureando Ladro'!
+FINE TURNO 2 PER Noire.
+INIZIO TURNO 3 PER Vert:
+	Vert ha PESCATO la carta 'Sovraccarico di caffeina'!
+INIZIO TURNO 3 PER Vert:
+	Vert ha PESCATO la carta 'Sovraccarico di caffeina'!
+INIZIO TURNO 3 PER Vert:
+	Vert ha PESCATO la carta 'Sovraccarico di caffeina'!
+INIZIO TURNO 3 PER Vert:
+	Vert ha PESCATO la carta 'Sovraccarico di caffeina'!
+INIZIO TURNO 3 PER Vert:
+	Vert ha PESCATO la carta 'Sovraccarico di caffeina'!
+INIZIO TURNO 3 PER Vert:
+	Vert ha PESCATO la carta 'Sovraccarico di caffeina'!
+INIZIO TURNO 3 PER Vert:
+	Vert ha PESCATO la carta 'Sovraccarico di caffeina'!
+INIZIO TURNO 3 PER Vert:
+	Vert ha PESCATO la carta 'Sovraccarico di caffeina'!
+INIZIO TURNO 3 PER Vert:
+	Vert ha PESCATO la carta 'Sovraccarico di caffeina'!
+INIZIO TURNO 3 PER Vert:
+	Vert ha PESCATO la carta 'Sovraccarico di caffeina'!
+INIZIO TURNO 3 PER Vert:
+	Vert ha PESCATO la carta 'Sovraccarico di caffeina'!
+INIZIO TURNO 3 PER Vert:
+	Vert ha PESCATO la carta 'Sovraccarico di caffeina'!
+INIZIO TURNO 3 PER Vert:
+	Vert ha PESCATO la carta 'Sovraccarico di caffeina'!
+INIZIO TURNO 3 PER Vert:
+	Vert ha PESCATO la carta 'Sovraccarico di caffeina'!
+INIZIO TURNO 3 PER Vert:
+	Vert ha PESCATO la carta 'Sovraccarico di caffeina'!
+INIZIO TURNO 3 PER Vert:
+	Vert ha PESCATO la carta 'Sovraccarico di caffeina'!
+	Vert usa l'effetto SCARTA della carta 'Laureando Lagna' da Blanc!
+	Vert usa l'effetto SCARTA della carta 'Laureando Lagna' da Neptune!
+	Vert usa l'effetto SCARTA della carta 'Laureando Lagna' da Noire!
+	Vert usa l'effetto SCARTA della carta 'Laureando Lagna'!
+INIZIO TURNO 3 PER Vert:
+	Vert ha PESCATO la carta 'Sovraccarico di caffeina'!
+INIZIO TURNO 3 PER Vert:
+	Vert ha PESCATO la carta 'Sovraccarico di caffeina'!
+	Vert usa l'effetto SCARTA della carta 'Laureando Lagna' da Blanc!
+	Vert usa l'effetto SCARTA della carta 'Laureando Lagna' da Neptune!
+	Vert usa l'effetto SCARTA della carta 'Laureando Lagna' da Noire!
+	Vert usa l'effetto SCARTA della carta 'Laureando Lagna'!
+INIZIO TURNO 3 PER Vert:
+	Vert ha PESCATO la carta 'Sovraccarico di caffeina'!
+	Vert usa l'effetto SCARTA della carta 'Laureando Lagna' da Blanc!
+	Vert usa l'effetto SCARTA della carta 'Laureando Lagna' da Neptune!
+	Vert usa l'effetto SCARTA della carta 'Laureando Lagna' da Noire!
+	Vert usa l'effetto SCARTA della carta 'Laureando Lagna'!
+INIZIO TURNO 3 PER Vert:
+	Vert ha PESCATO la carta 'Sovraccarico di caffeina'!
+INIZIO TURNO 3 PER Vert:
+	Vert ha PESCATO la carta 'Sovraccarico di caffeina'!
+	Vert usa l'effetto SCARTA della carta 'Laureando Lagna' da Blanc!
+	Vert usa l'effetto SCARTA della carta 'Laureando Lagna' da Neptune!
+	Vert usa l'effetto SCARTA della carta 'Laureando Lagna' da Noire!
+	Vert usa l'effetto SCARTA della carta 'Laureando Lagna'!
+FINE TURNO 3 PER Vert.
+INIZIO TURNO 4 PER Blanc:
+	Blanc ha PESCATO la carta 'Laureando Casinista'!
+INIZIO TURNO 4 PER Blanc:
+	Blanc ha PESCATO la carta 'Laureando Casinista'!
+INIZIO TURNO 4 PER Blanc:
+	Blanc ha PESCATO la carta 'Laureando Casinista'!
+INIZIO TURNO 4 PER Blanc:
+	Blanc ha PESCATO la carta 'Laureando Casinista'!
+INIZIO TURNO 4 PER Blanc:
+	Blanc ha PESCATO la carta 'Laureando Casinista'!
+INIZIO TURNO 4 PER Blanc:
+	Blanc ha PESCATO la carta 'Laureando Casinista'!
+FINE TURNO 4 PER Blanc.
+INIZIO TURNO 5 PER Neptune:
+	Neptune ha PESCATO la carta 'Laureando Ladro'!
+FINE TURNO 5 PER Neptune.
+INIZIO TURNO 6 PER Noire:
+	Noire ha PESCATO la carta 'Sovraccarico di caffeina'!
+	Noire usa l'effetto SCARTA della carta 'Laureando Lagna' da Vert!
+	Noire usa l'effetto SCARTA della carta 'Laureando Lagna' da Blanc!
+	Noire usa l'effetto SCARTA della carta 'Laureando Lagna' da Neptune!
+	Noire usa l'effetto SCARTA della carta 'Laureando Lagna'!
+FINE TURNO 6 PER Noire.
+INIZIO TURNO 7 PER Vert:
+	Vert ha PESCATO la carta 'Aula minuscola'!
+INIZIO TURNO 7 PER Vert:
+	Vert ha PESCATO la carta 'Aula minuscola'!
+INIZIO TURNO 7 PER Vert:
+	Vert ha PESCATO la carta 'Aula minuscola'!
+INIZIO TURNO 7 PER Vert:
+	Vert ha PESCATO la carta 'Aula minuscola'!
+INIZIO TURNO 7 PER Vert:
+	Vert ha PESCATO la carta 'Aula minuscola'!
+	Vert ha PESCATO la carta 'Ottimo Affare'!
+FINE TURNO 7 PER Vert.
+INIZIO TURNO 8 PER Blanc:
+	Blanc ha PESCATO la carta 'Attacco Hacker'!
+FINE TURNO 8 PER Blanc.
+INIZIO TURNO 9 PER Neptune:
+	Neptune usa l'effetto GIOCA della carta 'CTM in orario' da Noire!
+	Neptune ha PESCATO la carta 'Sessione di Laurea'!

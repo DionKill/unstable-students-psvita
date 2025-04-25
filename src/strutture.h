@@ -85,7 +85,7 @@ void distribuisciCarte (int cntCarte, Giocatore *listaGiocatori, Carta **mazzoPe
 bool isStudente (TipologiaCarta tipo);
 bool isBonusMalus (TipologiaCarta tipo);
 bool effettiOpzionali (char *giocatore, Carta *carta);
-bool effettiContrastanti (Giocatore *giocante, Giocatore *giocatoreAffetto, TipologiaCarta tipoCartaGiocata);
+bool effettiContrastanti (Giocatore *giocante, Giocatore *giocatoreAffetto, TipologiaCarta tipo, Carta **mazzoScarti);
 bool effettoTipoCarta (TipologiaCarta tipoCartaGiocata, TipologiaCarta tipoCartaAffetta);
 int effettoTargetGiocatori (Giocatore **listaGiocatori, int nGiocatori, TargetGiocatori target);
 Giocatore *scegliGiocatore (Giocatore *listaGiocatori, int nGiocatori);
