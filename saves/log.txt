@@ -120,3 +120,313 @@ FINE TURNO 8 PER Blanc.
 INIZIO TURNO 9 PER Neptune:
 	Neptune usa l'effetto GIOCA della carta 'CTM in orario' da Noire!
 	Neptune ha PESCATO la carta 'Sessione di Laurea'!
+INIZIO TURNO 9 PER Neptune:
+	Neptune usa l'effetto GIOCA della carta 'CTM in orario' da Noire!
+	Neptune ha PESCATO la carta 'Sessione di Laurea'!
+FINE TURNO 9 PER Neptune.
+INIZIO TURNO 10 PER Noire:
+	Noire ha PESCATO la carta 'Scambio di esame'!
+INIZIO TURNO 10 PER Noire:
+	Noire ha PESCATO la carta 'Scambio di esame'!
+INIZIO TURNO 10 PER Noire:
+	Noire ha PESCATO la carta 'Scambio di esame'!
+	Noire usa l'effetto SCAMBIA della carta 'Scambio di esame'!
+	Noire usa l'effetto SCAMBIA della carta 'Scambio di esame' da Vert!
+	Noire usa l'effetto SCAMBIA della carta 'Scambio di esame' da Blanc!
+FINE TURNO 10 PER Noire.
+INIZIO TURNO 11 PER Vert:
+	Vert ha PESCATO la carta 'Ruba Studente'!
+INIZIO TURNO 11 PER Vert:
+	Vert ha PESCATO la carta 'Ruba Studente'!
+INIZIO TURNO 11 PER Vert:
+	Vert ha PESCATO la carta 'Ruba Studente'!
+INIZIO TURNO 11 PER Vert:
+	Vert ha PESCATO la carta 'Ruba Studente'!
+FINE TURNO 11 PER Vert.
+INIZIO TURNO 12 PER Blanc:
+	Blanc usa l'effetto ELIMINA della carta 'Sparacoriandoli' da Neptune!
+	Blanc usa l'effetto ELIMINA della carta 'Sparacoriandoli' da Noire!
+	Blanc usa l'effetto ELIMINA della carta 'Sparacoriandoli' da Vert!
+	Blanc usa l'effetto ELIMINA della carta 'Sparacoriandoli'!
+	Blanc ha PESCATO la carta 'Laureando Nerd'!
+INIZIO TURNO 12 PER Blanc:
+INIZIO TURNO 12 PER Blanc:
+INIZIO TURNO 12 PER Blanc:
+INIZIO TURNO 12 PER Blanc:
+INIZIO TURNO 12 PER Blanc:
+INIZIO TURNO 12 PER Blanc:
+INIZIO TURNO 12 PER Blanc:
+	Blanc usa l'effetto ELIMINA della carta 'Sparacoriandoli' da Neptune!
+	Blanc usa l'effetto ELIMINA della carta 'Sparacoriandoli' da Noire!
+	Blanc usa l'effetto ELIMINA della carta 'Sparacoriandoli' da Vert!
+INIZIO TURNO 12 PER Blanc:
+INIZIO TURNO 12 PER Blanc:
+INIZIO TURNO 12 PER Blanc:
+INIZIO TURNO 12 PER Blanc:
+INIZIO TURNO 12 PER Blanc:
+	Blanc ha PESCATO la carta 'Laureando Nerd'!
+INIZIO TURNO 12 PER Blanc:
+INIZIO TURNO 12 PER Blanc:
+INIZIO TURNO 12 PER Blanc:
+INIZIO TURNO 12 PER Blanc:
+INIZIO TURNO 12 PER Blanc:
+INIZIO TURNO 12 PER Blanc:
+INIZIO TURNO 12 PER Blanc:
+INIZIO TURNO 12 PER Blanc:
+INIZIO TURNO 12 PER Blanc:
+	Blanc usa l'effetto ELIMINA della carta 'Sparacoriandoli' da Neptune!
+INIZIO TURNO 12 PER Blanc:
+	Blanc usa l'effetto ELIMINA della carta 'Sparacoriandoli' da Neptune!
+	Blanc usa l'effetto ELIMINA della carta 'Sparacoriandoli' da Noire!
+INIZIO TURNO 12 PER Blanc:
+	Blanc usa l'effetto ELIMINA della carta 'Sparacoriandoli' da Neptune!
+	Blanc usa l'effetto ELIMINA della carta 'Sparacoriandoli' da Noire!
+INIZIO TURNO 12 PER Blanc:
+	Blanc usa l'effetto ELIMINA della carta 'Sparacoriandoli' da Neptune!
+	Blanc usa l'effetto ELIMINA della carta 'Sparacoriandoli' da Noire!
+INIZIO TURNO 12 PER Blanc:
+	Blanc usa l'effetto ELIMINA della carta 'Sparacoriandoli' da Neptune!
+INIZIO TURNO 12 PER Blanc:
+	Blanc usa l'effetto ELIMINA della carta 'Sparacoriandoli' da Neptune!
+INIZIO TURNO 12 PER Blanc:
+	Blanc usa l'effetto ELIMINA della carta 'Sparacoriandoli' da Neptune!
+INIZIO TURNO 12 PER Blanc:
+	Blanc usa l'effetto ELIMINA della carta 'Sparacoriandoli' da Neptune!
+	Blanc usa l'effetto ELIMINA della carta 'Sparacoriandoli' da Noire!
+	Blanc ha PESCATO la carta 'Laureando Nerd'!
+INIZIO TURNO 12 PER Blanc:
+	Blanc ha PESCATO la carta 'Laureando Nerd'!
+INIZIO TURNO 12 PER Blanc:
+	Blanc ha PESCATO la carta 'Laureando Nerd'!
+INIZIO TURNO 12 PER Blanc:
+INIZIO TURNO 12 PER Blanc:
+	Blanc ha PESCATO la carta 'Laureando Nerd'!
+	Blanc usa l'effetto ELIMINA della carta 'Attacco Hacker'!
+FINE TURNO 12 PER Blanc.
+INIZIO TURNO 13 PER Neptune:
+INIZIO TURNO 13 PER Neptune:
+INIZIO TURNO 13 PER Neptune:
+INIZIO TURNO 13 PER Neptune:
+	Neptune usa l'effetto RUBA della carta 'Laureando Ladro' da Vert!
+	Neptune usa l'effetto GIOCA della carta 'CTM in orario' da Noire!
+	Neptune ha PESCATO la carta 'Tasto reset'!
+FINE TURNO 13 PER Neptune.
+INIZIO TURNO 14 PER Noire:
+	Noire ha PESCATO la carta 'Sessione di Laurea'!
+	Noire ha PESCATO la carta 'Laureando Seduttore'!
+	Vert ha PESCATO la carta 'Ottimo Affare'!
+	Noire ha PESCATO la carta 'Studente Erasmus'!
+	Vert ha PESCATO la carta 'Ottimo Affare'!
+	Noire ha PESCATO la carta 'Passaggio di appunti'!
+	Vert ha PESCATO la carta 'Ottimo Affare'!
+	Noire usa l'effetto SCARTA della carta 'Ottimo Affare' da Vert!
+FINE TURNO 14 PER Noire.
+INIZIO TURNO 15 PER Vert:
+	Vert ha PESCATO la carta 'Studente Boscaiolo'!
+INIZIO TURNO 15 PER Vert:
+	Vert ha PESCATO la carta 'Studente Boscaiolo'!
+FINE TURNO 15 PER Vert.
+INIZIO TURNO 16 PER Blanc:
+	Blanc ha PESCATO la carta 'Copia dal turno precedente'!
+INIZIO TURNO 16 PER Blanc:
+	Blanc ha PESCATO la carta 'Copia dal turno precedente'!
+INIZIO TURNO 16 PER Blanc:
+	Blanc ha PESCATO la carta 'Copia dal turno precedente'!
+INIZIO TURNO 16 PER Blanc:
+	Blanc ha PESCATO la carta 'Copia dal turno precedente'!
+INIZIO TURNO 16 PER Blanc:
+	Blanc ha PESCATO la carta 'Copia dal turno precedente'!
+INIZIO TURNO 16 PER Blanc:
+	Blanc ha PESCATO la carta 'Copia dal turno precedente'!
+INIZIO TURNO 16 PER Blanc:
+	Blanc ha PESCATO la carta 'Copia dal turno precedente'!
+INIZIO TURNO 16 PER Blanc:
+	Blanc ha PESCATO la carta 'Copia dal turno precedente'!
+	Blanc ha PESCATO la carta 'Scambio di esame'!
+	Neptune ha PESCATO la carta 'Colpo di Fortuna'!
+	Blanc ha PESCATO la carta 'Studente Erasmus'!
+	Neptune ha PESCATO la carta 'Colpo di Fortuna'!
+INIZIO TURNO 16 PER Blanc:
+	Blanc ha PESCATO la carta 'Copia dal turno precedente'!
+	Blanc ha PESCATO la carta 'Scambio di esame'!
+	Neptune ha PESCATO la carta 'Colpo di Fortuna'!
+	Blanc ha PESCATO la carta 'Studente Erasmus'!
+	Neptune ha PESCATO la carta 'Colpo di Fortuna'!
+	Blanc usa l'effetto SCARTA della carta 'Colpo di Fortuna' da Neptune!
+	Blanc usa l'effetto SCARTA della carta 'Colpo di Fortuna' da Neptune!
+	Blanc usa l'effetto SCARTA della carta 'Colpo di Fortuna' da Neptune!
+	Blanc usa l'effetto GIOCA della carta 'Colpo di Fortuna' da Neptune!
+FINE TURNO 16 PER Blanc.
+INIZIO TURNO 17 PER Neptune:
+	Neptune usa l'effetto GIOCA della carta 'CTM in orario' da Noire!
+	Neptune ha PESCATO la carta 'Studente Chiacchierone'!
+INIZIO TURNO 17 PER Neptune:
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+INIZIO TURNO 17 PER Neptune:
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto GIOCA della carta 'CTM in orario' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Aula minuscola' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Allerta meteo' da Noire!
+	Neptune ha PESCATO la carta 'Studente Chiacchierone'!
+	Noire ha PESCATO la carta 'Allerta meteo'!
+	Neptune ha PESCATO la carta 'Salta fila in mensa'!
+INIZIO TURNO 17 PER Neptune:
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto GIOCA della carta 'CTM in orario' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Aula minuscola' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Allerta meteo' da Noire!
+	Neptune ha PESCATO la carta 'Studente Chiacchierone'!
+	Noire ha PESCATO la carta 'Allerta meteo'!
+	Neptune ha PESCATO la carta 'Salta fila in mensa'!
+INIZIO TURNO 17 PER Neptune:
+	Neptune ha PESCATO la carta 'Studente Chiacchierone'!
+INIZIO TURNO 17 PER Neptune:
+INIZIO TURNO 17 PER Neptune:
+INIZIO TURNO 17 PER Neptune:
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto GIOCA della carta 'CTM in orario' da Noire!
+INIZIO TURNO 17 PER Neptune:
+	Neptune ha PESCATO la carta 'Studente Chiacchierone'!
+INIZIO TURNO 17 PER Neptune:
+INIZIO TURNO 17 PER Neptune:
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto GIOCA della carta 'CTM in orario' da Noire!
+INIZIO TURNO 17 PER Neptune:
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto GIOCA della carta 'CTM in orario' da Noire!
+INIZIO TURNO 17 PER Neptune:
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto GIOCA della carta 'CTM in orario' da Noire!
+INIZIO TURNO 17 PER Neptune:
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto GIOCA della carta 'CTM in orario' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Aula minuscola' da Noire!
+INIZIO TURNO 17 PER Neptune:
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto GIOCA della carta 'CTM in orario' da Noire!
+INIZIO TURNO 17 PER Neptune:
+INIZIO TURNO 17 PER Neptune:
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto GIOCA della carta 'CTM in orario' da Noire!
+INIZIO TURNO 17 PER Neptune:
+	Neptune ha PESCATO la carta 'Studente Chiacchierone'!
+INIZIO TURNO 17 PER Neptune:
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+INIZIO TURNO 17 PER Neptune:
+INIZIO TURNO 17 PER Neptune:
+INIZIO TURNO 17 PER Neptune:
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+INIZIO TURNO 17 PER Neptune:
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+INIZIO TURNO 17 PER Neptune:
+INIZIO TURNO 17 PER Neptune:
+INIZIO TURNO 17 PER Neptune:
+	Neptune ha PESCATO la carta 'Studente Chiacchierone'!
+INIZIO TURNO 17 PER Neptune:
+	Neptune ha PESCATO la carta 'Studente Chiacchierone'!
+INIZIO TURNO 17 PER Neptune:
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto GIOCA della carta 'CTM in orario' da Noire!
+INIZIO TURNO 17 PER Neptune:
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto GIOCA della carta 'CTM in orario' da Noire!
+INIZIO TURNO 17 PER Neptune:
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto GIOCA della carta 'CTM in orario' da Noire!
+	Neptune ha PESCATO la carta 'Studente Chiacchierone'!

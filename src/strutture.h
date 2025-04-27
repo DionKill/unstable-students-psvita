@@ -74,6 +74,7 @@ Carta *allocaCarta ();
 Carta *copiaCarta (Carta *carta, int nCopie);
 Carta *dividiMazzoMatricole (Carta **mazzo);
 Carta *cercaCarta (Carta *mazzo, Azione azione, Quando quando, TipologiaCarta tipoCarta, TipologiaCarta tipoEffetto);
+bool contieneTipo (Carta *mazzo, TipologiaCarta tipo);
 Carta **mazzoGiocatoreGiusto (Giocatore *giocatore, Carta *carta, Carta **mazzoScarti);
 int contaCarte (Carta *mazzo);
 int contaCarteFiltro (Carta *mazzo, TipologiaCarta filtro);

@@ -173,6 +173,22 @@ Carta *cercaCarta (Carta *mazzo, Azione azione, Quando quando, TipologiaCarta ti
     return c;
 }
 
+/** Controlla se c'è una carta di un certo tipo in un mazzo
+ *
+ * @param mazzo Il mazzo in cui effettuare la ricerca
+ * @param tipo Il tipo da cercare in un mazzo
+ * @return Se c'è, ritorna true
+ */
+bool contieneTipo (Carta *mazzo, TipologiaCarta tipo) {
+    while (mazzo != NULL) {
+        if (effettoTipoCarta(tipo, mazzo->tipo))
+            return true;
+        mazzo = mazzo->next;
+    }
+
+    return false;
+}
+
 /** Funzione che sposta la carta appena giocata nell'apposito mazzo
  *
  * @param giocatore Il giocatore a cui va messa la carta nel mazzo giusto
@@ -463,6 +479,7 @@ int effettoTargetGiocatori (Giocatore **listaGiocatori, int nGiocatori, TargetGi
         case TU:
             nTarget = nGiocatori - 1;
             *listaGiocatori = scegliGiocatore((*listaGiocatori)->next, nTarget);
+            nTarget = P1;
         break;
         case VOI:
             *listaGiocatori = (*listaGiocatori)->next;
@@ -534,10 +551,10 @@ Carta *scegliCarta (Carta *mazzoScelto, TipologiaCarta tipoCartaGiocata) {
  * @return Ritorna la carta scelta
  */
 Carta **scegliMazzo(Carta **mazzoAulaStudio, Carta **mazzoBonusMalus) {
-    printf("\n"
-           BOLD "SCEGLI IL MAZZO (non puoi cambiarlo)" RESET     "\n"
-           "[%d]. Mazzo Aula Studio"                            "\n"
-           "[%d]. Mazzo Bonus-Malus",
+    printf("\n" LINEA_BIANCA
+           BOLD "SCEGLI IL MAZZO (non puoi cambiarlo)" RESET            "\n"
+           "[%d]. " HBLU "Mazzo" BCYN " Aula Studio" RESET              "\n"
+           "[%d]. " HBLU "Mazzo" BRED " Bonus-Malus" RESET,
            COMANDO_OPZIONE_1, COMANDO_OPZIONE_2);
 
     // Intero che permette di scegliere uno dei due mazzi

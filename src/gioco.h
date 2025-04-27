@@ -32,7 +32,7 @@ void effettiMazzo (Giocatore *listaGiocatori, int nGiocatori,
 // Azioni
 void azioneCarta (Giocatore *listaGiocatori, int nGiocatori, Giocatore *giocatoreAffetto, Carta *cartaGiocata,
                   Effetto *effetto, Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio);
-void azioneScartaElimina (Giocatore *giocatoreAffetto, Carta *cartaGiocata, Effetto *effetto, Carta **mazzoScarti, Carta **mazzoAulaStudio);
+void azioneScartaElimina (Giocatore *giocatoreAffetto, Effetto *effetto, Carta **mazzoScarti, Carta **mazzoAulaStudio);
 void azioneRubaPrendi (Giocatore *giocante, Giocatore *giocatoreAffetto, Effetto *effetto);
 void pescaCarta (Carta **mazzoGiocatore, Carta **mazzoPesca, Carta **mazzoScarti, char *giocatore);
 
