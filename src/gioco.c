@@ -42,7 +42,7 @@ void gioco (char *path) {
                "\n", turno, listaGiocatori->nome);
 
         // Esegue gli effetti di tutte le carte che hanno effetti all'inizio del turno
-        effettiMazzo(listaGiocatori, nGiocatori, INIZIO, &mazzoPesca, &mazzoScarti, &mazzoAulaStudio);
+        effettiQuando(listaGiocatori, nGiocatori, INIZIO, &mazzoPesca, &mazzoScarti, &mazzoAulaStudio);
 
         // Pesca la carta all'inizio del turno
         pescaCarta(&listaGiocatori->carteGiocatore, &mazzoPesca, &mazzoScarti, listaGiocatori->nome);
@@ -418,23 +418,60 @@ bool gestisciEffettiCarta (Giocatore *listaGiocatori, int nGiocatori, Carta *car
  * @param mazzoAulaStudio Il mazzo dove vanno le matricole dopo che vengono scartate
  * @param quando Quando l'effetto deve essere giocato
  */
-void effettiMazzo (Giocatore *listaGiocatori, int nGiocatori, Quando quando,
-                  Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio) {
-    Carta *carta = listaGiocatori->carteAulaGiocatore;
+void effettiQuando (Giocatore *listaGiocatori, int nGiocatori, Quando quando,
+                   Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio) {
+    effettiMazzoCarta(listaGiocatori, nGiocatori, quando, mazzoPesca, mazzoScarti, mazzoAulaStudio,
+                      listaGiocatori->carteAulaGiocatore);
+    effettiMazzoCarta(listaGiocatori, nGiocatori, quando, mazzoPesca, mazzoScarti, mazzoAulaStudio,
+                      listaGiocatori->carteBonusMalusGiocatore);
+}
 
-    while (carta != NULL) {
-        Carta *tmp = carta->next;
-        gestisciEffettiCarta(listaGiocatori, nGiocatori, carta, mazzoPesca, mazzoScarti, mazzoAulaStudio, quando);
-        carta = tmp;
+/** Gestione degli effetti su un singolo mazzo
+ *
+ * @param listaGiocatori La lista di tutti i giocatori
+ * @param nGiocatori Il numero totale dei giocatori
+ * @param quando Quando gli effetti devono essere giocati
+ * @param mazzoPesca Mazzo di pesca
+ * @param mazzoScarti Mazzo degli scarti
+ * @param mazzoAulaStudio Mazzo delle matricole
+ * @param mazzo Mazzo del giocatore su cui applicare gli effetti
+ */
+void effettiMazzoCarta (Giocatore *listaGiocatori, int nGiocatori, Quando quando,
+                          Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio, Carta *mazzo) {
+    /*
+     * La ragione per questa scelta è il fatto che una carta come CTM in Orario permette di giocare due carte.
+     * Se il giocatore giocasse una carta ed eliminasse la carta stessa, quando la lista prosegue al prossimo elemento,
+     * il suo next sarà la lista degli scarti. Per impedire questo, non è possibile controllare che
+     * il momento della partita non sia INIZIO e impedire di cancellare quella carta, perché ipotizzando non venisse
+     * giocata si impedirebbe comunque di cancellarla. Questo implica che è necessario avere una nuova lista
+     * di carte che è quella prima di applicare gli effetti INIZIO, a cui bisogna comparare se le carte esistono
+     * effettivamente nella lista originaria, perché se ad esempio venissero cancellate i loro effetti non devono
+     * essere (disessere) giocati.
+     */
+
+    Carta *carta = mazzo;
+    int nCarte = contaCarte(carta);
+    Carta **v = NULL;
+    v = (Carta **) malloc(sizeof(Carta *) * nCarte);
+    if (v == NULL) exit(EXIT_FAILURE);
+
+    for (int i = 0; i < nCarte; i++) {
+        v[i] = carta;
+        carta = carta->next;
     }
 
-    carta = listaGiocatori->carteBonusMalusGiocatore;
+    carta = mazzo;
 
-    while (carta != NULL) {
-        Carta *tmp = carta->next;
-        gestisciEffettiCarta(listaGiocatori, nGiocatori, carta, mazzoPesca, mazzoScarti, mazzoAulaStudio, quando);
-        carta = tmp;
+    // Scorre ogni carta dall'array
+    for (int i = 0; i < nCarte; i++) {
+        // Per ogni carta, controlla se nell'array c'è una carta uguale
+        for (int j = i; j < nCarte; j++)
+            // Se viene trovata la carta nell'array, allora vuol dire che i suoi effetti sono applicabili
+                if (v[j] == carta)
+                    gestisciEffettiCarta(listaGiocatori, nGiocatori, v[i], mazzoPesca, mazzoScarti, mazzoAulaStudio, quando);
+        carta = carta->next;
     }
+    free(v);
 }
 
 /* Azioni */
@@ -475,7 +512,7 @@ void azioneCarta (Giocatore *listaGiocatori, int nGiocatori, Giocatore *giocator
         case PRENDI:
         case RUBA:
             if (!contrastato) {
-                azioneRubaPrendi(listaGiocatori, giocatoreAffetto, effetto);
+                azioneRubaPrendi(giocatoreAffetto, effetto);
                 gestisciEffettiCarta(listaGiocatori, nGiocatori, cartaGiocata,
                                      mazzoPesca, mazzoScarti, mazzoAulaStudio, FINE);
             }
@@ -511,17 +548,8 @@ void azioneScartaElimina (Giocatore *giocatoreAffetto, Effetto *effetto, Carta *
     // Crea un puntatore temporaneo al mazzo da cui verrà scartata la carta
     Carta **mazzoInput = NULL;
 
-    if (effetto->azione == SCARTA)
-        mazzoInput = &giocatoreAffetto->carteGiocatore;
-
-    // Azione ELIMINA
-    else {
-        if (isStudente(effetto->tipo))
-            mazzoInput = &giocatoreAffetto->carteAulaGiocatore;
-        else if (isBonusMalus(effetto->tipo))
-            mazzoInput = &giocatoreAffetto->carteBonusMalusGiocatore;
-        else mazzoInput = scegliMazzo(&giocatoreAffetto->carteAulaGiocatore, &giocatoreAffetto->carteBonusMalusGiocatore);
-    }
+    // Mazzo se è SCARTA o ELIMINA
+    mazzoInput = mazzoGiocatoreTipo(giocatoreAffetto, effetto, SCARTA);
 
     // Se il mazzo ha almeno una carta, allora può procedere
     int nCarte = contaCarte(*mazzoInput);
@@ -556,25 +584,15 @@ void azioneScartaElimina (Giocatore *giocatoreAffetto, Effetto *effetto, Carta *
 
 /** Gestisce l'azione di ruba o prende la carta
  *
- * @param giocante Il giocatore che gioca la carta
  * @param giocatoreAffetto Il giocatore a cui verrà rubata la carta
  * @param effetto L'effetto della carta giocata
  */
-void azioneRubaPrendi (Giocatore *giocante, Giocatore *giocatoreAffetto, Effetto *effetto) {
+void azioneRubaPrendi (Giocatore *giocatoreAffetto, Effetto *effetto) {
     // Puntatore temporaneo a un mazzo del giocatore affetto in base all'effetto della carta giocata
     Carta **mazzoInput = NULL;
 
-    if (effetto->azione == PRENDI)
-        mazzoInput = &giocatoreAffetto->carteGiocatore;
-    // Azione RUBA
-    else {
-        if (isStudente(effetto->tipo))
-            mazzoInput = &giocatoreAffetto->carteAulaGiocatore;
-        else if (isBonusMalus(effetto->tipo))
-            mazzoInput = &giocatoreAffetto->carteBonusMalusGiocatore;
-        else
-            mazzoInput = scegliMazzo(&giocatoreAffetto->carteAulaGiocatore, &giocatoreAffetto->carteBonusMalusGiocatore);
-    }
+    // Mazzo se è RUBA o PRENDI
+    mazzoInput = mazzoGiocatoreTipo(giocatoreAffetto, effetto, RUBA);
 
     int nCarte = contaCarte(*mazzoInput);
 
@@ -590,14 +608,9 @@ void azioneRubaPrendi (Giocatore *giocante, Giocatore *giocatoreAffetto, Effetto
 
         // Il mazzo delle carte dove verrà posta la carta rubata
         Carta **mazzoOutput = NULL;
-        if (effetto->azione == PRENDI)
-            mazzoOutput = &giocante->carteGiocatore;
-        else if (effetto->azione == RUBA) {
-            if (isStudente(effetto->tipo))
-                mazzoOutput = &giocante->carteAulaGiocatore;
-            else if (isBonusMalus(effetto->tipo))
-                mazzoOutput = &giocante->carteBonusMalusGiocatore;
-        }
+
+        // Mazzo se è RUBA o PRENDI
+        mazzoOutput = mazzoGiocatoreTipo(giocatoreAffetto, effetto, PRENDI);
 
         // Sposta la carta da un mazzo all'altro (quindi la "ruba")
         spostaCarta(mazzoInput, cartaScelta, mazzoOutput);

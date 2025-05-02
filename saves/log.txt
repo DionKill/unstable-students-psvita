@@ -430,3 +430,77 @@ INIZIO TURNO 17 PER Neptune:
 	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
 	Neptune usa l'effetto GIOCA della carta 'CTM in orario' da Noire!
 	Neptune ha PESCATO la carta 'Studente Chiacchierone'!
+INIZIO TURNO 17 PER Neptune:
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+INIZIO TURNO 17 PER Neptune:
+	Neptune ha PESCATO la carta 'Studente Chiacchierone'!
+INIZIO TURNO 17 PER Neptune:
+INIZIO TURNO 17 PER Neptune:
+INIZIO TURNO 17 PER Neptune:
+INIZIO TURNO 17 PER Neptune:
+INIZIO TURNO 17 PER Neptune:
+INIZIO TURNO 17 PER Neptune:
+	Neptune ha PESCATO la carta 'Studente Chiacchierone'!
+INIZIO TURNO 17 PER Neptune:
+INIZIO TURNO 17 PER Neptune:
+INIZIO TURNO 17 PER Neptune:
+INIZIO TURNO 17 PER Neptune:
+INIZIO TURNO 17 PER Neptune:
+INIZIO TURNO 17 PER Neptune:
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto GIOCA della carta 'CTM in orario' da Noire!
+	Neptune ha PESCATO la carta 'Studente Chiacchierone'!
+INIZIO TURNO 17 PER Neptune:
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Noire!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Vert!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset' da Blanc!
+	Neptune usa l'effetto ELIMINA della carta 'Tasto reset'!
+	Neptune usa l'effetto GIOCA della carta 'CTM in orario' da Noire!
+	Neptune ha PESCATO la carta 'Studente Chiacchierone'!
+INIZIO TURNO 17 PER Neptune:
+	Neptune usa l'effetto GIOCA della carta 'CTM in orario' da Noire!
+	Neptune ha PESCATO la carta 'Studente Chiacchierone'!
+FINE TURNO 17 PER Neptune.
+INIZIO TURNO 18 PER Noire:
+	Noire ha PESCATO la carta 'Salta fila in mensa'!
+INIZIO TURNO 18 PER Noire:
+	Noire ha PESCATO la carta 'Salta fila in mensa'!
+INIZIO TURNO 18 PER Noire:
+	Noire ha PESCATO la carta 'Salta fila in mensa'!
+INIZIO TURNO 18 PER Noire:
+	Noire ha PESCATO la carta 'Salta fila in mensa'!
+	Noire usa l'effetto ELIMINA della carta 'Due per Uno' da Vert!
+	Noire usa l'effetto ELIMINA della carta 'Due per Uno' da Blanc!
+INIZIO TURNO 18 PER Noire:
+	Noire ha PESCATO la carta 'Salta fila in mensa'!
+	Noire usa l'effetto ELIMINA della carta 'Due per Uno' da Vert!
+	Noire usa l'effetto ELIMINA della carta 'Due per Uno' da Blanc!
+INIZIO TURNO 18 PER Noire:
+	Noire ha PESCATO la carta 'Salta fila in mensa'!
+	Noire usa l'effetto ELIMINA della carta 'Due per Uno' da Vert!
+	Noire usa l'effetto ELIMINA della carta 'Due per Uno' da Blanc!
+INIZIO TURNO 18 PER Noire:
+	Noire ha PESCATO la carta 'Salta fila in mensa'!
+	Noire usa l'effetto ELIMINA della carta 'Due per Uno' da Vert!
+	Noire usa l'effetto ELIMINA della carta 'Due per Uno' da Blanc!
+INIZIO TURNO 18 PER Noire:
+	Noire ha PESCATO la carta 'Salta fila in mensa'!
+	Noire usa l'effetto ELIMINA della carta 'Due per Uno' da Vert!
+	Noire usa l'effetto ELIMINA della carta 'Due per Uno' da Blanc!
+	Noire usa l'effetto ELIMINA della carta 'Due per Uno' da Neptune!
+FINE TURNO 18 PER Noire.
+INIZIO TURNO 19 PER Vert:
+	Vert ha PESCATO la carta 'Studente Boscaiolo'!

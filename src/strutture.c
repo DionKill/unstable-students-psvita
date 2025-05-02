@@ -173,22 +173,6 @@ Carta *cercaCarta (Carta *mazzo, Azione azione, Quando quando, TipologiaCarta ti
     return c;
 }
 
-/** Controlla se c'è una carta di un certo tipo in un mazzo
- *
- * @param mazzo Il mazzo in cui effettuare la ricerca
- * @param tipo Il tipo da cercare in un mazzo
- * @return Se c'è, ritorna true
- */
-bool contieneTipo (Carta *mazzo, TipologiaCarta tipo) {
-    while (mazzo != NULL) {
-        if (effettoTipoCarta(tipo, mazzo->tipo))
-            return true;
-        mazzo = mazzo->next;
-    }
-
-    return false;
-}
-
 /** Funzione che sposta la carta appena giocata nell'apposito mazzo
  *
  * @param giocatore Il giocatore a cui va messa la carta nel mazzo giusto
@@ -206,6 +190,44 @@ Carta **mazzoGiocatoreGiusto(Giocatore *giocatore, Carta *carta, Carta **mazzoSc
 
     // Altrimenti, per esclusione, è una carta giocabile, e niente finisce negli scarti
     return mazzoScarti;
+}
+
+Carta **mazzoGiocatoreTipo(Giocatore *giocatoreAffetto, Effetto *effetto, TipologiaCarta tipo) {
+    Carta **mazzo = NULL;
+
+    // Azione SCARTA/RUBA
+    if (effetto->azione == tipo)
+        mazzo = &giocatoreAffetto->carteGiocatore;
+
+    // Azione ELIMINA/PRENDI
+    // Non controlla se lo è effettivamente, perché sotto inteso (e anche per evitare warning)
+    else {
+        if (isStudente(effetto->tipo))
+            mazzo = &giocatoreAffetto->carteAulaGiocatore;
+        if (isBonusMalus(effetto->tipo))
+            mazzo = &giocatoreAffetto->carteBonusMalusGiocatore;
+
+        // In caso non fosse PRENDI/ELIMINA con tipo ALL fa scegliere il mazzo
+        else mazzo = scegliMazzo(&giocatoreAffetto->carteAulaGiocatore, &giocatoreAffetto->carteBonusMalusGiocatore);
+    }
+
+    return mazzo;
+}
+
+/** Controlla se c'è una carta di un certo tipo in un mazzo
+ *
+ * @param mazzo Il mazzo in cui effettuare la ricerca
+ * @param tipo Il tipo da cercare in un mazzo
+ * @return Se c'è, ritorna true
+ */
+bool contieneTipo (Carta *mazzo, TipologiaCarta tipo) {
+    while (mazzo != NULL) {
+        if (effettoTipoCarta(tipo, mazzo->tipo))
+            return true;
+        mazzo = mazzo->next;
+    }
+
+    return false;
 }
 
 /** Cicla il mazzo e conta quante carte ci sono

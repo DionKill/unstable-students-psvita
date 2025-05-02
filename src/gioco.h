@@ -26,14 +26,15 @@ bool controlloVittoria (Giocatore *giocatore);
 
 bool gestisciEffettiCarta (Giocatore *listaGiocatori, int nGiocatori, Carta *cartaGiocata,
                           Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio, Quando momento);
-void effettiMazzo (Giocatore *listaGiocatori, int nGiocatori,
+void effettiQuando (Giocatore *listaGiocatori, int nGiocatori,
                    Quando quando, Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio);
-
+void effettiMazzoCarta (Giocatore *listaGiocatori, int nGiocatori, Quando quando,
+                          Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio, Carta *mazzo);
 // Azioni
 void azioneCarta (Giocatore *listaGiocatori, int nGiocatori, Giocatore *giocatoreAffetto, Carta *cartaGiocata,
                   Effetto *effetto, Carta **mazzoPesca, Carta **mazzoScarti, Carta **mazzoAulaStudio);
 void azioneScartaElimina (Giocatore *giocatoreAffetto, Effetto *effetto, Carta **mazzoScarti, Carta **mazzoAulaStudio);
-void azioneRubaPrendi (Giocatore *giocante, Giocatore *giocatoreAffetto, Effetto *effetto);
+void azioneRubaPrendi (Giocatore *giocatoreAffetto, Effetto *effetto);
 void pescaCarta (Carta **mazzoGiocatore, Carta **mazzoPesca, Carta **mazzoScarti, char *giocatore);
 
 #endif //GIOCO_H
