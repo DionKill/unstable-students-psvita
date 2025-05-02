@@ -512,7 +512,7 @@ void azioneCarta (Giocatore *listaGiocatori, int nGiocatori, Giocatore *giocator
         case PRENDI:
         case RUBA:
             if (!contrastato) {
-                azioneRubaPrendi(giocatoreAffetto, effetto);
+                azioneRubaPrendi(listaGiocatori, giocatoreAffetto, effetto);
                 gestisciEffettiCarta(listaGiocatori, nGiocatori, cartaGiocata,
                                      mazzoPesca, mazzoScarti, mazzoAulaStudio, FINE);
             }
@@ -549,7 +549,7 @@ void azioneScartaElimina (Giocatore *giocatoreAffetto, Effetto *effetto, Carta *
     Carta **mazzoInput = NULL;
 
     // Mazzo se è SCARTA o ELIMINA
-    mazzoInput = mazzoGiocatoreTipo(giocatoreAffetto, effetto, SCARTA);
+    mazzoInput = mazzoGiocatoreAzione(giocatoreAffetto, effetto->azione, effetto->tipo);
 
     // Se il mazzo ha almeno una carta, allora può procedere
     int nCarte = contaCarte(*mazzoInput);
@@ -584,15 +584,16 @@ void azioneScartaElimina (Giocatore *giocatoreAffetto, Effetto *effetto, Carta *
 
 /** Gestisce l'azione di ruba o prende la carta
  *
+ * @param giocante Il giocatore che gioca la carta, che ruberà la carta
  * @param giocatoreAffetto Il giocatore a cui verrà rubata la carta
  * @param effetto L'effetto della carta giocata
  */
-void azioneRubaPrendi (Giocatore *giocatoreAffetto, Effetto *effetto) {
+void azioneRubaPrendi (Giocatore *giocante, Giocatore *giocatoreAffetto, Effetto *effetto) {
     // Puntatore temporaneo a un mazzo del giocatore affetto in base all'effetto della carta giocata
     Carta **mazzoInput = NULL;
 
     // Mazzo se è RUBA o PRENDI
-    mazzoInput = mazzoGiocatoreTipo(giocatoreAffetto, effetto, RUBA);
+    mazzoInput = mazzoGiocatoreAzione(giocatoreAffetto, effetto->azione, effetto->tipo);
 
     int nCarte = contaCarte(*mazzoInput);
 
@@ -610,7 +611,7 @@ void azioneRubaPrendi (Giocatore *giocatoreAffetto, Effetto *effetto) {
         Carta **mazzoOutput = NULL;
 
         // Mazzo se è RUBA o PRENDI
-        mazzoOutput = mazzoGiocatoreTipo(giocatoreAffetto, effetto, PRENDI);
+        mazzoOutput = mazzoGiocatoreAzione(giocante, effetto->azione, cartaScelta->tipo);
 
         // Sposta la carta da un mazzo all'altro (quindi la "ruba")
         spostaCarta(mazzoInput, cartaScelta, mazzoOutput);

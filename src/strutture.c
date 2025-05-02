@@ -192,19 +192,26 @@ Carta **mazzoGiocatoreGiusto(Giocatore *giocatore, Carta *carta, Carta **mazzoSc
     return mazzoScarti;
 }
 
-Carta **mazzoGiocatoreTipo(Giocatore *giocatoreAffetto, Effetto *effetto, TipologiaCarta tipo) {
+/** Restituisce il mazzo in base al tipo di azione
+ *
+ * @param giocatoreAffetto Il giocatore affetto dalla carta
+ * @param azione
+ * @param tipo
+ * @return Ritorna un mazzo
+ */
+Carta **mazzoGiocatoreAzione(Giocatore *giocatoreAffetto, Azione azione, TipologiaCarta tipo) {
     Carta **mazzo = NULL;
 
-    // Azione SCARTA/RUBA
-    if (effetto->azione == tipo)
+    // Azione SCARTA/PRENDI
+    if (azione == SCARTA || azione == PRENDI)
         mazzo = &giocatoreAffetto->carteGiocatore;
 
-    // Azione ELIMINA/PRENDI
+    // Azione ELIMINA/RUBA
     // Non controlla se lo è effettivamente, perché sotto inteso (e anche per evitare warning)
     else {
-        if (isStudente(effetto->tipo))
+        if (isStudente(tipo))
             mazzo = &giocatoreAffetto->carteAulaGiocatore;
-        if (isBonusMalus(effetto->tipo))
+        else if (isBonusMalus(tipo))
             mazzo = &giocatoreAffetto->carteBonusMalusGiocatore;
 
         // In caso non fosse PRENDI/ELIMINA con tipo ALL fa scegliere il mazzo
