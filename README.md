@@ -1,4 +1,5 @@
 # Unstable Students
+Gioco strano creato come progetto per Programmazione 1, che adesso mi sono messo in testa di voler portare su PS Vita. Più dettagli su come portare app in C su PS Vita [qui](https://gist.github.com/DionKill/2a802080d64b42beb867e351f9de8196)
 
 > ### **Table of Content**
 >  1. [Spiegazione file sorgente](#spiegazione-file-sorgente)
