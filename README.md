@@ -1,4 +1,6 @@
 # Unstable Students
+<br> ![immagine](https://github.com/user-attachments/assets/3b97b711-2e98-45cb-ac11-e9cb8ac0d0e7)
+
 Gioco strano creato come progetto per Programmazione 1, che adesso mi sono messo in testa di voler portare su PS Vita. Più dettagli su come portare programmi in C su PS Vita [qui](https://gist.github.com/DionKill/2a802080d64b42beb867e351f9de8196).
 
 ## Rant
