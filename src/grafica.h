@@ -10,6 +10,7 @@
 #include "strutture.h"
 #include "misc.h"
 #include "colori-ansi.h"
+#include "vita.h"
 
 // GUI
 void guiSplashScreen ();

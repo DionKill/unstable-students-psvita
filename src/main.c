@@ -5,8 +5,7 @@
 #include <time.h>
 #include "strutture.h"
 #include "gioco.h"
-
-// Versione non definitiva, in fase di sviluppo
+#include "vita.h"
 
 /** Funzione principale del programma.
  *
@@ -15,7 +14,11 @@
  * @return Esce dal programma.
  */
 int main(int argc, char *argv[]) {
+    sceKernelDelayThread(3*1000000); // Wait for 3 seconds
+
     srand(time(NULL));
+    printf("deez");
+    sceKernelDelayThread(3*1000000); // Wait for 3 seconds
 
     // Caricamento della partita
     if (argc > 1) gioco(argv[N_ARG_PARAM]);

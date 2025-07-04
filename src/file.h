@@ -9,9 +9,9 @@
 #include "colori-ansi.h"
 #include "gioco.h"
 
-#define MAZZO "../mazzo.txt" // Il mazzo è nella cartella precedente
-#define SALVATAGGIO "../saves/savegame.sav"
-#define LOG "../saves/log.txt"
+#define MAZZO "app0:mazzo.txt" // Il mazzo è nella cartella precedente
+#define SALVATAGGIO "app0:saves/savegame.sav"
+#define LOG "app0:saves/log.txt"
 #define N_ARG_PARAM 1
 
 FILE *apriFile (char *path, char *mode);

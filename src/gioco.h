@@ -11,6 +11,7 @@
 #include "file.h"
 #include "grafica.h"
 #include "misc.h"
+#include "vita.h"
 
 // Gioco e menù
 void gioco (char *path);

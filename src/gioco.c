@@ -10,6 +10,9 @@
  *
  */
 void gioco (char *path) {
+    printf("NUTS");
+    sceKernelDelayThread(3*1000000); // Wait for 3 seconds
+
     // Menù di avvio
     guiSplashScreen();
     premiInvioPerContinuare();
