@@ -4,7 +4,7 @@
 Gioco strano creato come progetto per Programmazione 1, che adesso mi sono messo in testa di voler portare su PS Vita. Più dettagli su come portare programmi in C su PS Vita [qui](https://gist.github.com/DionKill/2a802080d64b42beb867e351f9de8196).
 
 ## Rant
-Questo gioco è stato, a dirla tutta, un parto assoluto. Iniziato il 27 dicembre 2025, l'ho finito e consegnato il 3 maggio alle 23:45! È stato il progetto più difficile che abbia fatto fin'ora, di gran lunga più lungo di quelli delle superiori, e il motivo è che la documentazione era assolutamente OSCENA. Mai visto un PDF con delle regole più fatte male di queste. Era davvero così brutto che, nel codice, ci sono riferimenti ai loro errori grammaticali (es. "Disessere Giocati"). Quindi se qualcuno li dovesse mai leggere, ecco il motivo..
+Questo gioco è stato, a dirla tutta, un parto assoluto. Iniziato il 27 dicembre 2024, l'ho finito e consegnato il 3 maggio 2025 alle 23:45! È stato il progetto più difficile che abbia fatto fin'ora, di gran lunga più lungo di quelli delle superiori, e il motivo è che la documentazione era assolutamente OSCENA. Mai visto un PDF con delle regole più fatte male di queste. Era davvero così brutto che, nel codice, ci sono riferimenti ai loro errori grammaticali (es. "Disessere Giocati"). Quindi se qualcuno li dovesse mai leggere, ecco il motivo..
 Il PDF vorrei caricarlo qui perché fa pisciare, ma son sicuro che mi beccherei una denuncia per diffamazione. Quindi farò finta di niente.
 
 Le commit poi sono una perla, più impegno messo in quelle che nel resto del progetto lmao
