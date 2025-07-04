@@ -1,5 +1,20 @@
 # Unstable Students
-Gioco strano creato come progetto per Programmazione 1, che adesso mi sono messo in testa di voler portare su PS Vita. Più dettagli su come portare app in C su PS Vita [qui](https://gist.github.com/DionKill/2a802080d64b42beb867e351f9de8196)
+Gioco strano creato come progetto per Programmazione 1, che adesso mi sono messo in testa di voler portare su PS Vita. Più dettagli su come portare programmi in C su PS Vita [qui](https://gist.github.com/DionKill/2a802080d64b42beb867e351f9de8196).
+
+## Rant
+Questo gioco è stato, a dirla tutta, un parto assoluto. Iniziato il 27 dicembre 2025, l'ho finito e consegnato il 3 maggio alle 23:45! È stato il progetto più difficile che abbia fatto fin'ora, di gran lunga più lungo di quelli delle superiori, e il motivo è che la documentazione era assolutamente OSCENA. Mai visto un PDF con delle regole più fatte male di queste. Era davvero così brutto che, nel codice, ci sono riferimenti ai loro errori grammaticali (es. "Disessere Giocati"). Quindi se qualcuno li dovesse mai leggere, ecco il motivo..
+Il PDF vorrei caricarlo qui perché fa pisciare, ma son sicuro che mi beccherei una denuncia per diffamazione. Quindi farò finta di niente.
+
+Le commit poi sono una perla, più impegno messo in quelle che nel resto del progetto lmao
+
+Ah e in più ho fatto un casino con le commit, perché ho cancellato il README originale che aveva il mio nome da tutte le commit, ma non di questo progetto, dal progetto che ho consegnato! Per fortuna il voto ormai è caricato ma spero non mi dicano mai nulla, è stato giusto uno sbaglio...
+
+Ad ogni modo, qua sotto c'è la descrizione del progetto.
+TLDR: è un clone del gioco di carte Unstable Unicorns, ma fatto col culo e qualche bug, da giocare interamente da riga di comando... Insomma una noia mortale.
+
+---
+
+## Descrizione del progetto originale
 
 > ### **Table of Content**
 >  1. [Spiegazione file sorgente](#spiegazione-file-sorgente)
