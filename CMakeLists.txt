@@ -34,11 +34,11 @@ set(VITA_VERSION  "01.00")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 # Optional. You can specify more param.sfo flags this way.
-set(VITA_MKSFOEX_FLAGS "${VITA_MKSFOEX_FLAGS} -d PARENTAL_LEVEL=0")
+set(VITA_MKSFOEX_FLAGS "${VITA_MKSFOEX_FLAGS} -d PARENTAL_LEVEL=1")
 
 # Add any additional include paths here
 include_directories(
-        ../samples/common # This is for debugScreenPrintf(), you shouldn't need it in your projects
+        common # This is for debugScreenPrintf(), you shouldn't need it in your projects
 )
 
 # Add any additional library paths here
@@ -62,7 +62,9 @@ add_executable(${PROJECT_NAME}
         src/colori-ansi.h
         src/misc.h
         src/misc.c
-        ../samples/common/debugScreen.c
+        # PS Vita
+        common/debugScreen.c
+        common/debugScreen.h
         src/vita.c
         src/vita.h
 )
