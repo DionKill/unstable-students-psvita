@@ -14,11 +14,13 @@
  * @return Esce dal programma.
  */
 int main(int argc, char *argv[]) {
-    sceKernelDelayThread(3*1000000); // Wait for 3 seconds
-
     srand(time(NULL));
-    printf("deez");
-    sceKernelDelayThread(3*1000000); // Wait for 3 seconds
+
+    PsvDebugScreenFont *font = psvDebugScreenGetFont();
+    psvDebugScreenScaleFont2x(font);
+    psvDebugScreenScaleFont2x(font);
+    psvDebugScreenSetFont(font);
+    psvDebugScreenInit();
 
     // Caricamento della partita
     if (argc > 1) gioco(argv[N_ARG_PARAM]);
